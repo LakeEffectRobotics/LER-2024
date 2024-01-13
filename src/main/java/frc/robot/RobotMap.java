@@ -3,6 +3,9 @@ package frc.robot;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+
 public class RobotMap {
 
     /** Inner class to hold CAN ID constants */
@@ -14,11 +17,17 @@ public class RobotMap {
         private static final int RIGHT_CONTROLLER_2 = 5;
     }
 
+    private class PCM {
+        private static final int DRIVE_SHIFT_UP = 1;
+        private static final int DRIVE_SHIFT_DOWN = 5;
+    }
+
     public static final CANSparkMax leftController1 = new CANSparkMax(CAN.LEFT_CONTROLLER_1, MotorType.kBrushless);
     public static final CANSparkMax rightController1 = new CANSparkMax(CAN.RIGHT_CONTROLLER_1, MotorType.kBrushless);
     public static final CANSparkMax rightController2 = new CANSparkMax(CAN.RIGHT_CONTROLLER_2, MotorType.kBrushless);
     public static final CANSparkMax leftController2 = new CANSparkMax(CAN.LEFT_CONTROLLER_2, MotorType.kBrushless);
 
+    public static final DoubleSolenoid driveShitSolennoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, PCM.DRIVE_SHIFT_UP, PCM.DRIVE_SHIFT_DOWN);
 
     // Static initializer will be run on first reference to RobotMap (stealing code from greg)
     static {
