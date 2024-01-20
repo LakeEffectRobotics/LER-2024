@@ -11,10 +11,10 @@ public class RobotMap {
     /** Inner class to hold CAN ID constants */
     private class CAN {
 
-        private static final int LEFT_CONTROLLER_1 = 2;
-        private static final int LEFT_CONTROLLER_2 = 3;
-        private static final int RIGHT_CONTROLLER_1 = 4;
-        private static final int RIGHT_CONTROLLER_2 = 5;
+        private static final int LEFT_CONTROLLER_1 = 3;
+        private static final int LEFT_CONTROLLER_2 = 4;
+        private static final int RIGHT_CONTROLLER_1 = 1;
+        private static final int RIGHT_CONTROLLER_2 = 2;
     }
 
     private class PCM {
