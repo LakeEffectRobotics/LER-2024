@@ -18,8 +18,8 @@ public class RobotMap {
     }
 
     private class PCM {
-        private static final int DRIVE_SHIFT_UP = 1;
-        private static final int DRIVE_SHIFT_DOWN = 5;
+        private static final int DRIVE_SHIFT_UP = 0;
+        private static final int DRIVE_SHIFT_DOWN = 1;
     }
 
     public static final CANSparkMax leftController1 = new CANSparkMax(CAN.LEFT_CONTROLLER_1, MotorType.kBrushless);
