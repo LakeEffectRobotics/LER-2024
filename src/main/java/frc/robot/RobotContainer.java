@@ -13,7 +13,7 @@ import frc.robot.subsystems.Drivetrain;
 
 public class RobotContainer {
 
-  public Drivetrain drivetrain = new Drivetrain(RobotMap.leftController1, RobotMap.rightController1, RobotMap.driveShitSolennoid);
+  public Drivetrain drivetrain = new Drivetrain(RobotMap.leftController1, RobotMap.rightController1, RobotMap.driveShitSolenoid);
 
   public RobotContainer() {
     configureBindings();
