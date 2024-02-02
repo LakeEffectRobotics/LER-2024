@@ -3,6 +3,7 @@ package frc.robot;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 public class OI {
 
@@ -17,16 +18,22 @@ public class OI {
 
     /** Driver Button Map */
     private static class DRIVER_MAP {
-
+        private static final int SHIFT_UP_BUTTON = 3;
+        private static final int SHIFT_DOWN_BUTTON = 2;
     }
 
     /** Operator Button Map */
     private static class OPERATOR_MAP {
+        
 
     }
 
     private static final Joystick leftJoystick = new Joystick(PORT.LEFT_STICK);
     private static final Joystick rightJoystick = new Joystick(PORT.RIGHT_STICK);
+
+    public static final JoystickButton shiftUpButton = new JoystickButton(rightJoystick, DRIVER_MAP.SHIFT_UP_BUTTON);
+    public static final JoystickButton shiftDownButton = new JoystickButton(rightJoystick, DRIVER_MAP.SHIFT_DOWN_BUTTON);
+
 
     public static DoubleSupplier leftDriveSupplier = () -> {
         double raw = leftJoystick.getY();
