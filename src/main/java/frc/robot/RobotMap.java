@@ -33,6 +33,9 @@ public class RobotMap {
     static {
         leftController2.follow(leftController1);
         rightController2.follow(rightController1);
+
+        leftController1.setInverted(false);
+        rightController1.setInverted(true);
     }
     
 }
