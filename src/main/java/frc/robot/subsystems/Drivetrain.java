@@ -37,7 +37,7 @@ public class Drivetrain extends SubsystemBase {
     }
 
     public void setOutput(double left, double right) {
-        leftLeadController.set(-left);
+        leftLeadController.set(left);
         rightLeadController.set(right);
     }
 
@@ -45,7 +45,7 @@ public class Drivetrain extends SubsystemBase {
         leftLeadController.set(0);
         rightLeadController.set(0);
     }
-
+ 
     public void setGear(Gear gear) {
         currentGear = gear;
         shiftSolenoid.set(gear.value);

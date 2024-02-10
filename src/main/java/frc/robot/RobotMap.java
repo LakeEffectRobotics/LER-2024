@@ -41,6 +41,9 @@ public class RobotMap {
         leftController2.follow(leftController1);
         rightController2.follow(rightController1);
 
+        leftController1.setInverted(false);
+        rightController1.setInverted(true);
+        
         leftDriveEncoder = leftController1.getAlternateEncoder(128 * 4);
         leftDriveEncoder.setPositionConversionFactor(CONVERSION_FACTOR);
         leftDriveEncoder.setInverted(false);
@@ -48,9 +51,7 @@ public class RobotMap {
         rightDriveEncoder = rightController1.getAlternateEncoder(64 * 4);
         rightDriveEncoder.setPositionConversionFactor(CONVERSION_FACTOR);
         rightDriveEncoder.setPosition(0);
-        rightDriveEncoder.setInverted(true);
-
-        
+        rightDriveEncoder.setInverted(true);      
     }
     
 }
