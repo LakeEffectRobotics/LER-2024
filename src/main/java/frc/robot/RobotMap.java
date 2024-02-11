@@ -46,12 +46,12 @@ public class RobotMap {
         
         leftDriveEncoder = leftController1.getAlternateEncoder(128 * 4);
         leftDriveEncoder.setPositionConversionFactor(CONVERSION_FACTOR);
-        leftDriveEncoder.setInverted(false);
+        leftDriveEncoder.setInverted(true);
         leftDriveEncoder.setPosition(0);
         rightDriveEncoder = rightController1.getAlternateEncoder(64 * 4);
         rightDriveEncoder.setPositionConversionFactor(CONVERSION_FACTOR);
         rightDriveEncoder.setPosition(0);
-        rightDriveEncoder.setInverted(true);      
+        rightDriveEncoder.setInverted(false);      
     }
     
 }
