@@ -29,12 +29,8 @@ public class RobotMap {
     public static final CANSparkMax rightController2 = new CANSparkMax(CAN.RIGHT_CONTROLLER_2, MotorType.kBrushless);
     public static final CANSparkMax leftController2 = new CANSparkMax(CAN.LEFT_CONTROLLER_2, MotorType.kBrushless);
 
-    public static final RelativeEncoder leftDriveEncoder;
-    public static final RelativeEncoder rightDriveEncoder;
-
     public static final DoubleSolenoid driveShitSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, PCM.DRIVE_SHIFT_DOWN, PCM.DRIVE_SHIFT_UP);
 
-    public static final double CONVERSION_FACTOR = 1/4.0*4*Math.PI;
     // Static initializer will be run on first reference to RobotMap (stealing code from greg)
     static {
         
@@ -42,16 +38,7 @@ public class RobotMap {
         rightController2.follow(rightController1);
 
         leftController1.setInverted(false);
-        rightController1.setInverted(true);
-        
-        leftDriveEncoder = leftController1.getAlternateEncoder(128 * 4);
-        leftDriveEncoder.setPositionConversionFactor(CONVERSION_FACTOR);
-        leftDriveEncoder.setInverted(true);
-        leftDriveEncoder.setPosition(0);
-        rightDriveEncoder = rightController1.getAlternateEncoder(64 * 4);
-        rightDriveEncoder.setPositionConversionFactor(CONVERSION_FACTOR);
-        rightDriveEncoder.setPosition(0);
-        rightDriveEncoder.setInverted(false);      
+        rightController1.setInverted(true);   
     }
     
 }

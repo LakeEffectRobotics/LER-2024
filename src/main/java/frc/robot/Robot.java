@@ -23,8 +23,8 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
     
-    SmartDashboard.putNumber("Left Encoder", RobotMap.leftDriveEncoder.getPosition());
-    SmartDashboard.putNumber("Right Encoder", RobotMap.rightDriveEncoder.getPosition());
+    SmartDashboard.putNumber("Left Encoder", m_robotContainer.drivetrain.leftDriveEncoder.getPosition());
+    SmartDashboard.putNumber("Right Encoder", m_robotContainer.drivetrain.rightDriveEncoder.getPosition());
   }
 
   @Override
