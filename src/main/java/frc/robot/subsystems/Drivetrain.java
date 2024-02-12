@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -14,10 +15,33 @@ public class Drivetrain extends SubsystemBase {
 
     Gear currentGear;
 
+    /**
+     * Encoder to inches conversion factor
+     * <pre>
+     * Stage 3: 36:48
+     * Encoder stage: 12:36
+     * Wheel Diameter: 4"
+     * </pre>
+     */
+    public static final double CONVERSION_FACTOR = 1/4.0 * 4 * Math.PI;
+    /** Grayhill encoder on left side of drivetrain */
+    public final RelativeEncoder leftDriveEncoder;
+    /** Grayhill encoder on right side of drivetrain */
+    public final RelativeEncoder rightDriveEncoder;
+
     public Drivetrain(CANSparkMax leftLeadController, CANSparkMax rightLeadController, DoubleSolenoid shiftSolenoid) {
         this.leftLeadController = leftLeadController;
         this.rightLeadController = rightLeadController;
         this.shiftSolenoid = shiftSolenoid;
+
+        leftDriveEncoder = leftLeadController.getAlternateEncoder(128 * 4);
+        leftDriveEncoder.setPositionConversionFactor(CONVERSION_FACTOR);
+        leftDriveEncoder.setInverted(true);
+        leftDriveEncoder.setPosition(0);
+        rightDriveEncoder = rightLeadController.getAlternateEncoder(64 * 4);
+        rightDriveEncoder.setPositionConversionFactor(CONVERSION_FACTOR);
+        rightDriveEncoder.setPosition(0);
+        rightDriveEncoder.setInverted(false);   
     }
 
     public enum Gear {
@@ -45,7 +69,7 @@ public class Drivetrain extends SubsystemBase {
         leftLeadController.set(0);
         rightLeadController.set(0);
     }
-
+ 
     public void setGear(Gear gear) {
         currentGear = gear;
         shiftSolenoid.set(gear.value);

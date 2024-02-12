@@ -1,6 +1,8 @@
 package frc.robot;
 
+import com.revrobotics.AlternateEncoderType;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -31,11 +33,12 @@ public class RobotMap {
 
     // Static initializer will be run on first reference to RobotMap (stealing code from greg)
     static {
+        
         leftController2.follow(leftController1);
         rightController2.follow(rightController1);
 
         leftController1.setInverted(false);
-        rightController1.setInverted(true);
+        rightController1.setInverted(true);   
     }
     
 }
