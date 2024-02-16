@@ -4,6 +4,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Drivetrain extends SubsystemBase {
@@ -14,6 +15,8 @@ public class Drivetrain extends SubsystemBase {
     DoubleSolenoid shiftSolenoid;
 
     Gear currentGear;
+
+    boolean autoShifting;
 
     /**
      * Encoder to inches conversion factor
@@ -42,6 +45,8 @@ public class Drivetrain extends SubsystemBase {
         rightDriveEncoder.setPositionConversionFactor(CONVERSION_FACTOR);
         rightDriveEncoder.setPosition(0);
         rightDriveEncoder.setInverted(false);   
+
+        autoShifting = true;
     }
 
     public enum Gear {
@@ -78,5 +83,40 @@ public class Drivetrain extends SubsystemBase {
     public Gear getGear() {
         return currentGear;
     }
+
+    public void disableAutoShifting() {
+        autoShifting = false;
+    }
+
+    public void enableAutoShifting() {
+        autoShifting = true;
+    }
+
+    /**
+     * Pulls speed to figure out when to shift gear
+     * MUST BE RUN IN COMMAND excute()
+     */
+    public void shiftGears() {
+
+        if(!autoShifting) return;
+
+        double UPSHIFT_SPEED = 1200;
+        double DOWNSHIFT_SPEED = 800;
+
+        double currentSpeed = (leftDriveEncoder.getVelocity() + rightDriveEncoder.getVelocity()) / 2;
+
+        SmartDashboard.putNumber("Avg Speed", currentSpeed);
     
+        if(currentSpeed >= UPSHIFT_SPEED) {
+            currentGear = Gear.HIGH;
+            shiftSolenoid.set(Gear.HIGH.value);
+        }
+
+        if(currentSpeed <= DOWNSHIFT_SPEED) {
+            currentGear = Gear.LOW;
+            shiftSolenoid.set(Gear.LOW.value);
+        }
+
+
+    }
 }

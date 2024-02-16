@@ -10,6 +10,7 @@ import frc.robot.commands.DriveCommand;
 import frc.robot.commands.instant.ShiftDownCommand;
 import frc.robot.commands.instant.ShiftUpCommand;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Drivetrain.Gear;
 
 public class RobotContainer {
 
@@ -22,8 +23,16 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    OI.shiftUpButton.onTrue(new ShiftUpCommand(drivetrain));
-    OI.shiftDownButton.onTrue(new ShiftDownCommand(drivetrain));
+    //OI.shiftUpButton.onTrue(new ShiftUpCommand(drivetrain));
+    //OI.shiftDownButton.onTrue(new ShiftDownCommand(drivetrain));
+
+    // Not requiring drivetrain because we dont want to interupt DriveCommand
+    OI.lowShiftButton.whileTrue(Commands.runOnce(() -> {
+      drivetrain.disableAutoShifting();
+      drivetrain.setGear(Gear.LOW);
+    })).onFalse(Commands.runOnce(() -> {
+      drivetrain.enableAutoShifting();
+    }));
   }
 
   public Command getAutonomousCommand() {
