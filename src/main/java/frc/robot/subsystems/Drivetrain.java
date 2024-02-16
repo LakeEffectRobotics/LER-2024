@@ -15,6 +15,8 @@ public class Drivetrain extends SubsystemBase {
 
     Gear currentGear;
 
+    boolean autoShifting;
+
     /**
      * Encoder to inches conversion factor
      * <pre>
@@ -42,6 +44,8 @@ public class Drivetrain extends SubsystemBase {
         rightDriveEncoder.setPositionConversionFactor(CONVERSION_FACTOR);
         rightDriveEncoder.setPosition(0);
         rightDriveEncoder.setInverted(false);   
+
+        autoShifting = true;
     }
 
     public enum Gear {
@@ -78,5 +82,16 @@ public class Drivetrain extends SubsystemBase {
     public Gear getGear() {
         return currentGear;
     }
+
+    public void disableAutoShifting() {
+        autoShifting = false;
+    }
+
+    public void enableAutoShifting() {
+        autoShifting = true;
+    }
     
-}
+    public void shiftGears() {
+
+    }
+}                  
