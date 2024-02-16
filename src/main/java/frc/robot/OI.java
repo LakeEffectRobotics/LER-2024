@@ -20,6 +20,7 @@ public class OI {
     private static class DRIVER_MAP {
         private static final int SHIFT_UP_BUTTON = 3;
         private static final int SHIFT_DOWN_BUTTON = 2;
+        private static final int LOW_SHIFT_BUTTON = 1;
     }
 
     /** Operator Button Map */
@@ -33,6 +34,8 @@ public class OI {
 
     public static final JoystickButton shiftUpButton = new JoystickButton(rightJoystick, DRIVER_MAP.SHIFT_UP_BUTTON);
     public static final JoystickButton shiftDownButton = new JoystickButton(rightJoystick, DRIVER_MAP.SHIFT_DOWN_BUTTON);
+
+    public static final JoystickButton lowShiftButton = new JoystickButton(leftJoystick, DRIVER_MAP.LOW_SHIFT_BUTTON);
 
 
     public static DoubleSupplier leftDriveSupplier = () -> {

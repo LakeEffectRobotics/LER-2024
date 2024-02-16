@@ -27,6 +27,7 @@ public class DriveCommand extends Command {
     @Override
     public void execute() {
         drivetrain.setOutput(leftSupplier.getAsDouble(), rightSupplier.getAsDouble());
+        drivetrain.shiftGears();
     }
 
     @Override
