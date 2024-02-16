@@ -91,7 +91,11 @@ public class Drivetrain extends SubsystemBase {
     public void enableAutoShifting() {
         autoShifting = true;
     }
-    
+
+    /**
+     * Pulls speed to figure out when to shift gear
+     * MUST BE RUN IN COMMAND excute()
+     */
     public void shiftGears() {
 
         if(!autoShifting) return;
