@@ -7,19 +7,23 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.commands.DriveCommand;
+import frc.robot.commands.GyroCommand;
 import frc.robot.commands.instant.ShiftDownCommand;
 import frc.robot.commands.instant.ShiftUpCommand;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Gyro;
 import frc.robot.subsystems.Drivetrain.Gear;
 
 public class RobotContainer {
 
   public Drivetrain drivetrain = new Drivetrain(RobotMap.leftController1, RobotMap.rightController1, RobotMap.driveShitSolenoid);
+  public Gyro gyro = new Gyro();
 
   public RobotContainer() {
     configureBindings();
 
     drivetrain.setDefaultCommand(new DriveCommand(drivetrain, OI.leftDriveSupplier, OI.rightDriveSupplier));
+    gyro.setDefaultCommand(new GyroCommand(gyro));
   }
 
   private void configureBindings() {
