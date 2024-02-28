@@ -13,7 +13,6 @@ public class OI {
         private static final int LEFT_STICK = 0;
         private static final int RIGHT_STICK = 1;
         private static final int OPERATOR_CONTROLLER = 2;
-
     }
 
     /** Driver Button Map */
