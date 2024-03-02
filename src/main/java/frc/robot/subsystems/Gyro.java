@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 import frc.robot.Tools;
@@ -158,5 +159,18 @@ public class Gyro extends SubsystemBase {
     	}
     	
     	return new double[] {l_gyro_out, r_gyro_out};
+	}
+
+	@Override
+	public void periodic() {
+		double current_angle = getAngle();
+    	while (current_angle < 0) {	// convert gyro angle to angle within -180 to 180 range
+    		current_angle += 360;
+    	}
+    	current_angle %= 360;
+    	if (current_angle > 180) {
+    		current_angle = -360 + current_angle;
+    	}
+        SmartDashboard.putNumber("Gyro", current_angle);
 	}
 }

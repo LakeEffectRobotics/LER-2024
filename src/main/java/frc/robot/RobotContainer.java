@@ -23,7 +23,6 @@ public class RobotContainer {
     configureBindings();
 
     drivetrain.setDefaultCommand(new DriveCommand(drivetrain, OI.leftDriveSupplier, OI.rightDriveSupplier));
-    gyro.setDefaultCommand(new GyroCommand(gyro));
   }
 
   private void configureBindings() {
