@@ -23,6 +23,10 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
+
+    /**
+     * Commented to disable manual shifting because auto shifting doesn't care about your buttons
+     */
     //OI.shiftUpButton.onTrue(new ShiftUpCommand(drivetrain));
     //OI.shiftDownButton.onTrue(new ShiftDownCommand(drivetrain));
 

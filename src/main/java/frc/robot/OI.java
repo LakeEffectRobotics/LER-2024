@@ -40,14 +40,28 @@ public class OI {
 
     public static DoubleSupplier leftDriveSupplier = () -> {
         double raw = leftJoystick.getY();
-        // todo process raw output
-        return raw;
+
+        //return raw;
+        return processDriveInput(raw);
     };
 
     public static DoubleSupplier rightDriveSupplier = () -> {
         double raw = rightJoystick.getY();
-        // todo process raw output
-        return raw;
+        
+        //return raw;
+        return processDriveInput(raw);
     };
+
+    private static double processDriveInput(double raw) {
+        // TODO: Configure input processing to suit your liking
+        if (Math.abs(raw) < 0.1) {
+            raw = 0;
+        }
+        
+        // Signum function is -1 for x < 0, 1 for x > 0
+        raw = Math.pow(raw, 2) * Math.signum(raw);
+        // raw *= 0.8;
+        return -raw;
+    }
     
 }
