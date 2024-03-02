@@ -7,7 +7,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.commands.DriveCommand;
-import frc.robot.commands.GyroCommand;
 import frc.robot.commands.instant.ShiftDownCommand;
 import frc.robot.commands.instant.ShiftUpCommand;
 import frc.robot.subsystems.Drivetrain;
