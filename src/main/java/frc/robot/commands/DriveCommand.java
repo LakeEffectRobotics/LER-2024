@@ -11,7 +11,7 @@ public class DriveCommand extends Command {
 
     DoubleSupplier leftSupplier;
     DoubleSupplier rightSupplier;
-    
+
     public DriveCommand(Drivetrain drivetrain, DoubleSupplier leftSupplier, DoubleSupplier rightSupplier) {
         addRequirements(drivetrain);
         this.drivetrain = drivetrain;
@@ -27,6 +27,10 @@ public class DriveCommand extends Command {
     @Override
     public void execute() {
         drivetrain.setOutput(leftSupplier.getAsDouble(), rightSupplier.getAsDouble());
+
+        /**
+         * Comment to disable auto shifting, and to break my heart
+         */
         drivetrain.shiftGears();
     }
 
