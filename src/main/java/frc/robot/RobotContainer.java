@@ -10,11 +10,13 @@ import frc.robot.commands.DriveCommand;
 import frc.robot.commands.instant.ShiftDownCommand;
 import frc.robot.commands.instant.ShiftUpCommand;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Gyro;
 import frc.robot.subsystems.Drivetrain.Gear;
 
 public class RobotContainer {
 
   public Drivetrain drivetrain = new Drivetrain(RobotMap.leftController1, RobotMap.rightController1, RobotMap.driveShitSolenoid);
+  public Gyro gyro = new Gyro();
 
   public RobotContainer() {
     configureBindings();
