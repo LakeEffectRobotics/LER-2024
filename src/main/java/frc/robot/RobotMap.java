@@ -52,11 +52,11 @@ public class RobotMap {
     public static final CANSparkMax climbController2 = new CANSparkMax(CAN.CLIMB_CONTROLLER_2, MotorType.kBrushless);
     public static final CANSparkMax climbController3 = new CANSparkMax(CAN.CLIMB_CONTROLLER_3, MotorType.kBrushless);
 
-    private static final CANSparkMax armController1 = new CANSparkMax(CAN.ARM_CONTROLLER_1, MotorType.kBrushless);
-    private static final CANSparkMax armController2 = new CANSparkMax(CAN.ARM_CONTROLLER_2, MotorType.kBrushless);
+    public static final CANSparkMax armController1 = new CANSparkMax(CAN.ARM_CONTROLLER_1, MotorType.kBrushless);
+    public static final CANSparkMax armController2 = new CANSparkMax(CAN.ARM_CONTROLLER_2, MotorType.kBrushless);
 
-    private static final CANSparkMax clawController = new CANSparkMax(CAN.CLAW_CONTROLLER, MotorType.kBrushless);
-    private static final CANSparkMax wristController = new CANSparkMax(CAN.WRIST_CONTROLLER, MotorType.kBrushless);
+    public static final CANSparkMax clawController = new CANSparkMax(CAN.CLAW_CONTROLLER, MotorType.kBrushless);
+    public static final CANSparkMax wristController = new CANSparkMax(CAN.WRIST_CONTROLLER, MotorType.kBrushless);
 
 
     // Static initializer will be run on first reference to RobotMap (stealing code from greg)

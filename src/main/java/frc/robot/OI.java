@@ -3,7 +3,9 @@ package frc.robot;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class OI {
 
@@ -23,9 +25,15 @@ public class OI {
         private static final int LOW_SHIFT_BUTTON = 1;
     }
 
+    private static final XboxController xboxController = new XboxController(PORT.OPERATOR_CONTROLLER);
+    /**
+     * The threshold that must be met before an xbox is trigger is considered "pressed". Used to bind command so triggers
+     */
+    private static final double XBOX_TRIGGER_THRESHOLD = 0.2;
+
     /** Operator Button Map */
     private static class OPERATOR_MAP {
-        
+        private static final int SPIN_ARM_TRIGGER = XboxController.Axis.kLeftTrigger.value;
 
     }
 
@@ -36,6 +44,8 @@ public class OI {
     public static final JoystickButton shiftDownButton = new JoystickButton(rightJoystick, DRIVER_MAP.SHIFT_DOWN_BUTTON);
 
     public static final JoystickButton lowShiftButton = new JoystickButton(leftJoystick, DRIVER_MAP.LOW_SHIFT_BUTTON);
+
+    public static final Trigger spinArmButton = new Trigger(() -> xboxController.getRawAxis(OPERATOR_MAP.SPIN_ARM_TRIGGER) >= XBOX_TRIGGER_THRESHOLD);
 
 
     public static DoubleSupplier leftDriveSupplier = () -> {
@@ -48,6 +58,13 @@ public class OI {
         double raw = rightJoystick.getY();
         // todo process raw output
         return raw;
+    };
+
+    /**
+     * Operator-supplied intake spin speed
+     */
+    public static DoubleSupplier spinArmSpeedSupplier = () -> {
+        return Math.pow(xboxController.getRawAxis(OPERATOR_MAP.SPIN_ARM_TRIGGER), 2) * 0.6;
     };
     
 }

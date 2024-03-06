@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkMax;
+
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -13,14 +15,16 @@ public class Arm extends SubsystemBase {
     private ShuffleboardTab tab = Shuffleboard.getTab("my favourite tab");
 
     ArmPosition armCurrentPosition;
+    CANSparkMax armLeadController;
 
     private GenericEntry armUpShuffle = tab
         .add("arm up?", "nuh D':")
         .withPosition(6, 1)
         .getEntry();
 
-    public Arm(DoubleSolenoid armSolenoid) {
+    public Arm(DoubleSolenoid armSolenoid, CANSparkMax armLeadController) {
         this.armSolenoid = armSolenoid;
+        this.armLeadController = armLeadController;
 
         armCurrentPosition = ArmPosition.RETRACT;
     }
@@ -55,6 +59,10 @@ public class Arm extends SubsystemBase {
         armSolenoid.set(ArmPosition.RETRACT.value);
 
         armUpShuffle.setString("nuh D':");
+    }
+
+    public void setOutput(double speed) {
+        armLeadController.set(speed);
     }
 
     @Override
