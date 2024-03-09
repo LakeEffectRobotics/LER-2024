@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.commands.ArmCommand;
 import frc.robot.commands.DriveCommand;
+import frc.robot.commands.instant.ExtendArmCommand;
+import frc.robot.commands.instant.RetractArmCommand;
 import frc.robot.commands.instant.ShiftDownCommand;
 import frc.robot.commands.instant.ShiftUpCommand;
 import frc.robot.subsystems.Arm;
@@ -17,7 +19,7 @@ import frc.robot.subsystems.Drivetrain.Gear;
 public class RobotContainer {
 
   public Drivetrain drivetrain = new Drivetrain(RobotMap.leftController1, RobotMap.rightController1, RobotMap.driveShitSolenoid);
-  public Arm arm = new Arm(null, RobotMap.armController1);
+  public Arm arm = new Arm(RobotMap.armPistonSolenoid, RobotMap.armController1);
 
   public RobotContainer() {
     configureBindings();
@@ -38,6 +40,9 @@ public class RobotContainer {
     }));
 
     OI.spinArmButton.whileTrue(new ArmCommand(arm, OI.spinArmSpeedSupplier.getAsDouble()));
+
+    OI.extendArmButton.onTrue(new ExtendArmCommand(arm));
+    OI.retractArmButton.onTrue(new RetractArmCommand(arm));
   }
 
   public Command getAutonomousCommand() {

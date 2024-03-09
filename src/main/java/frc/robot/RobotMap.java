@@ -36,6 +36,9 @@ public class RobotMap {
     private class PCM {
         private static final int DRIVE_SHIFT_UP = 14;
         private static final int DRIVE_SHIFT_DOWN = 15;
+
+        private static final int ARM_PISTON_UP = 1;
+        private static final int ARM_PISTON_DOWN = 2;
     }
 
     /** Drivetrain */
@@ -57,6 +60,8 @@ public class RobotMap {
 
     public static final CANSparkMax clawController = new CANSparkMax(CAN.CLAW_CONTROLLER, MotorType.kBrushless);
     public static final CANSparkMax wristController = new CANSparkMax(CAN.WRIST_CONTROLLER, MotorType.kBrushless);
+
+    public static final DoubleSolenoid armPistonSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, PCM.ARM_PISTON_UP, PCM.ARM_PISTON_DOWN);
 
 
     // Static initializer will be run on first reference to RobotMap (stealing code from greg)

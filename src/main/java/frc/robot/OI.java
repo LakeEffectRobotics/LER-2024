@@ -35,6 +35,9 @@ public class OI {
     private static class OPERATOR_MAP {
         private static final int SPIN_ARM_TRIGGER = XboxController.Axis.kLeftTrigger.value;
 
+        private static final int EXTEND_ARM_BUTTON = XboxController.Button.kY.value;
+        private static final int RETRACT_ARM_BUTTON = XboxController.Button.kA.value;
+
     }
 
     private static final Joystick leftJoystick = new Joystick(PORT.LEFT_STICK);
@@ -46,6 +49,9 @@ public class OI {
     public static final JoystickButton lowShiftButton = new JoystickButton(leftJoystick, DRIVER_MAP.LOW_SHIFT_BUTTON);
 
     public static final Trigger spinArmButton = new Trigger(() -> xboxController.getRawAxis(OPERATOR_MAP.SPIN_ARM_TRIGGER) >= XBOX_TRIGGER_THRESHOLD);
+
+    public static final Trigger extendArmButton = new JoystickButton(xboxController, OPERATOR_MAP.EXTEND_ARM_BUTTON);
+    public static final Trigger retractArmButton = new JoystickButton(xboxController, OPERATOR_MAP.RETRACT_ARM_BUTTON);
 
 
     public static DoubleSupplier leftDriveSupplier = () -> {
