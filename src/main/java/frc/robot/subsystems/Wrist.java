@@ -57,6 +57,12 @@ public class Wrist extends SubsystemBase {
         .withPosition(6, 0)
         .getEntry();
 
+    private GenericEntry targetAngleShuffle;
+    private GenericEntry targetPotShuffle;
+    
+    private GenericEntry currentAngleShuffle;
+    private GenericEntry currentPotShuffle;
+
     public Wrist(CANSparkMax wristController) {
         this.wristController = wristController;
 
@@ -76,6 +82,26 @@ public class Wrist extends SubsystemBase {
         // Initialize angle to where wrist is so it doesn't try to move on enable
         targetAngle = getCurrentAngle();
         targetVolts = convertAngleToVolts(targetAngle);
+
+        targetAngleShuffle = tab
+            .add("wrist target angle", targetAngle)
+            .withPosition(3, 0)
+            .getEntry();
+
+        targetPotShuffle = tab
+            .add("wrist target volts", targetVolts)
+            .withPosition(4, 0)
+            .getEntry();
+
+        currentAngleShuffle = tab
+            .add("wrist angle", getCurrentAngle())
+            .withPosition(3, 1)
+            .getEntry();
+
+        currentPotShuffle = tab
+            .add("wrist pot volts", pot.getPosition())
+            .withPosition(4, 1)
+            .getEntry();
     }
 
     public double getCurrentAngle() {
@@ -119,6 +145,12 @@ public class Wrist extends SubsystemBase {
         if (isWristDeadAgain){
             wristController.set(0);
         }
+
+        currentAngleShuffle.setDouble(getCurrentAngle());
+        currentPotShuffle.setDouble(pot.getPosition());
+
+        targetAngleShuffle.setDouble(targetAngle);
+        targetPotShuffle.setDouble(targetVolts);
     }
     
 }

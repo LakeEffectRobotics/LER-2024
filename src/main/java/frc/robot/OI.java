@@ -33,7 +33,8 @@ public class OI {
 
     /** Operator Button Map */
     private static class OPERATOR_MAP {
-        private static final int SPIN_ARM_TRIGGER = XboxController.Axis.kLeftTrigger.value;
+        private static final int SPIN_OUT_CLAW_TRIGGER = XboxController.Axis.kLeftTrigger.value;
+        private static final int SPIN_IN_CLAW_TRIGGER = XboxController.Axis.kRightTrigger.value;
 
         private static final int EXTEND_ARM_BUTTON = XboxController.Button.kY.value;
         private static final int RETRACT_ARM_BUTTON = XboxController.Button.kA.value;
@@ -48,7 +49,8 @@ public class OI {
 
     public static final JoystickButton lowShiftButton = new JoystickButton(leftJoystick, DRIVER_MAP.LOW_SHIFT_BUTTON);
 
-    public static final Trigger spinArmButton = new Trigger(() -> xboxController.getRawAxis(OPERATOR_MAP.SPIN_ARM_TRIGGER) >= XBOX_TRIGGER_THRESHOLD);
+    public static final Trigger spinOutClawButton = new Trigger(() -> xboxController.getRawAxis(OPERATOR_MAP.SPIN_OUT_CLAW_TRIGGER) >= XBOX_TRIGGER_THRESHOLD);
+    public static final Trigger spinInClawButton = new Trigger(() -> xboxController.getRawAxis(OPERATOR_MAP.SPIN_IN_CLAW_TRIGGER) >= XBOX_TRIGGER_THRESHOLD);
 
     public static final Trigger extendArmButton = new JoystickButton(xboxController, OPERATOR_MAP.EXTEND_ARM_BUTTON);
     public static final Trigger retractArmButton = new JoystickButton(xboxController, OPERATOR_MAP.RETRACT_ARM_BUTTON);
@@ -69,8 +71,12 @@ public class OI {
     /**
      * Operator-supplied intake spin speed
      */
-    public static DoubleSupplier spinArmSpeedSupplier = () -> {
-        return Math.pow(xboxController.getRawAxis(OPERATOR_MAP.SPIN_ARM_TRIGGER), 2) * 0.6;
+    public static DoubleSupplier spinOutClawSpeedSupplier = () -> {
+        return Math.pow(xboxController.getRawAxis(OPERATOR_MAP.SPIN_OUT_CLAW_TRIGGER), 2);
+    };
+
+    public static DoubleSupplier spinInClawSpeedSupplier = () -> {
+        return Math.pow(xboxController.getRawAxis(OPERATOR_MAP.SPIN_IN_CLAW_TRIGGER), 2);
     };
     
 }

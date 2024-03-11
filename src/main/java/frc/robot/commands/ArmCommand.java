@@ -14,6 +14,6 @@ public class ArmCommand extends Command {
 
     @Override
     public void execute() {
-        arm.setOutput(speed);
+        arm.setMotors(speed);
     }
 }
