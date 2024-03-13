@@ -3,11 +3,13 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkAnalogSensor;
 import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkBase.ControlType;
 
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Arm extends SubsystemBase {
@@ -22,25 +24,25 @@ public class Arm extends SubsystemBase {
     //TODO change these
     
     private static final double kF = 0;
-    private static final double kP = 0.4;
+    private static final double kP = 0.5;
     private static final double kI = 0;
 
-    private static final double kD = 0.5;
-    private static final double MAX_OUTPUT = 0.5;
-    private static final double MIN_OUTPUT = -0.2;
+    private static final double kD = 0;
+    private static final double MAX_OUTPUT = 0.20;
+    private static final double MIN_OUTPUT = 0.00;
 
-    private static final double MIN_ANGLE = -70;
-    private static final double MAX_ANGLE = 122;
+    private static final double MIN_ANGLE = 0.5;
+    private static final double MAX_ANGLE = 100;
 
     // Function to convert from potentiometer volts to arm degrees above horizontal, obtained experimentally
     // Slope: degrees per volt
     // Constant: the degrees value at volts = 0
-    private static final double VOLTS_TO_DEGREES_SLOPE = 70.5821;
-    private static final double VOLTS_TO_DEGREES_CONSTANT = -106.185;
+    private static final double VOLTS_TO_DEGREES_SLOPE = 38.0689;
+    private static final double VOLTS_TO_DEGREES_CONSTANT = -0.603998;
 
     // Motor voltage required to hold arm up at horizontal
     // 0.05 is the experimentally determined motor percentage that does that, so convert % to volts:
-    private static final double GRAVITY_COMPENSATION = 0.04 * 12;
+    private static final double GRAVITY_COMPENSATION = 0.13 * 12;
 
     // Target angle and volts
     // Angle is relative to horizontal, so volts accounts for arm angle
@@ -79,7 +81,7 @@ public class Arm extends SubsystemBase {
         pidController.setD(kD);
         pidController.setIAccum(0.05);
         pidController.setFF(kF);
-        pidController.setOutputRange(MIN_ANGLE, MAX_ANGLE);
+        pidController.setOutputRange(MIN_OUTPUT, MAX_OUTPUT);
 
         // Initialize angle to where wrist is so it doesn't try to move on enable
         targetAngle = getCurrentAngle();
@@ -165,6 +167,7 @@ public class Arm extends SubsystemBase {
         }
 
         this.targetVolts = convertAngleToVolts(this.targetAngle);
+        pidController.setReference(this.targetVolts, ControlType.kPosition);
     }
 
     /**

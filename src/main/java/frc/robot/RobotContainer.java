@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.commands.ArmCommand;
@@ -20,6 +22,7 @@ import frc.robot.subsystems.Wrist;
 import frc.robot.subsystems.Drivetrain.Gear;
 
 public class RobotContainer {
+  public final Compressor compressor = new Compressor(PneumaticsModuleType.REVPH); 
 
   public Drivetrain drivetrain = new Drivetrain(RobotMap.leftController1, RobotMap.rightController1, RobotMap.driveShitSolenoid);
   public Arm arm = new Arm(RobotMap.armPistonSolenoid, RobotMap.armController1);
@@ -27,6 +30,9 @@ public class RobotContainer {
   public Claw claw = new Claw(RobotMap.clawController);
 
   public RobotContainer() {
+
+    compressor.enableAnalog(90, 100);
+
     configureBindings();
 
     drivetrain.setDefaultCommand(new DriveCommand(drivetrain, OI.leftDriveSupplier, OI.rightDriveSupplier));
@@ -49,8 +55,12 @@ public class RobotContainer {
     OI.spinOutClawButton.whileTrue(new ClawCommand(claw, OI.spinOutClawSpeedSupplier.getAsDouble()));
     OI.spinInClawButton.whileTrue(new ClawCommand(claw, -OI.spinInClawSpeedSupplier.getAsDouble()));
 
-    OI.extendArmButton.onTrue(new ExtendArmCommand(arm));
-    OI.retractArmButton.onTrue(new RetractArmCommand(arm));
+    OI.extendArmButton.onTrue(Commands.runOnce(() -> {
+      arm.setTargetAngle(90);
+    }));
+    OI.retractArmButton.onTrue(Commands.runOnce(() -> {
+      arm.setTargetAngle(0.5);
+    }));
   }
 
   public Command getAutonomousCommand() {

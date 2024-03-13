@@ -3,9 +3,11 @@ package frc.robot;
 import com.revrobotics.AlternateEncoderType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
 public class RobotMap {
@@ -81,6 +83,11 @@ public class RobotMap {
         climbController3.follow(climbController1);
 
         armController2.follow(armController1);
+
+        armController1.setIdleMode(IdleMode.kCoast);
+        armController2.setIdleMode(IdleMode.kCoast);
+
+        
     }
     
 }
