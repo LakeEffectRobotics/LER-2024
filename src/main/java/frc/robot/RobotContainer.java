@@ -56,10 +56,10 @@ public class RobotContainer {
     OI.spinInClawButton.whileTrue(new ClawCommand(claw, -OI.spinInClawSpeedSupplier.getAsDouble()));
 
     OI.extendArmButton.onTrue(Commands.runOnce(() -> {
-      arm.setTargetAngle(90);
+      wrist.setTargetAngle(100);
     }));
     OI.retractArmButton.onTrue(Commands.runOnce(() -> {
-      arm.setTargetAngle(0.5);
+      wrist.setTargetAngle(5);
     }));
   }
 
