@@ -113,6 +113,26 @@ public class Wrist extends SubsystemBase {
         return targetAngle;
     }
 
+     
+     /**
+      *  just a note from the wrist class,  0 degrees is supposed to be horizontal.
+      *  Todo:  If this is code lifed from last year, need to make sure that +'ve still makes it go in the direction we want
+      * @param angle in degrees  A postive angle is going to move the wrist that many degrees above horizontal
+      */
+    public void setTargetAngle(double angle){
+        //Todo: make the wrist do the thing
+    }
+    
+    public void moveWristUp(){
+        // use setTarget angle to move the wrist up
+        // setTargetAngle(25);   //start with 25 so we don't break anything
+    }
+
+     public void moveWristDown(){
+        // use setTarget angle to move the wrist up
+        // setTargetAngle(-10);   //start with 25 so we don't break anything
+    }
+
 
     /**
      * 
