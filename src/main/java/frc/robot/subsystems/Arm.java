@@ -28,8 +28,8 @@ public class Arm extends SubsystemBase {
     private static final double kI = 0;
 
     private static final double kD = 0;
-    private static final double MAX_OUTPUT = 0.20;
-    private static final double MIN_OUTPUT = 0.00;
+    private static final double MAX_OUTPUT = 0.75;
+    private static final double MIN_OUTPUT = -0.25;
 
     private static final double MIN_ANGLE = 0.5;
     private static final double MAX_ANGLE = 100;
@@ -199,6 +199,10 @@ public class Arm extends SubsystemBase {
 
         targetAngleShuffle.setDouble(targetAngle);
         targetPotShuffle.setDouble(targetVolts);
+
+        if(getCurrentAngle() <= 5 && this.targetAngle <= 5) {
+            armLeadController.set(0);
+        }
     }
     
 }
