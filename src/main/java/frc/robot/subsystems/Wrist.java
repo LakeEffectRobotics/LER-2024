@@ -41,6 +41,11 @@ public class Wrist extends SubsystemBase {
     // 0.05 is the experimentally determined motor percentage that does that, so convert % to volts:
     private static final double GRAVITY_COMPENSATION = 0.04 * 12;
 
+    public static  enum WristPosition{
+        UP,
+        DOWN
+    }
+
     // Target angle and volts
     // Angle is relative to horizontal, so volts accounts for arm angle
     private double targetAngle;
@@ -113,6 +118,16 @@ public class Wrist extends SubsystemBase {
         return targetAngle;
     }
 
+    /**
+     * This is how we will know if the command isFinished.
+     * 
+     * @return true if we have achieved the desired angle
+     */
+    public boolean hasAchievedTargetAngle(){
+        // Todo:  is the target angle close enough to the current angle?
+
+        return false;  // obviously this needs to be real
+    }
      
      /**
       *  just a note from the wrist class,  0 degrees is supposed to be horizontal.
@@ -122,7 +137,7 @@ public class Wrist extends SubsystemBase {
     public void setTargetAngle(double angle){
         //Todo: make the wrist do the thing
     }
-    
+
     public void moveWristUp(){
         // use setTarget angle to move the wrist up
         // setTargetAngle(25);   //start with 25 so we don't break anything

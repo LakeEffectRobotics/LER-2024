@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import javax.swing.plaf.basic.BasicLookAndFeel;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkAnalogSensor;
 import com.revrobotics.SparkPIDController;
@@ -16,7 +18,7 @@ public class Arm extends SubsystemBase {
 
     DoubleSolenoid armSolenoid;
 
-    ArmPosition armCurrentPosition;
+    ArmExtension armCurrentPosition;
     CANSparkMax armLeadController;
     SparkAnalogSensor pot;
     SparkPIDController pidController; 
@@ -44,6 +46,12 @@ public class Arm extends SubsystemBase {
     // 0.05 is the experimentally determined motor percentage that does that, so convert % to volts:
     private static final double GRAVITY_COMPENSATION = 0.13 * 12;
 
+    public static enum ArmPosition {
+        AMP,
+        TRAP,
+        INTAKE
+    }
+
     // Target angle and volts
     // Angle is relative to horizontal, so volts accounts for arm angle
     private double targetAngle;
@@ -68,7 +76,7 @@ public class Arm extends SubsystemBase {
         this.armSolenoid = armSolenoid;
         this.armLeadController = armLeadController;
 
-        armCurrentPosition = ArmPosition.RETRACT;
+        armCurrentPosition = ArmExtension.RETRACT;
 
         pot = armLeadController.getAnalog(SparkAnalogSensor.Mode.kAbsolute);
 
@@ -113,13 +121,13 @@ public class Arm extends SubsystemBase {
     }
 
     // Arm piston positions: up, down
-    public enum ArmPosition {
+    public enum ArmExtension {
         EXTEND(DoubleSolenoid.Value.kForward),
         RETRACT(DoubleSolenoid.Value.kReverse);
     
         private DoubleSolenoid.Value value;
     
-        private ArmPosition(DoubleSolenoid.Value value) {
+        private ArmExtension(DoubleSolenoid.Value value) {
             this.value = value;
         }
     
@@ -129,17 +137,17 @@ public class Arm extends SubsystemBase {
     }
 
     public void extendArm() {
-        armCurrentPosition = ArmPosition.EXTEND;
+        armCurrentPosition = ArmExtension.EXTEND;
 
-        armSolenoid.set(ArmPosition.EXTEND.value);
+        armSolenoid.set(ArmExtension.EXTEND.value);
 
         armOutShuffle.setString("YEAH!");
     }
 
     public void retractArm() {
-        armCurrentPosition = ArmPosition.RETRACT;
+        armCurrentPosition = ArmExtension.RETRACT;
 
-        armSolenoid.set(ArmPosition.RETRACT.value);
+        armSolenoid.set(ArmExtension.RETRACT.value);
 
         armOutShuffle.setString("nuh D':");
     }
@@ -178,6 +186,14 @@ public class Arm extends SubsystemBase {
         //Todo: move the arm to MIN_ANGLE
     }
 
+    public void rotateToAmpPos(){
+        //Todo:  rotate to the best arm pos for shooting into Amp.
+    }
+
+    public void rotateToTrapPos(){
+        //Todo: rotate to the best arm pos for shooting into Trap.
+    }
+
     /**
      * 
      * @param angle desired angle above horizontal (degrees)
@@ -198,6 +214,14 @@ public class Arm extends SubsystemBase {
 
     public void setMotors(double speed) {
         armLeadController.set(speed);
+    }
+
+    /**
+     * A helper function to let the command know when the Arm has finished its movement
+     */
+    public boolean inPosition(){
+        //Todo: let us know when the arm has achieved its position
+        return true;  // for now
     }
 
     @Override
