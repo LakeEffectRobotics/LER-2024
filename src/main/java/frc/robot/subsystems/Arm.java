@@ -171,6 +171,14 @@ public class Arm extends SubsystemBase {
     }
 
     /**
+     * A friendly way for commands to make the subsystem move to the intake position
+     */
+    public void rotateToIntakePosition()
+    {
+        //Todo: move the arm to MIN_ANGLE
+    }
+
+    /**
      * 
      * @param angle desired angle above horizontal (degrees)
      * @return pot position at this angle. this accounts for current arm angle
