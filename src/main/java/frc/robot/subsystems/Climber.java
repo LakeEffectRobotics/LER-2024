@@ -6,6 +6,8 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Climber extends SubsystemBase {
+    private static double PREPARECLIMBROTATION = 0.0; //TODO: set this
+    private static double CLIMBROTATION = 0.0; //TODO: also set this
 
     CANSparkMax leadClimbController;
 
@@ -16,7 +18,13 @@ public class Climber extends SubsystemBase {
     public Climber(CANSparkMax leadClimbController, DoubleSolenoid shiftSolenoid) {
         this.leadClimbController = leadClimbController;
         this.shiftSolenoid = shiftSolenoid;
+        
+        leadClimbController.getEncoder().setPosition(0); 
+        setGear(Gear.LOW);
+        setOutput(0);
     }
+
+
 
     public enum Gear {
         HIGH(DoubleSolenoid.Value.kForward),
@@ -49,6 +57,20 @@ public class Climber extends SubsystemBase {
 
     public Gear getGear() {
         return currentGear;
+    }
+
+
+
+    public void prepareClimb() {
+        setGear(Gear.HIGH);
+        leadClimbController.getEncoder().setPosition(PREPARECLIMBROTATION);
+    } 
+
+    public void climb() {
+        setGear(Gear.HIGH);
+        leadClimbController.getEncoder().setPosition(CLIMBROTATION);
+        setGear(Gear.LOW);
+
     }
 
     @Override

@@ -14,7 +14,7 @@ import frc.robot.commands.DriveCommand;
 import frc.robot.commands.IntakeCommandGroup;
 import frc.robot.commands.TransportCommandGroup;
 import frc.robot.commands.TrapCommandGroup;
-import frc.robot.commands.instant.ExtendArmCommand;
+import frc.robot.commands.instant.ClimbPrepareCommand;
 import frc.robot.commands.instant.RetractArmCommand;
 import frc.robot.commands.instant.ShiftDownCommand;
 import frc.robot.commands.instant.ShiftUpCommand;
