@@ -8,15 +8,20 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import frc.robot.commands.ArmCommand;
+import frc.robot.commands.AmpCommandGroup;
 import frc.robot.commands.ClawCommand;
 import frc.robot.commands.DriveCommand;
-import frc.robot.commands.instant.ExtendArmCommand;
+import frc.robot.commands.IntakeCommandGroup;
+import frc.robot.commands.TransportCommandGroup;
+import frc.robot.commands.TrapCommandGroup;
+import frc.robot.commands.instant.ClimbCommand;
+import frc.robot.commands.instant.ClimbPrepareCommand;
 import frc.robot.commands.instant.RetractArmCommand;
 import frc.robot.commands.instant.ShiftDownCommand;
 import frc.robot.commands.instant.ShiftUpCommand;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Claw;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Wrist;
 import frc.robot.subsystems.Drivetrain.Gear;
@@ -28,6 +33,7 @@ public class RobotContainer {
   public Arm arm = new Arm(RobotMap.armPistonSolenoid, RobotMap.armController1);
   public Wrist wrist = new Wrist(RobotMap.wristController);
   public Claw claw = new Claw(RobotMap.clawController);
+  public Climber climber = new Climber(RobotMap.climbController1,RobotMap.climbShiftSolenoid);
 
   public RobotContainer() {
 
@@ -52,15 +58,23 @@ public class RobotContainer {
 
     //OI.spinArmButton.whileTrue(new ArmCommand(arm, OI.spinArmSpeedSupplier.getAsDouble()));
 
+    /* Operator Bindings */
     OI.spinOutClawButton.whileTrue(new ClawCommand(claw, OI.spinOutClawSpeedSupplier.getAsDouble()));
     OI.spinInClawButton.whileTrue(new ClawCommand(claw, -OI.spinInClawSpeedSupplier.getAsDouble()));
 
-    OI.extendArmButton.onTrue(Commands.runOnce(() -> {
-      wrist.setTargetAngle(100);
-    }));
-    OI.retractArmButton.onTrue(Commands.runOnce(() -> {
-      wrist.setTargetAngle(5);
-    }));
+    // OI.extendArmButton.onTrue(Commands.runOnce(() -> {
+    //   wrist.setTargetAngle(100);
+    // }));
+    // OI.retractArmButton.onTrue(Commands.runOnce(() -> {
+    //   wrist.setTargetAngle(5);
+    // }));
+    OI.intakePositionButton.onTrue(new IntakeCommandGroup(wrist, arm));
+    OI.transportPositionButton.onTrue(new TransportCommandGroup(wrist, arm));
+    OI.ampPositionButton.onTrue(new AmpCommandGroup(wrist, arm));
+    OI.trapPositionButton.onTrue(new TrapCommandGroup(wrist, arm));
+    OI.prepareClimbButton.onTrue(Commands.runOnce(() -> climber.prepareClimb()) );
+    OI.climbButton.onTrue(Commands.runOnce(() -> climber.climb()));
+
   }
 
   public Command getAutonomousCommand() {

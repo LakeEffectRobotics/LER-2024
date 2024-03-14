@@ -11,6 +11,12 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Claw extends SubsystemBase {
 
+
+
+    public static enum ClawSpeeds {
+        INTAKE,
+        SHOOT
+    }
     CANSparkMax clawController;
 
     SparkLimitSwitch clawLimitSwitch;
@@ -30,6 +36,20 @@ public class Claw extends SubsystemBase {
 
     public void setOutput(double speed) {
         clawController.set(speed);
+    }
+
+    public void setMode(ClawSpeeds speed) {
+        //TODO: determine speed for both cases
+        switch (speed) {
+            case INTAKE:
+                    setOutput(0.0);
+                break;
+            case SHOOT:
+                    setOutput(0.0);
+                break;
+            default:
+                break;
+        }
     }
 
     public void stop() {
