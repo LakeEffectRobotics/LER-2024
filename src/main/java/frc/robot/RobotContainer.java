@@ -71,8 +71,8 @@ public class RobotContainer {
     OI.transportPositionButton.onTrue(new TransportCommandGroup(wrist, arm));
     OI.ampPositionButton.onTrue(new AmpCommandGroup(wrist, arm));
     OI.trapPositionButton.onTrue(new TrapCommandGroup(wrist, arm));
-    OI.prepareClimbButton.onTrue(Commands.runOnce(() -> climber.prepareClimb()) );
-    OI.climbButton.onTrue(Commands.runOnce(() -> climber.climb()));
+    OI.prepareClimbButton.onTrue(Commands.runOnce(() -> climber.prepareClimb(),climber) );
+    OI.climbButton.onTrue(Commands.runOnce(() -> climber.climb(),climber));
 
   }
 
