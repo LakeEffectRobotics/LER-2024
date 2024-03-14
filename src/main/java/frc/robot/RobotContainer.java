@@ -62,12 +62,12 @@ public class RobotContainer {
     OI.spinOutClawButton.whileTrue(new ClawCommand(claw, OI.spinOutClawSpeedSupplier.getAsDouble()));
     OI.spinInClawButton.whileTrue(new ClawCommand(claw, -OI.spinInClawSpeedSupplier.getAsDouble()));
 
-    OI.extendArmButton.onTrue(Commands.runOnce(() -> {
-      wrist.setTargetAngle(100);
-    }));
-    OI.retractArmButton.onTrue(Commands.runOnce(() -> {
-      wrist.setTargetAngle(5);
-    }));
+    // OI.extendArmButton.onTrue(Commands.runOnce(() -> {
+    //   wrist.setTargetAngle(100);
+    // }));
+    // OI.retractArmButton.onTrue(Commands.runOnce(() -> {
+    //   wrist.setTargetAngle(5);
+    // }));
     OI.intakePositionButton.onTrue(new IntakeCommandGroup(wrist, arm));
     OI.transportPositionButton.onTrue(new TransportCommandGroup(wrist, arm));
     OI.ampPositionButton.onTrue(new AmpCommandGroup(wrist, arm));
