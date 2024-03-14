@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkAnalogSensor;
@@ -21,21 +22,21 @@ public class Wrist extends SubsystemBase {
     //TODO change these
     
     private static final double kF = 0;
-    private static final double kP = 0.4;
+    private static final double kP = 0.75;
     private static final double kI = 0;
 
-    private static final double kD = 0.5;
-    private static final double MAX_OUTPUT = 0.5;
-    private static final double MIN_OUTPUT = -0.2;
+    private static final double kD = 0;
+    private static final double MAX_OUTPUT = 0.15;
+    private static final double MIN_OUTPUT = -0.85;
 
-    private static final double MIN_ANGLE = -70;
-    private static final double MAX_ANGLE = 122;
+    private static final double MIN_ANGLE = 3;
+    private static final double MAX_ANGLE = 130;
 
     // Function to convert from potentiometer volts to arm degrees above horizontal, obtained experimentally
     // Slope: degrees per volt
     // Constant: the degrees value at volts = 0
-    private static final double VOLTS_TO_DEGREES_SLOPE = 70.5821;
-    private static final double VOLTS_TO_DEGREES_CONSTANT = -106.185;
+    private static final double VOLTS_TO_DEGREES_SLOPE = -88.1633;
+    private static final double VOLTS_TO_DEGREES_CONSTANT = 155.567;
 
     // Motor voltage required to hold arm up at horizontal
     // 0.05 is the experimentally determined motor percentage that does that, so convert % to volts:
@@ -88,6 +89,8 @@ public class Wrist extends SubsystemBase {
         targetAngle = getCurrentAngle();
         targetVolts = convertAngleToVolts(targetAngle);
 
+        wristController.setClosedLoopRampRate(0.4);
+
         targetAngleShuffle = tab
             .add("wrist target angle", targetAngle)
             .withPosition(3, 0)
@@ -118,7 +121,7 @@ public class Wrist extends SubsystemBase {
         return targetAngle;
     }
 
-    /**
+         /**
      * This is how we will know if the command isFinished.
      * 
      * @return true if we have achieved the desired angle
@@ -128,22 +131,30 @@ public class Wrist extends SubsystemBase {
 
         return false;  // obviously this needs to be real
     }
-     
      /**
       *  just a note from the wrist class,  0 degrees is supposed to be horizontal.
       *  Todo:  If this is code lifed from last year, need to make sure that +'ve still makes it go in the direction we want
       * @param angle in degrees  A postive angle is going to move the wrist that many degrees above horizontal
       */
     public void setTargetAngle(double angle){
-        //Todo: make the wrist do the thing
-    }
+        if (angle <= MIN_ANGLE) {
+            this.targetAngle = MIN_ANGLE;
+        } else if (angle >= MAX_ANGLE) {
+            this.targetAngle = MAX_ANGLE;
+        } else {
+            this.targetAngle = angle;
+        }
 
+        this.targetVolts = convertAngleToVolts(this.targetAngle);
+        pidController.setReference(this.targetVolts, ControlType.kPosition);
+    }
+    
     public void moveWristUp(){
         // use setTarget angle to move the wrist up
         // setTargetAngle(25);   //start with 25 so we don't break anything
     }
 
-     public void moveWristDown(){
+    public void moveWristDown(){
         // use setTarget angle to move the wrist up
         // setTargetAngle(-10);   //start with 25 so we don't break anything
     }
@@ -174,6 +185,10 @@ public class Wrist extends SubsystemBase {
         }
     }
 
+    public void setMotors(double speed) {
+        wristController.set(speed);
+    }
+
     @Override
     public void periodic() {
         // if wrist is dead kill motor just in case
@@ -186,6 +201,10 @@ public class Wrist extends SubsystemBase {
 
         targetAngleShuffle.setDouble(targetAngle);
         targetPotShuffle.setDouble(targetVolts);
+
+        if(getCurrentAngle() <= 9 && this.targetAngle <= 9) {
+            wristController.set(0);
+        }
     }
     
 }
