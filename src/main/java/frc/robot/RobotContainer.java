@@ -14,12 +14,14 @@ import frc.robot.commands.DriveCommand;
 import frc.robot.commands.IntakeCommandGroup;
 import frc.robot.commands.TransportCommandGroup;
 import frc.robot.commands.TrapCommandGroup;
+import frc.robot.commands.instant.ClimbCommand;
 import frc.robot.commands.instant.ClimbPrepareCommand;
 import frc.robot.commands.instant.RetractArmCommand;
 import frc.robot.commands.instant.ShiftDownCommand;
 import frc.robot.commands.instant.ShiftUpCommand;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Claw;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Wrist;
 import frc.robot.subsystems.Drivetrain.Gear;
@@ -31,6 +33,7 @@ public class RobotContainer {
   public Arm arm = new Arm(RobotMap.armPistonSolenoid, RobotMap.armController1);
   public Wrist wrist = new Wrist(RobotMap.wristController);
   public Claw claw = new Claw(RobotMap.clawController);
+  public Climber climber = new Climber(RobotMap.climbController1,RobotMap.climbShiftSolenoid);
 
   public RobotContainer() {
 
@@ -63,6 +66,8 @@ public class RobotContainer {
     OI.transportPositionButton.onTrue(new TransportCommandGroup(wrist, arm));
     OI.ampPositionButton.onTrue(new AmpCommandGroup(wrist, arm));
     OI.trapPositionButton.onTrue(new TrapCommandGroup(wrist, arm));
+    OI.prepareClimbButton.onTrue(Commands.runOnce(() -> climber.prepareClimb()) );
+    OI.climbButton.onTrue(Commands.runOnce(() -> climber.climb()));
 
   }
 

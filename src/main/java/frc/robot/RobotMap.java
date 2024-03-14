@@ -41,6 +41,9 @@ public class RobotMap {
 
         private static final int ARM_PISTON_UP = 1;
         private static final int ARM_PISTON_DOWN = 2;
+
+        private static final int CLIMB_PISTON_UP = 10; // Todo:  have to find out the real number
+        private static final int CLIMB_PISTON_DOWN = 11; // Todo:  find the real number
     }
 
     /** Drivetrain */
@@ -56,14 +59,15 @@ public class RobotMap {
     public static final CANSparkMax climbController1 = new CANSparkMax(CAN.CLIMB_CONTROLLER_1, MotorType.kBrushless);
     public static final CANSparkMax climbController2 = new CANSparkMax(CAN.CLIMB_CONTROLLER_2, MotorType.kBrushless);
     public static final CANSparkMax climbController3 = new CANSparkMax(CAN.CLIMB_CONTROLLER_3, MotorType.kBrushless);
+    public static final DoubleSolenoid climbShiftSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, PCM.CLIMB_PISTON_DOWN, PCM.CLIMB_PISTON_UP);  // 50% prob this is the right order for down and up
 
+    // Arm
     public static final CANSparkMax armController1 = new CANSparkMax(CAN.ARM_CONTROLLER_1, MotorType.kBrushless);
     public static final CANSparkMax armController2 = new CANSparkMax(CAN.ARM_CONTROLLER_2, MotorType.kBrushless);
+    public static final DoubleSolenoid armPistonSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, PCM.ARM_PISTON_UP, PCM.ARM_PISTON_DOWN);
 
     public static final CANSparkMax clawController = new CANSparkMax(CAN.CLAW_CONTROLLER, MotorType.kBrushless);
     public static final CANSparkMax wristController = new CANSparkMax(CAN.WRIST_CONTROLLER, MotorType.kBrushless);
-
-    public static final DoubleSolenoid armPistonSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, PCM.ARM_PISTON_UP, PCM.ARM_PISTON_DOWN);
 
 
     // Static initializer will be run on first reference to RobotMap (stealing code from greg)

@@ -40,6 +40,8 @@ public class OI {
         private static final int TRANSPORT_POSITION_BUTTON = XboxController.Button.kB.value;
         private static final int AMP_POSITION_BUTTON = XboxController.Button.kX.value;
         private static final int TRAP_POSITION_BUTTON = XboxController.Button.kY.value;
+        private static final int PREPARE_CLIMB_BUTTON = XboxController.Button.kLeftBumper.value;
+        private static final int CLIMB_BUTTTON = XboxController.Button.kRightBumper.value;
     }
 
 
@@ -59,11 +61,8 @@ public class OI {
     public static final JoystickButton transportPositionButton = new JoystickButton(xboxController, OPERATOR_MAP.TRANSPORT_POSITION_BUTTON);
     public static final JoystickButton ampPositionButton = new JoystickButton(xboxController, OPERATOR_MAP.AMP_POSITION_BUTTON);
     public static final JoystickButton trapPositionButton = new JoystickButton(xboxController, OPERATOR_MAP.TRAP_POSITION_BUTTON);
-
-
-
-    //public static final Trigger extendArmButton = new JoystickButton(xboxController, OPERATOR_MAP.EXTEND_ARM_BUTTON);
-    //public static final Trigger retractArmButton = new JoystickButton(xboxController, OPERATOR_MAP.RETRACT_ARM_BUTTON);
+    public static final JoystickButton prepareClimbButton = new JoystickButton(xboxController, OPERATOR_MAP.PREPARE_CLIMB_BUTTON);
+    public static final JoystickButton climbButton = new JoystickButton(xboxController,OPERATOR_MAP.CLIMB_BUTTTON);
 
 
     public static DoubleSupplier leftDriveSupplier = () -> {
