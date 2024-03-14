@@ -22,7 +22,7 @@ public class Wrist extends SubsystemBase {
     //TODO change these
     
     private static final double kF = 0;
-    private static final double kP = 0.75;
+    private static final double kP = 0.6;
     private static final double kI = 0;
 
     private static final double kD = 0;
@@ -35,8 +35,8 @@ public class Wrist extends SubsystemBase {
     // Function to convert from potentiometer volts to arm degrees above horizontal, obtained experimentally
     // Slope: degrees per volt
     // Constant: the degrees value at volts = 0
-    private static final double VOLTS_TO_DEGREES_SLOPE = -88.1633;
-    private static final double VOLTS_TO_DEGREES_CONSTANT = 155.567;
+    private static final double VOLTS_TO_DEGREES_SLOPE = -69.2228;
+    private static final double VOLTS_TO_DEGREES_CONSTANT = 220.528;
 
     // Motor voltage required to hold arm up at horizontal
     // 0.05 is the experimentally determined motor percentage that does that, so convert % to volts:
