@@ -22,7 +22,7 @@ public class Wrist extends SubsystemBase {
     //TODO change these
     
     private static final double kF = 0;
-    private static final double kP = 0.75;
+    private static final double kP = 0.6;
     private static final double kI = 0;
 
     private static final double kD = 0;
@@ -35,8 +35,8 @@ public class Wrist extends SubsystemBase {
     // Function to convert from potentiometer volts to arm degrees above horizontal, obtained experimentally
     // Slope: degrees per volt
     // Constant: the degrees value at volts = 0
-    private static final double VOLTS_TO_DEGREES_SLOPE = -88.1633;
-    private static final double VOLTS_TO_DEGREES_CONSTANT = 155.567;
+    private static final double VOLTS_TO_DEGREES_SLOPE = -69.2228;
+    private static final double VOLTS_TO_DEGREES_CONSTANT = 220.528;
 
     // Motor voltage required to hold arm up at horizontal
     // 0.05 is the experimentally determined motor percentage that does that, so convert % to volts:
@@ -57,7 +57,7 @@ public class Wrist extends SubsystemBase {
 
     public boolean isWristDeadAgain = false;
 
-    private ShuffleboardTab tab = Shuffleboard.getTab("my favourite tab");
+    private ShuffleboardTab tab = Shuffleboard.getTab("thats my favourite tab too");
     private GenericEntry wristDeadShuffle = tab
         .add("wrist dead?", "not quite!")
         .withPosition(6, 0)
@@ -150,13 +150,11 @@ public class Wrist extends SubsystemBase {
     }
     
     public void moveWristUp(){
-        // use setTarget angle to move the wrist up
-        // setTargetAngle(25);   //start with 25 so we don't break anything
+        setTargetAngle(100);
     }
 
     public void moveWristDown(){
-        // use setTarget angle to move the wrist up
-        // setTargetAngle(-10);   //start with 25 so we don't break anything
+        setTargetAngle(0.4);
     }
 
 
