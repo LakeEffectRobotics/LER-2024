@@ -15,9 +15,11 @@ import frc.robot.commands.IntakeCommandGroup;
 import frc.robot.commands.TransportCommandGroup;
 import frc.robot.commands.TrapCommandGroup;
 import frc.robot.commands.instant.ClimbPrepareCommand;
+import frc.robot.commands.instant.IntakeClawCommand;
 import frc.robot.commands.instant.RetractArmCommand;
 import frc.robot.commands.instant.ShiftDownCommand;
 import frc.robot.commands.instant.ShiftUpCommand;
+import frc.robot.commands.instant.ShootClawCommand;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Climber;
@@ -58,8 +60,8 @@ public class RobotContainer {
     //OI.spinArmButton.whileTrue(new ArmCommand(arm, OI.spinArmSpeedSupplier.getAsDouble()));
 
     /* Operator Bindings */
-    OI.spinOutClawButton.whileTrue(new ClawCommand(claw, OI.spinOutClawSpeedSupplier.getAsDouble()));
-    OI.spinInClawButton.whileTrue(new ClawCommand(claw, -OI.spinInClawSpeedSupplier.getAsDouble()));
+    OI.spinOutClawButton.whileTrue(new ShootClawCommand(claw));
+    OI.spinInClawButton.whileTrue(new IntakeClawCommand(claw, OI.spinInClawSpeedSupplier.getAsDouble()));
 
     // OI.extendArmButton.onTrue(Commands.runOnce(() -> {
     //   wrist.setTargetAngle(100);
