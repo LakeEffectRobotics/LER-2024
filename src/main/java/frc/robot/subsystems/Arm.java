@@ -24,7 +24,8 @@ public class Arm extends SubsystemBase {
     SparkPIDController pidController; 
     
     //TODO change these
-    
+    private static final long PISTON_TRAVEL_TIME = 500;
+
     private static final double kF = 0;
     private static final double kP = 0.5;
     private static final double kI = 0;
@@ -51,6 +52,8 @@ public class Arm extends SubsystemBase {
         TRAP,
         INTAKE
     }
+
+    private long armTimeout = 0;
 
     // Target angle and volts
     // Angle is relative to horizontal, so volts accounts for arm angle
@@ -138,6 +141,7 @@ public class Arm extends SubsystemBase {
         armCurrentPosition = ArmExtension.EXTEND;
 
         armSolenoid.set(ArmExtension.EXTEND.value);
+        armTimeout = System.currentTimeMillis()+PISTON_TRAVEL_TIME;
 
         armOutShuffle.setString("YEAH!");
     }
@@ -146,6 +150,8 @@ public class Arm extends SubsystemBase {
         armCurrentPosition = ArmExtension.RETRACT;
 
         armSolenoid.set(ArmExtension.RETRACT.value);
+        armTimeout = System.currentTimeMillis()+PISTON_TRAVEL_TIME;
+
 
         armOutShuffle.setString("nuh D':");
     }
@@ -171,7 +177,7 @@ public class Arm extends SubsystemBase {
         } else {
             this.targetAngle = angle;
         }
-
+        
         this.targetVolts = convertAngleToVolts(this.targetAngle);
         pidController.setReference(this.targetVolts, ControlType.kPosition);
     }
@@ -218,8 +224,7 @@ public class Arm extends SubsystemBase {
      * A helper function to let the command know when the Arm has finished its movement
      */
     public boolean inPosition(){
-        //Todo: let us know when the arm has achieved its position
-        return true;  // for now
+        return System.currentTimeMillis()>armTimeout;
     }
 
     @Override

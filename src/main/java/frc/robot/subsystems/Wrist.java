@@ -32,6 +32,7 @@ public class Wrist extends SubsystemBase {
     private static final double MIN_ANGLE = 3;
     private static final double MAX_ANGLE = 130;
 
+    private static final double WRIST_DEADZONE = 5;
     // Function to convert from potentiometer volts to arm degrees above horizontal, obtained experimentally
     // Slope: degrees per volt
     // Constant: the degrees value at volts = 0
@@ -127,9 +128,7 @@ public class Wrist extends SubsystemBase {
      * @return true if we have achieved the desired angle
      */
     public boolean hasAchievedTargetAngle(){
-        // Todo:  is the target angle close enough to the current angle?
-
-        return false;  // obviously this needs to be real
+        return Math.abs(getCurrentAngle()-getTargetAngle())<WRIST_DEADZONE;
     }
      /**
       *  just a note from the wrist class,  0 degrees is supposed to be horizontal.
