@@ -63,8 +63,6 @@ public class Arm extends SubsystemBase {
     private GenericEntry currentAngleShuffle;
     private GenericEntry currentPotShuffle;
 
-    // TODO make constants for wrist positions
-
     private ShuffleboardTab tab = Shuffleboard.getTab("thats my favourite tab too");
 
     private GenericEntry armOutShuffle = tab
@@ -100,23 +98,23 @@ public class Arm extends SubsystemBase {
 
 
         targetAngleShuffle = tab
-            .add("wrist target angle", targetAngle)
-            .withPosition(3, 0)
+            .add("arm target angle", targetAngle)
+            .withPosition(3, 2)
             .getEntry();
 
         targetPotShuffle = tab
-            .add("wrist target volts", targetVolts)
-            .withPosition(4, 0)
+            .add("arm target volts", targetVolts)
+            .withPosition(4, 2)
             .getEntry();
 
         currentAngleShuffle = tab
-            .add("wrist angle", getCurrentAngle())
-            .withPosition(3, 1)
+            .add("arm angle", getCurrentAngle())
+            .withPosition(3, 3)
             .getEntry();
 
         currentPotShuffle = tab
-            .add("wrist pot volts", pot.getPosition())
-            .withPosition(4, 1)
+            .add("arm pot volts", pot.getPosition())
+            .withPosition(4, 3)
             .getEntry();
     }
 
@@ -183,15 +181,15 @@ public class Arm extends SubsystemBase {
      */
     public void rotateToIntakePosition()
     {
-        //Todo: move the arm to MIN_ANGLE
+        setTargetAngle(0.5);
     }
 
     public void rotateToAmpPos(){
-        //Todo:  rotate to the best arm pos for shooting into Amp.
+        setTargetAngle(90);
     }
 
     public void rotateToTrapPos(){
-        //Todo: rotate to the best arm pos for shooting into Trap.
+        setTargetAngle(90);
     }
 
     /**

@@ -57,7 +57,7 @@ public class Wrist extends SubsystemBase {
 
     public boolean isWristDeadAgain = false;
 
-    private ShuffleboardTab tab = Shuffleboard.getTab("my favourite tab");
+    private ShuffleboardTab tab = Shuffleboard.getTab("thats my favourite tab too");
     private GenericEntry wristDeadShuffle = tab
         .add("wrist dead?", "not quite!")
         .withPosition(6, 0)
@@ -150,13 +150,11 @@ public class Wrist extends SubsystemBase {
     }
     
     public void moveWristUp(){
-        // use setTarget angle to move the wrist up
-        // setTargetAngle(25);   //start with 25 so we don't break anything
+        setTargetAngle(100);
     }
 
     public void moveWristDown(){
-        // use setTarget angle to move the wrist up
-        // setTargetAngle(-10);   //start with 25 so we don't break anything
+        setTargetAngle(0.4);
     }
 
 
