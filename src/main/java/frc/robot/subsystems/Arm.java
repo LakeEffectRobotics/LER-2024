@@ -35,7 +35,7 @@ public class Arm extends SubsystemBase {
     private static final double MIN_OUTPUT = -0.25;
 
     private static final double MIN_ANGLE = 0.5;
-    private static final double MAX_ANGLE = 100;
+    private static final double MAX_ANGLE = 110;
 
     // Function to convert from potentiometer volts to arm degrees above horizontal, obtained experimentally
     // Slope: degrees per volt
@@ -191,7 +191,7 @@ public class Arm extends SubsystemBase {
     }
 
     public void rotateToAmpPos(){
-        setTargetAngle(90);
+        setTargetAngle(MAX_ANGLE);
     }
 
     public void rotateToTrapPos(){
