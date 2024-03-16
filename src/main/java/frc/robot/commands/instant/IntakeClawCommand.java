@@ -4,9 +4,11 @@
 
 package frc.robot.commands.instant;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.OI;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Claw;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -17,12 +19,20 @@ import frc.robot.subsystems.Claw;
 public class IntakeClawCommand extends Command{
 
   Claw claw;
+  Arm arm;
   double speed;
 
-  public IntakeClawCommand(Claw claw, double triggerpos) {
+  double benchSpeed = 0;
+
+  public IntakeClawCommand(Claw claw, Arm arm, double triggerpos) {
     addRequirements(claw); 
     this.claw = claw;
-    claw.setOutput(0);
+    this.arm = arm;
+  }
+
+  @Override
+  public void initialize(){
+    benchSpeed = -1;
   }
 
   @Override
@@ -30,10 +40,23 @@ public class IntakeClawCommand extends Command{
     //double triggerPosition = OI.spinInClawSpeedSupplier.getAsDouble();
     //System.out.println(triggerPosition);
       speed = Claw.CLAWINTAKESPEED;
-      claw.setOutput(speed);
 
+      benchSpeed = Math.max(benchSpeed, claw.getSpeed());
+      SmartDashboard.putNumber("Bench", benchSpeed);
 
-
+      if(arm.getCurrentAngle() > 45){
+        // Outtaking
+        claw.setOutput(speed);
+      }
+      else {
+        // Intaking
+        // SmartDashboard.putNumber(claw., speed)
+        if(claw.getSpeed() < benchSpeed * 0.975){
+          claw.setOutput(speed * 0.01);
+        } else {
+          claw.setOutput(speed);
+        }
+      }
   }
 
   @Override
