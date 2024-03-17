@@ -9,6 +9,7 @@ import com.revrobotics.SparkPIDController;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Wrist extends SubsystemBase {
@@ -45,8 +46,12 @@ public class Wrist extends SubsystemBase {
 
     public static  enum WristPosition{
         UP,
-        DOWN
+        INTAKE,
+        AMP,
+        TRAP
     }
+
+    private WristPosition commandedPosition = WristPosition.INTAKE;
 
     // Target angle and volts
     // Angle is relative to horizontal, so volts accounts for arm angle
@@ -128,6 +133,8 @@ public class Wrist extends SubsystemBase {
      * @return true if we have achieved the desired angle
      */
     public boolean hasAchievedTargetAngle(){
+        System.out.println("checking wrist angle");
+        System.out.println(Math.abs(getCurrentAngle()-getTargetAngle()));
         return Math.abs(getCurrentAngle()-getTargetAngle())<WRIST_DEADZONE;
     }
      /**
@@ -135,7 +142,7 @@ public class Wrist extends SubsystemBase {
       *  Todo:  If this is code lifed from last year, need to make sure that +'ve still makes it go in the direction we want
       * @param angle in degrees  A postive angle is going to move the wrist that many degrees above horizontal
       */
-    public void setTargetAngle(double angle){
+    private void setTargetAngle(double angle){
         if (angle <= MIN_ANGLE) {
             this.targetAngle = MIN_ANGLE;
         } else if (angle >= MAX_ANGLE) {
@@ -149,10 +156,22 @@ public class Wrist extends SubsystemBase {
     }
     
     public void moveWristUp(){
+        commandedPosition = WristPosition.UP;
         setTargetAngle(100);
     }
 
-    public void moveWristDown(){
+    public void moveWristIntake(){
+        commandedPosition = WristPosition.INTAKE;
+        setTargetAngle(0.4);
+    }
+    
+    public void moveWristAmp(){
+        commandedPosition = WristPosition.AMP;
+        setTargetAngle(5);
+    }
+    
+    public void moveWristTrap(){
+        commandedPosition = WristPosition.TRAP;
         setTargetAngle(0.4);
     }
 
@@ -193,14 +212,19 @@ public class Wrist extends SubsystemBase {
             wristController.set(0);
         }
 
+        SmartDashboard.putString("Commanded Position", commandedPosition.name());
+
         currentAngleShuffle.setDouble(getCurrentAngle());
         currentPotShuffle.setDouble(pot.getPosition());
 
         targetAngleShuffle.setDouble(targetAngle);
         targetPotShuffle.setDouble(targetVolts);
 
-        if(getCurrentAngle() <= 9 && this.targetAngle <= 9) {
+        if(getCurrentAngle() <= 15 && this.targetAngle <= 9 && commandedPosition == WristPosition.INTAKE) {
             wristController.set(0);
+            wristController.setIdleMode(IdleMode.kCoast);
+        } else {
+            wristController.setIdleMode(IdleMode.kBrake);
         }
     }
     

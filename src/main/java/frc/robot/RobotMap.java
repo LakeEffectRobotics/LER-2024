@@ -36,8 +36,8 @@ public class RobotMap {
     }
 
     private class PCM {
-        private static final int DRIVE_SHIFT_UP = 14;
-        private static final int DRIVE_SHIFT_DOWN = 15;
+        private static final int DRIVE_SHIFT_UP = 15;
+        private static final int DRIVE_SHIFT_DOWN = 14;
 
         private static final int ARM_PISTON_UP = 13;
         private static final int ARM_PISTON_DOWN = 12;
@@ -78,7 +78,7 @@ public class RobotMap {
         rightController2.follow(rightController1);
 
         leftController1.setInverted(false);
-        rightController1.setInverted(true);   
+        rightController1.setInverted(false);   
 
         /** Intake */
         
@@ -96,9 +96,24 @@ public class RobotMap {
 
 
         wristController.setIdleMode(IdleMode.kBrake);
-        wristController.setInverted(true);
+        wristController.setInverted(true);        
+    }
 
-        
+    public static void burnFlash(){
+        leftController1.burnFlash();
+        leftController2.burnFlash();
+        rightController1.burnFlash();
+        rightController2.burnFlash();
+
+        climbController1.burnFlash();
+        climbController2.burnFlash();
+        climbController3.burnFlash();
+
+        armController1.burnFlash();
+        armController2.burnFlash();
+
+        clawController.burnFlash();
+        wristController.burnFlash();
     }
     
 }

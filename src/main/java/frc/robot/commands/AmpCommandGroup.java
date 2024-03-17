@@ -20,9 +20,10 @@ public class AmpCommandGroup extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(new WristCommand(wrist, WristPosition.UP),
-                                new RotateArmCommand(arm,ArmPosition.AMP),
-                                new ExtendArmCommand(arm, ArmExtension.RETRACT),
-                                new WristCommand(wrist, WristPosition.DOWN) 
+      new ExtendArmCommand(arm, ArmExtension.RETRACT),
+      new RotateArmCommand(arm,ArmPosition.MIDDLE),
+      new WristCommand(wrist, WristPosition.AMP),
+      new RotateArmCommand(arm, ArmPosition.AMP)
     );
   }
 }

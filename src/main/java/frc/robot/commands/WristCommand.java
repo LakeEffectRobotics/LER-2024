@@ -4,8 +4,10 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.SerialPort.WriteBufferMode;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Wrist;
+import frc.robot.subsystems.Wrist.WristPosition;
 
 public class WristCommand extends Command {
 
@@ -23,11 +25,16 @@ public class WristCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println("wrist command initialize");
 
-    if(pos == Wrist.WristPosition.UP){  // if we are asking to move the wrist up then do it
+    if(pos == Wrist.WristPosition.UP){ 
       wrist.moveWristUp();
-    } else {
-      wrist.moveWristDown();  // otherwise it has to be down.
+    } else if (pos == WristPosition.INTAKE) {
+      wrist.moveWristIntake();
+    } else if (pos == WristPosition.TRAP) {
+      wrist.moveWristTrap();
+    } else if (pos == WristPosition.AMP) {
+      wrist.moveWristAmp();
     }
     
   }

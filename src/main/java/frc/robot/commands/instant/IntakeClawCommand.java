@@ -51,8 +51,8 @@ public class IntakeClawCommand extends Command{
       else {
         // Intaking
         // SmartDashboard.putNumber(claw., speed)
-        if(claw.getSpeed() < benchSpeed * 0.975){
-          claw.setOutput(speed * 0.01);
+        if(claw.hasNote()){
+          claw.setOutput(0);
         } else {
           claw.setOutput(speed);
         }

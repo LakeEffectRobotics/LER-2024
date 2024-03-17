@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -14,6 +15,7 @@ import frc.robot.commands.DriveCommand;
 import frc.robot.commands.IntakeCommandGroup;
 import frc.robot.commands.TransportCommandGroup;
 import frc.robot.commands.TrapCommandGroup;
+import frc.robot.commands.autonomous.DriveForDuration;
 import frc.robot.commands.instant.ClimbPrepareCommand;
 import frc.robot.commands.instant.IntakeClawCommand;
 import frc.robot.commands.instant.RetractArmCommand;
@@ -37,8 +39,7 @@ public class RobotContainer {
   public Climber climber = new Climber(RobotMap.climbController1,RobotMap.climbShiftSolenoid);
 
   public RobotContainer() {
-
-    compressor.enableAnalog(90, 100);
+    compressor.enableAnalog(90, 120);
 
     configureBindings();
 
@@ -61,7 +62,7 @@ public class RobotContainer {
 
     /* Operator Bindings */
     OI.spinOutClawButton.whileTrue(new ShootClawCommand(claw));
-    OI.spinInClawButton.whileTrue(new IntakeClawCommand(claw, OI.spinInClawSpeedSupplier.getAsDouble()));
+    OI.spinInClawButton.whileTrue(new IntakeClawCommand(claw, arm, OI.spinInClawSpeedSupplier.getAsDouble()));
 
     // OI.extendArmButton.onTrue(Commands.runOnce(() -> {
     //   wrist.setTargetAngle(100);
@@ -72,13 +73,14 @@ public class RobotContainer {
     OI.intakePositionButton.onTrue(new IntakeCommandGroup(wrist, arm));
     OI.transportPositionButton.onTrue(new TransportCommandGroup(wrist, arm));
     OI.ampPositionButton.onTrue(new AmpCommandGroup(wrist, arm));
-    OI.trapPositionButton.onTrue(new TrapCommandGroup(wrist, arm));
-    OI.prepareClimbButton.onTrue(Commands.runOnce(() -> climber.prepareClimb(),climber) );
-    OI.climbButton.onTrue(Commands.runOnce(() -> climber.climb(),climber));
+    // OI.trapPositionButton.onTrue(new TrapCommandGroup(wrist, arm));
+    // OI.prepareClimbButton.onTrue(Commands.runOnce(() -> climber.prepareClimb(),climber) );
+    // OI.climbButton.onTrue(Commands.runOnce(() -> climber.climb(),climber));
 
   }
 
   public Command getAutonomousCommand() {
-    return Commands.print("No autonomous command configured");
+    //return Commands.print("No autonomous command configured");
+    return new DriveForDuration(drivetrain);//.raceWith(new IntakeCommandGroup(wrist, arm).andThen(new IntakeClawCommand(claw, arm, 0.25)));
   }
 }

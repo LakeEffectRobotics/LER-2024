@@ -1,10 +1,13 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.SparkAnalogSensor;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.SparkAnalogSensor.Mode;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Climber extends SubsystemBase {
@@ -13,6 +16,7 @@ public class Climber extends SubsystemBase {
   
 
     CANSparkMax leadClimbController;
+    SparkAnalogSensor pot;
 
     DoubleSolenoid shiftSolenoid;
 
@@ -23,9 +27,11 @@ public class Climber extends SubsystemBase {
         this.shiftSolenoid = shiftSolenoid;
         
         leadClimbController.getEncoder().setPosition(0); 
+        pot = leadClimbController.getAnalog(Mode.kAbsolute);
 
         SparkPIDController climbController = leadClimbController.getPIDController();
-        climbController.setP(0.1,0);
+        climbController.setFeedbackDevice(pot);
+        // climbController.setP(0.1,0);
 
         setGear(Gear.LOW);
         setOutput(0);
@@ -69,6 +75,7 @@ public class Climber extends SubsystemBase {
 
 
     public void prepareClimb() {
+        System.out.println("Hooks out");
         setGear(Gear.HIGH);
         leadClimbController.setInverted(false);
         leadClimbController.getPIDController().setOutputRange(0.0, 0.1);
@@ -76,6 +83,7 @@ public class Climber extends SubsystemBase {
     } 
 
     public void climb() {
+        System.out.println("Going up");
         setGear(Gear.HIGH);
         leadClimbController.setInverted(true);
         leadClimbController.getPIDController().setOutputRange(0.0, 0.1);
@@ -88,5 +96,6 @@ public class Climber extends SubsystemBase {
     @Override
     public void periodic() {
         // Periodic things
+        SmartDashboard.putNumber("Climber Pot", pot.getPosition());
     }
 }

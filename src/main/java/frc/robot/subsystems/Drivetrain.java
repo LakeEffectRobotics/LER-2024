@@ -67,7 +67,7 @@ public class Drivetrain extends SubsystemBase {
 
     public void setOutput(double left, double right) {
         leftLeadController.set(left);
-        rightLeadController.set(right);
+        rightLeadController.set(-right);
     }
 
     public void stop() {
