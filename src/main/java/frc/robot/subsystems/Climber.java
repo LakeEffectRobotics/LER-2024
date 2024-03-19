@@ -11,9 +11,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Climber extends SubsystemBase {
-    private static double PREPARECLIMBROTATION = 22.0; //TODO: set this
-    private static double CLIMBROTATION = 5.0; //TODO: also set this
+    private static double PREPARECLIMBROTATION = 3.24; //TODO: set this
+    private static double CLIMBROTATION = 3.08; //TODO: also set this
   
+
+    // SPEEDS ARE POSITIVE, DIRECTION SET LATER
+    private final double DOWN_SPEED = 0.5;
+    private final double UP_SPEED = 0.25;
+    private final double DEADZONE = 0.01;
+
+    private Double setpoint = null;
 
     CANSparkMax leadClimbController;
     SparkAnalogSensor pot;
@@ -35,6 +42,8 @@ public class Climber extends SubsystemBase {
 
         setGear(Gear.LOW);
         setOutput(0);
+
+        setpoint = pot.getPosition();
     }
 
 
@@ -77,17 +86,19 @@ public class Climber extends SubsystemBase {
     public void prepareClimb() {
         System.out.println("Hooks out");
         setGear(Gear.HIGH);
-        leadClimbController.setInverted(false);
-        leadClimbController.getPIDController().setOutputRange(0.0, 0.1);
-        leadClimbController.getPIDController().setReference(PREPARECLIMBROTATION, ControlType.kPosition,0);
+        setpoint = PREPARECLIMBROTATION;
+        // leadClimbController.setInverted(false);
+        // leadClimbController.getPIDController().setOutputRange(0.0, 0.1);
+        // leadClimbController.getPIDController().setReference(PREPARECLIMBROTATION, ControlType.kPosition,0);
     } 
 
     public void climb() {
         System.out.println("Going up");
         setGear(Gear.HIGH);
-        leadClimbController.setInverted(true);
-        leadClimbController.getPIDController().setOutputRange(0.0, 0.1);
-        leadClimbController.getPIDController().setReference(CLIMBROTATION, ControlType.kPosition,0);
+        setpoint = CLIMBROTATION;
+        // leadClimbController.setInverted(true);
+        // leadClimbController.getPIDController().setOutputRange(0.0, 0.1);
+        // leadClimbController.getPIDController().setReference(CLIMBROTATION, ControlType.kPosition,0);
 
         setGear(Gear.LOW);
 
@@ -95,6 +106,23 @@ public class Climber extends SubsystemBase {
 
     @Override
     public void periodic() {
+        double output = 0;
+
+        
+        if(setpoint == null) {
+            leadClimbController.set(0);
+        } 
+        else {
+            double error = pot.getPosition() - setpoint;
+            if(error > 0 && Math.abs(error) > DEADZONE){
+                leadClimbController.set(-DOWN_SPEED);
+            } else if (error < 0 && Math.abs(error) > DEADZONE){
+                leadClimbController.set(UP_SPEED);
+            } else {
+                leadClimbController.set(0);
+            }
+        } 
+
         // Periodic things
         SmartDashboard.putNumber("Climber Pot", pot.getPosition());
     }

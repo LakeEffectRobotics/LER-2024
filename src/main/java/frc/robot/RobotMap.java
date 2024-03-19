@@ -86,6 +86,10 @@ public class RobotMap {
         climbController2.follow(climbController1);
         climbController3.follow(climbController1);
 
+        climbController1.setIdleMode(IdleMode.kBrake);
+        climbController2.setIdleMode(IdleMode.kBrake);
+        climbController3.setIdleMode(IdleMode.kBrake);
+
         armController2.follow(armController1);
 
         armController1.setInverted(false);

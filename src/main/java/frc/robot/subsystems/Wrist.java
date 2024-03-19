@@ -220,7 +220,7 @@ public class Wrist extends SubsystemBase {
         targetAngleShuffle.setDouble(targetAngle);
         targetPotShuffle.setDouble(targetVolts);
 
-        if(getCurrentAngle() <= 15 && this.targetAngle <= 9 && commandedPosition == WristPosition.INTAKE) {
+        if(getCurrentAngle() <= 25 && this.targetAngle <= 9 && commandedPosition == WristPosition.INTAKE) {
             wristController.set(0);
             wristController.setIdleMode(IdleMode.kCoast);
         } else {
