@@ -1,1 +1,4 @@
-# LER-2024
+* [1] arm safety
+* [2] arm faster 
+* [???] climbing
+* [????] auto

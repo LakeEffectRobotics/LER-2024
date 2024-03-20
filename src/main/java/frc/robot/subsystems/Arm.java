@@ -39,6 +39,10 @@ public class Arm extends SubsystemBase {
 
     private static final int ARM_DEADZONE = 10;
 
+
+    private static double lastPotPostion;
+    private static double lastEncoderPosition;
+
     // Function to convert from potentiometer volts to arm degrees above horizontal, obtained experimentally
     // Slope: degrees per volt
     // Constant: the degrees value at volts = 0
@@ -195,7 +199,6 @@ public class Arm extends SubsystemBase {
     }
 
     public void rotateToAmpPos(){
-        System.out.println("ROTATING TO AMP POSITION !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         setTargetAngle(110);
     }
 
@@ -238,6 +241,11 @@ public class Arm extends SubsystemBase {
 
     @Override
     public void periodic() {
+
+        double potPos = pot.getPosition();
+        double motorPos = armLeadController.getEncoder().getPosition();
+
+
         currentAngleShuffle.setDouble(getCurrentAngle());
         currentPotShuffle.setDouble(pot.getPosition());
 
