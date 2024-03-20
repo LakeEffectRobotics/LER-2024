@@ -15,9 +15,7 @@ public class RotateArmCommand extends Command {
     }
     @Override
     public void initialize(){ 
-        /*
         System.out.println("rotate arm command initialize");
-
         switch (pos) {
             case INTAKE:
                     arm.rotateToIntakePosition();
@@ -36,7 +34,6 @@ public class RotateArmCommand extends Command {
             default:
                 break;
         }
-        */
     }
 
     @Override
@@ -53,8 +50,7 @@ public class RotateArmCommand extends Command {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return true;
-        // return arm.inPosition();
+        return arm.inPosition();
     }
 }
 

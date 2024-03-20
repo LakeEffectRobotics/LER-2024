@@ -3,3 +3,4 @@
 * [] faster arm movement
 * [] climbing (need time for testing)
 * [] auto
+* [] lightss

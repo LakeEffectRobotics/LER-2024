@@ -43,7 +43,8 @@ public class Arm extends SubsystemBase {
     private static Double lastPotPostion = null;
     private static Double lastEncoderPosition = null;
     private static final int POT_DEADZONE = 5; //allowed difference between the pot and encoder values
-
+    public static boolean armBroken = false;
+ 
     // Function to convert from potentiometer volts to arm degrees above horizontal, obtained experimentally
     // Slope: degrees per volt
     // Constant: the degrees value at volts = 0
@@ -131,7 +132,7 @@ public class Arm extends SubsystemBase {
             .getEntry();
 
         armBrokenShuffle = tab
-            .add("arm broken", armBroken())
+            .add("arm broken", isArmBroken())
             .withPosition(1, 4)
             .getEntry();
         
@@ -245,18 +246,25 @@ public class Arm extends SubsystemBase {
      * A helper function to let the command know when the Arm has finished its movement
      */
     public boolean inPosition(){
+        if(armBroken == true) {
+            return true;
+        } else {
         return Math.abs(getTargetAngle()-getCurrentAngle())<ARM_DEADZONE && System.currentTimeMillis()>armTimeout;
+        }
     }
 
     @Override
     public void periodic() {
+        System.out.println(Math.abs(lastPotPostion - pot.getPosition()));
+        System.out.println(Math.abs(lastEncoderPosition - armLeadController.getEncoder().getPosition()));
 
         lastPotPostion = pot.getPosition();
         lastEncoderPosition = armLeadController.getEncoder().getPosition();
+
+        armBroken = isArmBroken();
+        armBrokenShuffle.setBoolean(armBroken);
+
         
-        armBrokenShuffle.setBoolean(armBroken());
-
-
 
         currentAngleShuffle.setDouble(getCurrentAngle());
         currentPotShuffle.setDouble(pot.getPosition());
@@ -270,13 +278,14 @@ public class Arm extends SubsystemBase {
     }
 
 
-    public Boolean armBroken() {
-
+    public Boolean isArmBroken() {
+        //return false; //for testing
         if(lastPotPostion != null) { //pot has a previous value
             // get amount positions have changed since last periodic run
             double potDiff = Math.abs(lastPotPostion - pot.getPosition());
             double encoderDiff = Math.abs(lastEncoderPosition - armLeadController.getEncoder().getPosition());
             
+
             if(Math.abs(potDiff-encoderDiff) > POT_DEADZONE) { //difference between values is more than the deadzone
                 return true;
             } else { 
@@ -285,5 +294,7 @@ public class Arm extends SubsystemBase {
         } else { // first run, no previous positions
             return false;
         }
+        
     }
+
 }
