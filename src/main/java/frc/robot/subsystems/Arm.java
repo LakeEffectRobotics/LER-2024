@@ -39,9 +39,10 @@ public class Arm extends SubsystemBase {
 
     private static final int ARM_DEADZONE = 10;
 
-
-    private static double lastPotPostion;
-    private static double lastEncoderPosition;
+    //variables for the last position according to the pot and encoder, used in Periodic()
+    private static Double lastPotPostion = null;
+    private static Double lastEncoderPosition = null;
+    private static final int POT_DEADZONE = 5; //allowed difference between the pot and encoder values
 
     // Function to convert from potentiometer volts to arm degrees above horizontal, obtained experimentally
     // Slope: degrees per volt
@@ -105,7 +106,7 @@ public class Arm extends SubsystemBase {
 
         // add ramp rate because christine did it
         armLeadController.setClosedLoopRampRate(1);
-
+        
 
         targetAngleShuffle = tab
             .add("arm target angle", targetAngle)
@@ -126,6 +127,8 @@ public class Arm extends SubsystemBase {
             .add("arm pot volts", pot.getPosition())
             .withPosition(4, 3)
             .getEntry();
+
+        
     }
 
     // Arm piston positions: up, down
@@ -242,8 +245,30 @@ public class Arm extends SubsystemBase {
     @Override
     public void periodic() {
 
-        double potPos = pot.getPosition();
-        double motorPos = armLeadController.getEncoder().getPosition();
+        /* ARM SAFETY THING */
+
+        // this may work but assumes encoder positions and pot positions are on the same scale (0-1, 1-100, etc.) will need testing
+        if(lastPotPostion != null) {
+
+            System.out.println("Last Pot Position: "+lastPotPostion+ " - Current: "+pot.getPosition());
+            System.out.println("Last Encoder Position: "+lastEncoderPosition+ " - Current: "+armLeadController.getEncoder().getPosition());
+
+
+            // get amount positions have changed since last periodic run
+            double potDiff = Math.abs(lastPotPostion - pot.getPosition());
+            double encoderDiff = Math.abs(lastEncoderPosition - armLeadController.getEncoder().getPosition());
+
+            if(Math.abs(potDiff-encoderDiff) > POT_DEADZONE) {
+                System.out.println("ARM BROKEN");
+            }
+
+
+        }
+        lastPotPostion = pot.getPosition();
+        lastEncoderPosition = armLeadController.getEncoder().getPosition();
+
+        //temporary print thing
+
 
 
         currentAngleShuffle.setDouble(getCurrentAngle());
