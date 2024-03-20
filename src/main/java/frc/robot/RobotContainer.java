@@ -23,6 +23,7 @@ import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Wrist;
+import frc.robot.subsystems.Gyro;
 import frc.robot.subsystems.Drivetrain.Gear;
 
 public class RobotContainer {
@@ -33,6 +34,7 @@ public class RobotContainer {
   public Wrist wrist = new Wrist(RobotMap.wristController);
   public Claw claw = new Claw(RobotMap.clawController);
   public Climber climber = new Climber(RobotMap.climbController1,RobotMap.climbShiftSolenoid);
+  public Gyro gyro = new Gyro();
 
   public RobotContainer() {
 
@@ -44,6 +46,10 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
+
+    /**
+     * Commented to disable manual shifting because auto shifting doesn't care about your buttons
+     */
     //OI.shiftUpButton.onTrue(new ShiftUpCommand(drivetrain));
     //OI.shiftDownButton.onTrue(new ShiftDownCommand(drivetrain));
 

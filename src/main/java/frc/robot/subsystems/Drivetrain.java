@@ -32,6 +32,8 @@ public class Drivetrain extends SubsystemBase {
     /** Grayhill encoder on right side of drivetrain */
     public final RelativeEncoder rightDriveEncoder;
 
+    public double maxSpeed;
+
     public Drivetrain(CANSparkMax leftLeadController, CANSparkMax rightLeadController, DoubleSolenoid shiftSolenoid) {
         this.leftLeadController = leftLeadController;
         this.rightLeadController = rightLeadController;
@@ -66,8 +68,8 @@ public class Drivetrain extends SubsystemBase {
     }
 
     public void setOutput(double left, double right) {
-        leftLeadController.set(left);
-        rightLeadController.set(right);
+        leftLeadController.set(left * maxSpeed);
+        rightLeadController.set(right * maxSpeed); 
     }
 
     public void stop() {
@@ -100,23 +102,33 @@ public class Drivetrain extends SubsystemBase {
 
         if(!autoShifting) return;
 
-        double UPSHIFT_SPEED = 1200;
-        double DOWNSHIFT_SPEED = 800;
+        double UPSHIFT_SPEED = 1400;
+        double DOWNSHIFT_SPEED = 1000;
 
         double currentSpeed = (leftDriveEncoder.getVelocity() + rightDriveEncoder.getVelocity()) / 2;
 
         SmartDashboard.putNumber("Avg Speed", currentSpeed);
+
+        SmartDashboard.putString("Gear", String.valueOf(currentGear));
     
-        if(currentSpeed >= UPSHIFT_SPEED) {
+        if(currentSpeed >= UPSHIFT_SPEED && currentGear == Gear.LOW) {
             currentGear = Gear.HIGH;
             shiftSolenoid.set(Gear.HIGH.value);
+            maxSpeed = 0.6;
         }
 
         if(currentSpeed <= DOWNSHIFT_SPEED) {
             currentGear = Gear.LOW;
             shiftSolenoid.set(Gear.LOW.value);
         }
+    }
 
+    @Override
+    public void periodic() {
+        if(maxSpeed < 1) {
+            maxSpeed = maxSpeed + 0.01;
+        }
 
+        SmartDashboard.putNumber("Max Speed", maxSpeed);
     }
 }
