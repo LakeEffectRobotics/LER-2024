@@ -74,6 +74,8 @@ public class Arm extends SubsystemBase {
     private GenericEntry currentAngleShuffle;
     private GenericEntry currentPotShuffle;
 
+    private GenericEntry armBrokenShuffle;
+
     private ShuffleboardTab tab = Shuffleboard.getTab("thats my favourite tab too");
 
     private GenericEntry armOutShuffle = tab
@@ -128,6 +130,10 @@ public class Arm extends SubsystemBase {
             .withPosition(4, 3)
             .getEntry();
 
+        armBrokenShuffle = tab
+            .add("arm broken", armBroken())
+            .withPosition(1, 4)
+            .getEntry();
         
     }
 
@@ -245,29 +251,10 @@ public class Arm extends SubsystemBase {
     @Override
     public void periodic() {
 
-        /* ARM SAFETY THING */
-
-        // this may work but assumes encoder positions and pot positions are on the same scale (0-1, 1-100, etc.) will need testing
-        if(lastPotPostion != null) {
-
-            System.out.println("Last Pot Position: "+lastPotPostion+ " - Current: "+pot.getPosition());
-            System.out.println("Last Encoder Position: "+lastEncoderPosition+ " - Current: "+armLeadController.getEncoder().getPosition());
-
-
-            // get amount positions have changed since last periodic run
-            double potDiff = Math.abs(lastPotPostion - pot.getPosition());
-            double encoderDiff = Math.abs(lastEncoderPosition - armLeadController.getEncoder().getPosition());
-
-            if(Math.abs(potDiff-encoderDiff) > POT_DEADZONE) {
-                System.out.println("ARM BROKEN");
-            }
-
-
-        }
         lastPotPostion = pot.getPosition();
         lastEncoderPosition = armLeadController.getEncoder().getPosition();
-
-        //temporary print thing
+        
+        armBrokenShuffle.setBoolean(armBroken());
 
 
 
@@ -281,5 +268,22 @@ public class Arm extends SubsystemBase {
             armLeadController.set(0);
         }
     }
-    
+
+
+    public Boolean armBroken() {
+
+        if(lastPotPostion != null) { //pot has a previous value
+            // get amount positions have changed since last periodic run
+            double potDiff = Math.abs(lastPotPostion - pot.getPosition());
+            double encoderDiff = Math.abs(lastEncoderPosition - armLeadController.getEncoder().getPosition());
+            
+            if(Math.abs(potDiff-encoderDiff) > POT_DEADZONE) { //difference between values is more than the deadzone
+                return true;
+            } else { 
+                return false;
+            }
+        } else { // first run, no previous positions
+            return false;
+        }
+    }
 }
