@@ -1,4 +1,5 @@
-* [1] arm safety
-* [2] arm faster 
-* [???] climbing
-* [????] auto
+#TODO:
+* [] Arm safety check 
+* [] faster arm movement
+* [] climbing (need time for testing)
+* [] auto
