@@ -7,6 +7,8 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.AddressableLED;
+import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -48,6 +50,11 @@ public class RobotMap {
         private static final int CLIMB_PISTON_DOWN = 11; // Todo:  find the real number
     }
 
+    private class PWM {
+        private static final int LIGHTS_1 = 8;
+        private static final int LIGTHS_2 = 9;
+    }
+
     /** Drivetrain */
     public static final CANSparkMax leftController1 = new CANSparkMax(CAN.LEFT_CONTROLLER_1, MotorType.kBrushless);
     public static final CANSparkMax rightController1 = new CANSparkMax(CAN.RIGHT_CONTROLLER_1, MotorType.kBrushless);
@@ -73,6 +80,10 @@ public class RobotMap {
 
     // Gyro
     public static final AHRS gyro = new AHRS(SPI.Port.kMXP);
+
+    //Lights 
+    public static final AddressableLED lights1 = new AddressableLED(PWM.LIGHTS_1);
+    public static final AddressableLED lights2 = new AddressableLED(PWM.LIGTHS_2);
 
     // Static initializer will be run on first reference to RobotMap (stealing code from greg)
     static {
@@ -104,7 +115,11 @@ public class RobotMap {
 
 
         wristController.setIdleMode(IdleMode.kBrake);
-        wristController.setInverted(true);        
+        wristController.setInverted(true);     
+        
+        // Lights
+
+        
     }
   
     public static void burnFlash(){
