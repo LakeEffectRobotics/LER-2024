@@ -4,25 +4,47 @@
 
 package frc.robot.commands.instant;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.OI;
 import frc.robot.subsystems.Claw;
-import frc.robot.subsystems.Claw.ClawSpeeds;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ShootClawCommand extends InstantCommand {
+
+
+//THIS iS NOT BEING USED
+public class ShootClawCommand extends Command {
 
   Claw claw;
+  double speed;
 
   public ShootClawCommand(Claw claw) {
     addRequirements(claw); 
     this.claw = claw;
+    claw.setOutput(0);
+
   }
 
+
   // Called when the command is initially scheduled.
+  /* 
   @Override
   public void initialize() {
     claw.setMode(ClawSpeeds.SHOOT);
+  }
+  */
+
+  @Override
+  public void execute() {
+    speed = Claw.CLAWSHOOTSPEED;
+    claw.setOutput(speed);
+  }
+
+
+  @Override 
+  public void end(boolean isInterrupted) {
+    claw.setOutput(0);
   }
 }

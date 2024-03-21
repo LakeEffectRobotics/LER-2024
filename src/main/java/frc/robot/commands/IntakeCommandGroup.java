@@ -29,7 +29,7 @@ public class IntakeCommandGroup extends SequentialCommandGroup {
     addCommands(new WristCommand(wrist, WristPosition.UP),
                                 new RotateArmCommand(arm,ArmPosition.INTAKE),
                                 new ExtendArmCommand(arm, ArmExtension.EXTEND),
-                                new WristCommand(wrist, WristPosition.DOWN)
+                                new WristCommand(wrist, WristPosition.INTAKE)
     );
   }
 }

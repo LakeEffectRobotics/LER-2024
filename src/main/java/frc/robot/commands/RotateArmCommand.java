@@ -14,7 +14,9 @@ public class RotateArmCommand extends Command {
         this.pos = pos;
     }
     @Override
-    public void initialize(){
+    public void initialize(){ 
+        /*
+        System.out.println("rotate arm command initialize");
 
         switch (pos) {
             case INTAKE:
@@ -24,13 +26,17 @@ public class RotateArmCommand extends Command {
                     arm.rotateToTrapPos();
                 break;
             case AMP:
+                    System.out.println("ROTATE ARM COMMAND ???????????????????????????????????????");
                     arm.rotateToAmpPos();
+                break;
+            case MIDDLE:
+                    arm.rotateToMidPos(); 
                 break;
         
             default:
                 break;
         }
-        
+        */
     }
 
     @Override
@@ -40,12 +46,15 @@ public class RotateArmCommand extends Command {
 
     // Called once the command ends or is interrupted.
     @Override
-    public void end(boolean interrupted) {}
+    public void end(boolean interrupted) {
+        System.out.println("ARM COMMAND ENDEDEDEDEDEDEDEDEDEDEDEDEDEDEDED");
+    }
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return arm.inPosition();
+        return true;
+        // return arm.inPosition();
     }
 }
 

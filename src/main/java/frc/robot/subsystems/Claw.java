@@ -7,16 +7,14 @@ import com.revrobotics.SparkMaxLimitSwitch;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Claw extends SubsystemBase {
 
-
-
-    public static enum ClawSpeeds {
-        INTAKE,
-        SHOOT
-    }
+    public static double CLAWINTAKESPEED = 0.5;
+    public static double CLAWSHOOTSPEED = -25.0;
+    private SparkLimitSwitch limit;
     CANSparkMax clawController;
 
     SparkLimitSwitch clawLimitSwitch;
@@ -31,14 +29,16 @@ public class Claw extends SubsystemBase {
 
     public Claw(CANSparkMax clawController) {
         this.clawController = clawController;
-
+        limit = clawController.getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
+        limit.enableLimitSwitch(false);
     }
 
     public void setOutput(double speed) {
         clawController.set(speed);
     }
 
-    public void setMode(ClawSpeeds speed) {
+    //public void setMode() {
+        /*
         //TODO: determine speed for both cases
         switch (speed) {
             case INTAKE:
@@ -50,7 +50,8 @@ public class Claw extends SubsystemBase {
             default:
                 break;
         }
-    }
+        */
+    //}
 
     public void stop() {
         clawController.set(0);
@@ -59,6 +60,16 @@ public class Claw extends SubsystemBase {
     @Override
     public void periodic() {
         // Periodic things
+        SmartDashboard.putNumber("Intake Speed", getSpeed());
+        SmartDashboard.putBoolean("has note", hasNote());
     }
     
+
+    public double getSpeed(){
+        return clawController.getEncoder().getVelocity();
+    }
+
+    public boolean hasNote() {
+        return limit.isPressed();
+       }
 }

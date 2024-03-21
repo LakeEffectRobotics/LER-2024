@@ -24,7 +24,8 @@ public class Arm extends SubsystemBase {
     SparkPIDController pidController; 
     
     //TODO change these
-    
+    private static final long PISTON_TRAVEL_TIME = 500;
+
     private static final double kF = 0;
     private static final double kP = 0.5;
     private static final double kI = 0;
@@ -34,13 +35,15 @@ public class Arm extends SubsystemBase {
     private static final double MIN_OUTPUT = -0.25;
 
     private static final double MIN_ANGLE = 0.5;
-    private static final double MAX_ANGLE = 100;
+    private static final double MAX_ANGLE = 110;
+
+    private static final int ARM_DEADZONE = 10;
 
     // Function to convert from potentiometer volts to arm degrees above horizontal, obtained experimentally
     // Slope: degrees per volt
     // Constant: the degrees value at volts = 0
     private static final double VOLTS_TO_DEGREES_SLOPE = 38.0689;
-    private static final double VOLTS_TO_DEGREES_CONSTANT = -0.603998;
+    private static final double VOLTS_TO_DEGREES_CONSTANT = 0.0286;
 
     // Motor voltage required to hold arm up at horizontal
     // 0.05 is the experimentally determined motor percentage that does that, so convert % to volts:
@@ -49,8 +52,11 @@ public class Arm extends SubsystemBase {
     public static enum ArmPosition {
         AMP,
         TRAP,
-        INTAKE
+        INTAKE,
+        MIDDLE
     }
+
+    private long armTimeout = 0;
 
     // Target angle and volts
     // Angle is relative to horizontal, so volts accounts for arm angle
@@ -138,6 +144,7 @@ public class Arm extends SubsystemBase {
         armCurrentPosition = ArmExtension.EXTEND;
 
         armSolenoid.set(ArmExtension.EXTEND.value);
+        armTimeout = System.currentTimeMillis()+PISTON_TRAVEL_TIME;
 
         armOutShuffle.setString("YEAH!");
     }
@@ -146,6 +153,8 @@ public class Arm extends SubsystemBase {
         armCurrentPosition = ArmExtension.RETRACT;
 
         armSolenoid.set(ArmExtension.RETRACT.value);
+        armTimeout = System.currentTimeMillis()+PISTON_TRAVEL_TIME;
+
 
         armOutShuffle.setString("nuh D':");
     }
@@ -164,6 +173,7 @@ public class Arm extends SubsystemBase {
      * @param angle desired degrees above horizontal
      */
     public void setTargetAngle(double angle) { // abc1239+10=21 road work ahead, i sure hope it does. David was here.......
+        System.out.println("Setting target angle " + angle);
         if (angle <= MIN_ANGLE) {
             this.targetAngle = MIN_ANGLE;
         } else if (angle >= MAX_ANGLE) {
@@ -171,7 +181,7 @@ public class Arm extends SubsystemBase {
         } else {
             this.targetAngle = angle;
         }
-
+        
         this.targetVolts = convertAngleToVolts(this.targetAngle);
         pidController.setReference(this.targetVolts, ControlType.kPosition);
     }
@@ -185,11 +195,16 @@ public class Arm extends SubsystemBase {
     }
 
     public void rotateToAmpPos(){
-        setTargetAngle(90);
+        System.out.println("ROTATING TO AMP POSITION !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        setTargetAngle(110);
     }
 
     public void rotateToTrapPos(){
         setTargetAngle(90);
+    }
+
+    public void rotateToMidPos() {
+        setTargetAngle(45);
     }
 
     /**
@@ -218,8 +233,7 @@ public class Arm extends SubsystemBase {
      * A helper function to let the command know when the Arm has finished its movement
      */
     public boolean inPosition(){
-        //Todo: let us know when the arm has achieved its position
-        return true;  // for now
+        return Math.abs(getTargetAngle()-getCurrentAngle())<ARM_DEADZONE && System.currentTimeMillis()>armTimeout;
     }
 
     @Override

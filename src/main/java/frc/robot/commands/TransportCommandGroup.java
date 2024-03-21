@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Wrist;
@@ -19,9 +21,14 @@ public class TransportCommandGroup extends SequentialCommandGroup {
   public TransportCommandGroup(Wrist wrist, Arm arm) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new WristCommand(wrist, WristPosition.UP),
-                                new RotateArmCommand(arm,ArmPosition.INTAKE),
-                                new ExtendArmCommand(arm, ArmExtension.RETRACT)
+    addCommands(
+      new ConditionalCommand(
+        new RotateArmCommand(arm, ArmPosition.MIDDLE),
+        Commands.none(),
+        () -> arm.getCurrentAngle() > 45),  
+      new WristCommand(wrist, WristPosition.UP),
+      new RotateArmCommand(arm,ArmPosition.INTAKE),
+      new ExtendArmCommand(arm, ArmExtension.RETRACT)
     );
   }
 }

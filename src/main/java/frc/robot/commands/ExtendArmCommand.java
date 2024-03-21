@@ -17,6 +17,7 @@ public class ExtendArmCommand extends Command {
 
     @Override
     public void initialize(){
+        System.out.println("extend arm command initialize");
         if(extend == ArmExtension.EXTEND){
             arm.extendArm();
         }else{

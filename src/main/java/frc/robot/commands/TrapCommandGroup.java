@@ -20,8 +20,10 @@ public class TrapCommandGroup extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(new WristCommand(wrist, WristPosition.UP),
-                                new RotateArmCommand(arm,ArmPosition.TRAP),
-                                new ExtendArmCommand(arm, ArmExtension.EXTEND)
+      new RotateArmCommand(arm,ArmPosition.MIDDLE),
+      new WristCommand(wrist, WristPosition.TRAP),
+      new RotateArmCommand(arm,ArmPosition.AMP),
+      new ExtendArmCommand(arm, ArmExtension.EXTEND)
     );
   }
 }

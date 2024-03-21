@@ -38,11 +38,11 @@ public class RobotMap {
     }
 
     private class PCM {
-        private static final int DRIVE_SHIFT_UP = 14;
-        private static final int DRIVE_SHIFT_DOWN = 15;
+        private static final int DRIVE_SHIFT_UP = 15;
+        private static final int DRIVE_SHIFT_DOWN = 14;
 
-        private static final int ARM_PISTON_UP = 1;
-        private static final int ARM_PISTON_DOWN = 2;
+        private static final int ARM_PISTON_UP = 13;
+        private static final int ARM_PISTON_DOWN = 12;
 
         private static final int CLIMB_PISTON_UP = 10; // Todo:  have to find out the real number
         private static final int CLIMB_PISTON_DOWN = 11; // Todo:  find the real number
@@ -82,7 +82,7 @@ public class RobotMap {
         rightController2.follow(rightController1);
 
         leftController1.setInverted(false);
-        rightController1.setInverted(true);   
+        rightController1.setInverted(false);   
 
         /** Intake */
         
@@ -90,15 +90,38 @@ public class RobotMap {
         climbController2.follow(climbController1);
         climbController3.follow(climbController1);
 
+        climbController1.setIdleMode(IdleMode.kBrake);
+        climbController2.setIdleMode(IdleMode.kBrake);
+        climbController3.setIdleMode(IdleMode.kBrake);
+
         armController2.follow(armController1);
+
+        armController1.setInverted(false);
+        armController2.setInverted(false);
 
         armController1.setIdleMode(IdleMode.kCoast);
         armController2.setIdleMode(IdleMode.kCoast);
 
 
         wristController.setIdleMode(IdleMode.kBrake);
-        wristController.setInverted(true);
+        wristController.setInverted(true);        
+    }
+  
+    public static void burnFlash(){
+        leftController1.burnFlash();
+        leftController2.burnFlash();
+        rightController1.burnFlash();
+        rightController2.burnFlash();
 
+        climbController1.burnFlash();
+        climbController2.burnFlash();
+        climbController3.burnFlash();
+
+        armController1.burnFlash();
+        armController2.burnFlash();
+
+        clawController.burnFlash();
+        wristController.burnFlash();
     }
     
 }
