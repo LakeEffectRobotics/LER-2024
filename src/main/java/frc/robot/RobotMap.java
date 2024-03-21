@@ -1,5 +1,6 @@
 package frc.robot;
 
+import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.AlternateEncoderType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -9,6 +10,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.SPI;
 
 public class RobotMap {
 
@@ -69,6 +71,8 @@ public class RobotMap {
     public static final CANSparkMax clawController = new CANSparkMax(CAN.CLAW_CONTROLLER, MotorType.kBrushless);
     public static final CANSparkMax wristController = new CANSparkMax(CAN.WRIST_CONTROLLER, MotorType.kBrushless);
 
+    // Gyro
+    public static final AHRS gyro = new AHRS(SPI.Port.kMXP);
 
     // Static initializer will be run on first reference to RobotMap (stealing code from greg)
     static {
@@ -102,7 +106,7 @@ public class RobotMap {
         wristController.setIdleMode(IdleMode.kBrake);
         wristController.setInverted(true);        
     }
-
+  
     public static void burnFlash(){
         leftController1.burnFlash();
         leftController2.burnFlash();
