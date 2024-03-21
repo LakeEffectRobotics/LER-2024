@@ -23,6 +23,7 @@ public class OI {
         private static final int SHIFT_UP_BUTTON = 3;
         private static final int SHIFT_DOWN_BUTTON = 2;
         private static final int LOW_SHIFT_BUTTON = 1;
+        private static final int ARM_TOGGLE_BUTTON = 4; //toggles value of armBroken incase there's a false positive
     }
 
     private static final XboxController xboxController = new XboxController(PORT.OPERATOR_CONTROLLER);
@@ -52,6 +53,8 @@ public class OI {
     public static final JoystickButton shiftUpButton = new JoystickButton(rightJoystick, DRIVER_MAP.SHIFT_UP_BUTTON);
     public static final JoystickButton shiftDownButton = new JoystickButton(rightJoystick, DRIVER_MAP.SHIFT_DOWN_BUTTON);
     public static final JoystickButton lowShiftButton = new JoystickButton(leftJoystick, DRIVER_MAP.LOW_SHIFT_BUTTON);
+    
+    public static final JoystickButton armToggleButton = new JoystickButton(leftJoystick, DRIVER_MAP.ARM_TOGGLE_BUTTON);
 
     /** Operator (Xbox Controller) */
     public static final Trigger spinOutClawButton = new Trigger(() -> xboxController.getRawAxis(OPERATOR_MAP.SPIN_OUT_INTAKE_TRIGGER) >= XBOX_TRIGGER_THRESHOLD);

@@ -50,6 +50,8 @@ public class RobotContainer {
     //OI.shiftDownButton.onTrue(new ShiftDownCommand(drivetrain));
 
     // Not requiring drivetrain because we dont want to interupt DriveCommand
+    
+    //OI.armToggleButton.onTrue();
     OI.lowShiftButton.whileTrue(Commands.runOnce(() -> {
       drivetrain.disableAutoShifting();
       drivetrain.setGear(Gear.LOW);
