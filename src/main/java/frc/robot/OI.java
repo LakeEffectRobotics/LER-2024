@@ -23,7 +23,7 @@ public class OI {
         private static final int SHIFT_UP_BUTTON = 3;
         private static final int SHIFT_DOWN_BUTTON = 2;
         private static final int LOW_SHIFT_BUTTON = 1;
-        private static final int ARM_TOGGLE_BUTTON = 4; //toggles value of armBroken incase there's a false positive
+        private static final int ARM_TOGGLE_BUTTON = 4; //toggles value of armBroken incase there's a false positive, or manually disables arm
     }
 
     private static final XboxController xboxController = new XboxController(PORT.OPERATOR_CONTROLLER);

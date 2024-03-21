@@ -51,7 +51,10 @@ public class RobotContainer {
 
     // Not requiring drivetrain because we dont want to interupt DriveCommand
     
-    //OI.armToggleButton.onTrue();
+    
+    /* Driver Bindings */
+    OI.armToggleButton.onTrue(Commands.runOnce(() -> arm.armDisarm(), arm));
+
     OI.lowShiftButton.whileTrue(Commands.runOnce(() -> {
       drivetrain.disableAutoShifting();
       drivetrain.setGear(Gear.LOW);

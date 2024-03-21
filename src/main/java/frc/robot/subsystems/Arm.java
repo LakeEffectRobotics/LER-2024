@@ -256,6 +256,8 @@ public class Arm extends SubsystemBase {
 
     @Override
     public void periodic() {
+        potVelocity = pot.getVelocity();
+        encoderVelocity = armLeadController.getEncoder().getVelocity();
         armBrokenShuffle.setBoolean(isArmBroken()); 
 
         currentAngleShuffle.setDouble(getCurrentAngle());
@@ -271,11 +273,15 @@ public class Arm extends SubsystemBase {
 
     /* tests if the pot is not moving while the arm is */
     public Boolean isArmBroken() {
-        if(Math.abs(potVelocity - encoderVelocity) > ARM_DEADZONE) {
+        if(Math.abs(potVelocity - encoderVelocity) > POT_DEADZONE) {
             armBroken = true; // if armBroken is true inPosition will always return true, stopping the arm from moving
             return true;
         } else {
             return false;
         }
+    }
+    /* disable arm if it's enabled, enable if it's disabled */
+    public void armDisarm() { 
+        armBroken = !armBroken;
     }
 }
