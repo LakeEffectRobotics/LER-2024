@@ -247,23 +247,16 @@ public class Arm extends SubsystemBase {
      * A helper function to let the command know when the Arm has finished its movement
      */
     public boolean inPosition(){
-        // if(armBroken == true) {
-        //     return true;
-        // } else {
+        if(armBroken == true) { 
+            return true;
+        } else {
         return Math.abs(getTargetAngle()-getCurrentAngle())<ARM_DEADZONE && System.currentTimeMillis()>armTimeout;
-        //}
+        }
     }
 
     @Override
     public void periodic() {
-
-
-        // SmartDashboard.putNumber("pot velocity", potVelocity);
-        // SmartDashboard.putNumber("encoder velocity", encoderVelocity/1000.0);
-        // SmartDashboard.putNumber("pot-encoder difference", Math.abs(potVelocity-(encoderVelocity/1000.0)));
-
-        armBrokenShuffle.setBoolean(isArmBroken());
-        
+        armBrokenShuffle.setBoolean(isArmBroken()); 
 
         currentAngleShuffle.setDouble(getCurrentAngle());
         currentPotShuffle.setDouble(pot.getPosition());
@@ -276,8 +269,13 @@ public class Arm extends SubsystemBase {
         }
     }
 
-
+    /* tests if the pot is not moving while the arm is */
     public Boolean isArmBroken() {
-        return Math.abs(potVelocity - encoderVelocity) > ARM_DEADZONE;
+        if(Math.abs(potVelocity - encoderVelocity) > ARM_DEADZONE) {
+            armBroken = true; // if armBroken is true inPosition will always return true, stopping the arm from moving
+            return true;
+        } else {
+            return false;
+        }
     }
 }
