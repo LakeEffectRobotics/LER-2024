@@ -17,7 +17,7 @@ public class ExtendArmCommand extends Command {
 
     @Override
     public void initialize(){
-        System.out.println("extend arm command initialize");
+        System.out.println("ARM - EXTENSION: command initialized");
         if(extend == ArmExtension.EXTEND){
             arm.extendArm();
         }else{
@@ -32,7 +32,9 @@ public class ExtendArmCommand extends Command {
 
     // Called once the command ends or is interrupted.
     @Override
-    public void end(boolean interrupted) {}
+    public void end(boolean interrupted) {
+        System.out.println("ARM - EXTENSION: command ended");
+    }
 
     // Returns true when the command should end.
     @Override

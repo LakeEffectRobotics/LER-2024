@@ -133,8 +133,6 @@ public class Wrist extends SubsystemBase {
      * @return true if we have achieved the desired angle
      */
     public boolean hasAchievedTargetAngle(){
-        System.out.println("checking wrist angle");
-        System.out.println(Math.abs(getCurrentAngle()-getTargetAngle()));
         return Math.abs(getCurrentAngle()-getTargetAngle())<WRIST_DEADZONE;
     }
      /**
@@ -157,7 +155,7 @@ public class Wrist extends SubsystemBase {
     
     public void moveWristUp(){
         commandedPosition = WristPosition.UP;
-        setTargetAngle(100);
+        setTargetAngle(90);
     }
 
     public void moveWristIntake(){

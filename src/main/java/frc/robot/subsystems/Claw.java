@@ -4,17 +4,22 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkLimitSwitch;
 import com.revrobotics.SparkMaxLimitSwitch;
 
+
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.OI;
+
 
 public class Claw extends SubsystemBase {
 
     public static double CLAWINTAKESPEED = 0.5;
     public static double CLAWSHOOTSPEED = -25.0;
     private SparkLimitSwitch limit;
+
+    private static Long rumbleEndTime = null;
     CANSparkMax clawController;
 
     SparkLimitSwitch clawLimitSwitch;
@@ -59,7 +64,21 @@ public class Claw extends SubsystemBase {
 
     @Override
     public void periodic() {
+
         // Periodic things
+        
+        if(hasNote()) {
+            if(rumbleEndTime == null) {
+                rumbleEndTime = System.currentTimeMillis()+1000;
+                OI.xboxRumble(50.0);
+            }
+            if(System.currentTimeMillis() >= rumbleEndTime) {
+                OI.xboxRumble(0.0);
+            }
+        } else {
+            rumbleEndTime = null;
+        }
+
         SmartDashboard.putNumber("Intake Speed", getSpeed());
         SmartDashboard.putBoolean("has note", hasNote());
     }

@@ -68,8 +68,8 @@ public class Drivetrain extends SubsystemBase {
     }
 
     public void setOutput(double left, double right) {
-        leftLeadController.set(left * maxSpeed);
-        rightLeadController.set(-(right * maxSpeed)); 
+        leftLeadController.set(-(left * maxSpeed));
+        rightLeadController.set(right * maxSpeed); 
     }
 
     public void stop() {
@@ -105,7 +105,7 @@ public class Drivetrain extends SubsystemBase {
         double UPSHIFT_SPEED = 1400;
         double DOWNSHIFT_SPEED = 1000;
 
-        double currentSpeed = (leftDriveEncoder.getVelocity() + rightDriveEncoder.getVelocity()) / 2;
+        double currentSpeed = Math.abs((leftDriveEncoder.getVelocity() + rightDriveEncoder.getVelocity()) / 2);
 
         SmartDashboard.putNumber("Avg Speed", currentSpeed);
 

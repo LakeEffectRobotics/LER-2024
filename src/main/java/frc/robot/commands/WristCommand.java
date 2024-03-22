@@ -25,7 +25,7 @@ public class WristCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("wrist command initialize");
+    System.out.println("WRIST: command initialized");
 
     if(pos == Wrist.WristPosition.UP){ 
       wrist.moveWristUp();
@@ -45,7 +45,9 @@ public class WristCommand extends Command {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    System.out.println("WRIST: command ended");
+  }
 
   // Returns true when the command should end.
   @Override
