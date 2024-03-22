@@ -117,9 +117,6 @@ public class RobotMap {
         wristController.setIdleMode(IdleMode.kBrake);
         wristController.setInverted(true);     
         
-        // Lights
-
-        
     }
   
     public static void burnFlash(){

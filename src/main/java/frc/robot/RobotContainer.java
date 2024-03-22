@@ -28,6 +28,7 @@ import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Wrist;
 import frc.robot.subsystems.Gyro;
+import frc.robot.subsystems.Lights;
 import frc.robot.subsystems.Drivetrain.Gear;
 
 public class RobotContainer {
@@ -39,6 +40,7 @@ public class RobotContainer {
   public Claw claw = new Claw(RobotMap.clawController);
   public Climber climber = new Climber(RobotMap.climbController1,RobotMap.climbShiftSolenoid);
   public Gyro gyro = new Gyro();
+  public Lights lights = new Lights(RobotMap.lights1, RobotMap.lights2);
 
   public RobotContainer() {
     compressor.enableAnalog(90, 120);
@@ -46,6 +48,8 @@ public class RobotContainer {
     configureBindings();
 
     drivetrain.setDefaultCommand(new DriveCommand(drivetrain, OI.leftDriveSupplier, OI.rightDriveSupplier));
+
+    lights.setAll(148, 0, 211);
   }
 
   private void configureBindings() {
