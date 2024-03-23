@@ -19,7 +19,7 @@ public class DriveForDuration extends Command {
 
     @Override
     public void execute() {
-        drivetrain.setOutput(-0.25, -0.25);
+        drivetrain.setOutput(0.25, 0.25);
     }
 
     @Override

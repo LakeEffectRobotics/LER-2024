@@ -2,8 +2,6 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkLimitSwitch;
-import com.revrobotics.SparkMaxLimitSwitch;
-
 
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -67,8 +65,9 @@ public class Claw extends SubsystemBase {
 
         // Periodic things
         
+        /* operator controller rumble */
         if(hasNote()) {
-            if(rumbleEndTime == null) {
+            if(rumbleEndTime == null) { 
                 rumbleEndTime = System.currentTimeMillis()+1000;
                 OI.xboxRumble(50.0);
             }
@@ -76,7 +75,7 @@ public class Claw extends SubsystemBase {
                 OI.xboxRumble(0.0);
             }
         } else {
-            rumbleEndTime = null;
+            rumbleEndTime = null; 
         }
 
         SmartDashboard.putNumber("Intake Speed", getSpeed());
