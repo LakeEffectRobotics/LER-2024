@@ -10,11 +10,7 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.commands.AmpCommandGroup;
-<<<<<<< HEAD
-import frc.robot.commands.ArmPrepareClimb;
-=======
 import frc.robot.commands.ArmPrepareClimbGroup;
->>>>>>> 7bfaf22f7d66fa47ca06e4f8fe0caddfee535609
 import frc.robot.commands.ClawCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.IntakeCommandGroup;
