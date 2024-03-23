@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Climber extends SubsystemBase {
     private static double PREPARECLIMBROTATION = 3.23; //TODO: set this
-    private static double CLIMBROTATION = 3.07; //TODO: also set this
+    private static double CLIMBROTATION = 3.1; //TODO: also set this
   
 
     // SPEEDS ARE POSITIVE, DIRECTION SET LATER
@@ -120,10 +120,8 @@ public class Climber extends SubsystemBase {
             double error = pot.getPosition() - setpoint;
             if(error > 0 && Math.abs(error) > DEADZONE){
                 leadClimbController.set(-DOWN_SPEED);
-                System.out.println("CLIMBER - going DOWN");
             } else if (error < 0 && Math.abs(error) > DEADZONE) {
                 leadClimbController.set(UP_SPEED);
-                System.out.println("CLIMBER - going UP");
             } else {
                 leadClimbController.set(0);
                 DOWN_SPEED = 0.25;

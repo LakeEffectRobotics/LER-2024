@@ -21,7 +21,8 @@ public class ArmPrepareClimb extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(new WristCommand(wrist, WristPosition.CLIMB),
       new ExtendArmCommand(arm, ArmExtension.RETRACT),
-      new RotateArmCommand(arm, ArmPosition.TRAP)
+      new RotateArmCommand(arm, ArmPosition.TRAP),
+      new ExtendArmCommand(arm, ArmExtension.EXTEND)
     );
   }
 }

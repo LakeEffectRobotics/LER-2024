@@ -5,6 +5,7 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.wpilibj.simulation.XboxControllerSim;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -43,6 +44,8 @@ public class OI {
         private static final int TRAP_POSITION_BUTTON = XboxController.Button.kY.value;
         private static final int PREPARE_CLIMB_BUTTON = XboxController.Button.kLeftBumper.value;
         private static final int CLIMB_BUTTTON = XboxController.Button.kRightBumper.value;
+
+        private static final int ARM_EXTEND_BUTTON = XboxController.Button.kStart.value;
     }
 
 
@@ -65,6 +68,7 @@ public class OI {
     public static final JoystickButton prepareClimbButton = new JoystickButton(xboxController, OPERATOR_MAP.PREPARE_CLIMB_BUTTON);
     public static final JoystickButton climbButton = new JoystickButton(xboxController,OPERATOR_MAP.CLIMB_BUTTTON);
 
+    public static final JoystickButton extendButton = new JoystickButton(xboxController, OPERATOR_MAP.ARM_EXTEND_BUTTON);
 
     public static DoubleSupplier leftDriveSupplier = () -> {
         double raw = leftJoystick.getY();

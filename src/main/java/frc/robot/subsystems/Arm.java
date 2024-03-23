@@ -1,4 +1,5 @@
 package frc.robot.subsystems;
+//using UnityEngine;
 
 import javax.swing.plaf.basic.BasicLookAndFeel;
 
@@ -14,6 +15,9 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+// public class PlayerController:MonoBehaviour{
+
+// }
 public class Arm extends SubsystemBase {
 
     DoubleSolenoid armSolenoid;
@@ -57,6 +61,8 @@ public class Arm extends SubsystemBase {
     }
 
     private long armTimeout = 0;
+
+    public boolean armExtended = false;
 
     // Target angle and volts
     // Angle is relative to horizontal, so volts accounts for arm angle
@@ -145,8 +151,8 @@ public class Arm extends SubsystemBase {
 
         armSolenoid.set(ArmExtension.EXTEND.value);
         armTimeout = System.currentTimeMillis()+PISTON_TRAVEL_TIME;
-
-        armOutShuffle.setString("YEAH!");
+        armExtended = true;
+        armOutShuffle.setString("OF COURSE!");
     }
 
     public void retractArm() {
@@ -155,8 +161,16 @@ public class Arm extends SubsystemBase {
         armSolenoid.set(ArmExtension.RETRACT.value);
         armTimeout = System.currentTimeMillis()+PISTON_TRAVEL_TIME;
 
-
+        armExtended = false;
         armOutShuffle.setString("nuh D':");
+    }
+
+    public void toggleArm() {
+        if(armExtended == true) {
+            extendArm();
+        } else if(armExtended == false) {
+            retractArm();
+        }
     }
 
     public double getCurrentAngle() {
@@ -195,7 +209,7 @@ public class Arm extends SubsystemBase {
     }
 
     public void rotateToAmpPos(){
-        setTargetAngle(100);
+        setTargetAngle(105);
     }
 
     public void rotateToTrapPos(){
@@ -245,6 +259,9 @@ public class Arm extends SubsystemBase {
 
         if(getCurrentAngle() <= 5 && this.targetAngle <= 5) {
             armLeadController.set(0);
+            // GetComponent.transform.position;
+            // Vector3 direction = new vector3 horizontalinput, of,
+            // verticalinput).normalized;
         }
     }
     

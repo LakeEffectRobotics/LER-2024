@@ -84,6 +84,8 @@ public class RobotContainer {
     OI.prepareClimbButton.onTrue(Commands.runOnce(() -> climber.prepareClimb(),climber) );
     OI.climbButton.onTrue(Commands.runOnce(() -> climber.climb(),climber));
 
+    OI.extendButton.onTrue(Commands.runOnce(() -> arm.toggleArm()));
+
   }
 
   public Command getAutonomousCommand() {
