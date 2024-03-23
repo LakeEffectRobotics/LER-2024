@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.commands.AmpCommandGroup;
+import frc.robot.commands.ArmPrepareClimbGroup;
 import frc.robot.commands.ClawCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.IntakeCommandGroup;
@@ -79,7 +80,7 @@ public class RobotContainer {
     OI.intakePositionButton.onTrue(new IntakeCommandGroup(wrist, arm));
     OI.transportPositionButton.onTrue(new TransportCommandGroup(wrist, arm));
     OI.ampPositionButton.onTrue(new AmpCommandGroup(wrist, arm));
-    OI.trapPositionButton.onTrue(new TrapCommandGroup(wrist, arm));
+    OI.trapPositionButton.onTrue(new ArmPrepareClimbGroup(wrist, arm));
     OI.prepareClimbButton.onTrue(Commands.runOnce(() -> climber.prepareClimb(),climber) );
     OI.climbButton.onTrue(Commands.runOnce(() -> climber.climb(),climber));
 
