@@ -68,15 +68,17 @@ public class Claw extends SubsystemBase {
         /* operator controller rumble */
         if(hasNote()) {
             if(rumbleEndTime == null) { 
-                rumbleEndTime = System.currentTimeMillis()+1000;
+                rumbleEndTime = System.currentTimeMillis()+500;
                 OI.xboxRumble(50.0);
             }
             if(System.currentTimeMillis() >= rumbleEndTime) {
                 OI.xboxRumble(0.0);
             }
         } else {
+            OI.xboxRumble(0.0);
             rumbleEndTime = null; 
         }
+        //
 
         SmartDashboard.putNumber("Intake Speed", getSpeed());
         SmartDashboard.putBoolean("has note", hasNote());

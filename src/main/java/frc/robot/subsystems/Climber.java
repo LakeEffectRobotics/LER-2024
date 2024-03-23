@@ -11,14 +11,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Climber extends SubsystemBase {
-    private static double PREPARECLIMBROTATION = 3.22; //TODO: set this
-    private static double CLIMBROTATION = 3.05; //TODO: also set this
+    private static double PREPARECLIMBROTATION = 3.23; //TODO: set this
+    private static double CLIMBROTATION = 3.07; //TODO: also set this
   
 
     // SPEEDS ARE POSITIVE, DIRECTION SET LATER
-    private final double DOWN_SPEED = 0.5;
-    private final double UP_SPEED = 0.25;
-    private final double DEADZONE = 0.01;
+    private double DOWN_SPEED = 0.5;
+    private double UP_SPEED = 0.25;
+    private double DEADZONE = 0.02;
 
     private Double setpoint = null;
 
@@ -87,6 +87,8 @@ public class Climber extends SubsystemBase {
         System.out.println("Hooks out");
         setGear(Gear.HIGH);
         setpoint = PREPARECLIMBROTATION;
+        DOWN_SPEED = 0.5;
+        UP_SPEED = 0.25;
         // leadClimbController.setInverted(false);
         // leadClimbController.getPIDController().setOutputRange(0.0, 0.1);
         // leadClimbController.getPIDController().setReference(PREPARECLIMBROTATION, ControlType.kPosition,0);
@@ -96,6 +98,8 @@ public class Climber extends SubsystemBase {
         System.out.println("Going up");
         setGear(Gear.HIGH);
         setpoint = CLIMBROTATION;
+        DOWN_SPEED = 0.5;
+        UP_SPEED = 0.25;
         // leadClimbController.setInverted(true);
         // leadClimbController.getPIDController().setOutputRange(0.0, 0.1);
         // leadClimbController.getPIDController().setReference(CLIMBROTATION, ControlType.kPosition,0);
@@ -106,7 +110,7 @@ public class Climber extends SubsystemBase {
 
     @Override
     public void periodic() {
-        double output = 0;
+        double output = 0; //what 
 
         
         if(setpoint == null) {
@@ -116,10 +120,14 @@ public class Climber extends SubsystemBase {
             double error = pot.getPosition() - setpoint;
             if(error > 0 && Math.abs(error) > DEADZONE){
                 leadClimbController.set(-DOWN_SPEED);
+                System.out.println("CLIMBER - going DOWN");
             } else if (error < 0 && Math.abs(error) > DEADZONE) {
                 leadClimbController.set(UP_SPEED);
+                System.out.println("CLIMBER - going UP");
             } else {
                 leadClimbController.set(0);
+                DOWN_SPEED = 0.25;
+                UP_SPEED = 0.125;
             }
         } 
 

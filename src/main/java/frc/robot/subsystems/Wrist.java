@@ -48,7 +48,8 @@ public class Wrist extends SubsystemBase {
         UP,
         INTAKE,
         AMP,
-        TRAP
+        TRAP,
+        CLIMB
     }
 
     private WristPosition commandedPosition = WristPosition.INTAKE;
@@ -157,7 +158,6 @@ public class Wrist extends SubsystemBase {
         commandedPosition = WristPosition.UP;
         setTargetAngle(90);
     }
-
     public void moveWristIntake(){
         commandedPosition = WristPosition.INTAKE;
         setTargetAngle(0.4);
@@ -166,11 +166,14 @@ public class Wrist extends SubsystemBase {
     public void moveWristAmp(){
         commandedPosition = WristPosition.AMP;
         setTargetAngle(5);
-    }
-    
+    } 
     public void moveWristTrap(){
         commandedPosition = WristPosition.TRAP;
         setTargetAngle(0.4);
+    }
+    public void moveWristClimb(){
+        commandedPosition = WristPosition.CLIMB;
+        setTargetAngle(140);
     }
 
 

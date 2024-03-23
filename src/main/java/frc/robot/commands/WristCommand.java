@@ -35,6 +35,8 @@ public class WristCommand extends Command {
       wrist.moveWristTrap();
     } else if (pos == WristPosition.AMP) {
       wrist.moveWristAmp();
+    } else if (pos == WristPosition.CLIMB) {
+      wrist.moveWristClimb();
     }
     
   }
