@@ -42,8 +42,8 @@ public class Arm extends SubsystemBase {
     // Function to convert from potentiometer volts to arm degrees above horizontal, obtained experimentally
     // Slope: degrees per volt
     // Constant: the degrees value at volts = 0
-    private static final double VOLTS_TO_DEGREES_SLOPE = 34.8503;
-    private static final double VOLTS_TO_DEGREES_CONSTANT = -0.610657;
+    private static final double VOLTS_TO_DEGREES_SLOPE = 44.2033;
+    private static final double VOLTS_TO_DEGREES_CONSTANT = -0.881894;
 
     // Motor voltage required to hold arm up at horizontal
     // 0.05 is the experimentally determined motor percentage that does that, so convert % to volts:
