@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Climber extends SubsystemBase {
-    private static double PREPARECLIMBROTATION = 3.24; //TODO: set this
+    private static double PREPARECLIMBROTATION = 3.21; //TODO: set this
     private static double CLIMBROTATION = 3.08; //TODO: also set this
   
 
@@ -116,7 +116,7 @@ public class Climber extends SubsystemBase {
             double error = pot.getPosition() - setpoint;
             if(error > 0 && Math.abs(error) > DEADZONE){
                 leadClimbController.set(-DOWN_SPEED);
-            } else if (error < 0 && Math.abs(error) > DEADZONE){
+            } else if (error < 0 && Math.abs(error) > DEADZONE) {
                 leadClimbController.set(UP_SPEED);
             } else {
                 leadClimbController.set(0);
