@@ -103,7 +103,7 @@ public class RobotMap {
         armController2.setIdleMode(IdleMode.kCoast);
 
 
-        wristController.setIdleMode(IdleMode.kBrake);
+        wristController.setIdleMode(IdleMode.kCoast);
         wristController.setInverted(true);        
     }
   
