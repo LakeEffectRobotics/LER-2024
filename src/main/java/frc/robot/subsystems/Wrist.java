@@ -37,8 +37,8 @@ public class Wrist extends SubsystemBase {
     // Function to convert from potentiometer volts to arm degrees above horizontal, obtained experimentally
     // Slope: degrees per volt
     // Constant: the degrees value at volts = 0
-    private static final double VOLTS_TO_DEGREES_SLOPE = -74.2009;
-    private static final double VOLTS_TO_DEGREES_CONSTANT = 177.717;
+    private static final double VOLTS_TO_DEGREES_SLOPE = -63.2296;
+    private static final double VOLTS_TO_DEGREES_CONSTANT = 186.148;
     // Motor voltage required to hold arm up at horizontal
     // 0.05 is the experimentally determined motor percentage that does that, so convert % to volts:
     private static final double GRAVITY_COMPENSATION = 0.04 * 12;
@@ -133,7 +133,7 @@ public class Wrist extends SubsystemBase {
      * @return true if we have achieved the desired angle
      */
     public boolean hasAchievedTargetAngle(){
-        return Math.abs(getCurrentAngle()-getTargetAngle())<WRIST_DEADZONE;
+        return true/*Math.abs(getCurrentAngle()-getTargetAngle())<WRIST_DEADZONE*/;
     }
      /**
       *  just a note from the wrist class,  0 degrees is supposed to be horizontal.
@@ -150,7 +150,8 @@ public class Wrist extends SubsystemBase {
         }
 
         this.targetVolts = convertAngleToVolts(this.targetAngle);
-        pidController.setReference(this.targetVolts, ControlType.kPosition);
+        //pidController.setReference(this.targetVolts, ControlType.kPosition);
+        
     }
     
     public void moveWristUp(){
@@ -196,7 +197,7 @@ public class Wrist extends SubsystemBase {
             wristController.setIdleMode(IdleMode.kCoast);
             wristDeadShuffle.setString("perhaps D:");
         } else {
-            wristController.setIdleMode(IdleMode.kBrake);
+            //wristController.setIdleMode(IdleMode.kBrake);
             wristDeadShuffle.setString("not quite!");
         }
     }
@@ -222,7 +223,7 @@ public class Wrist extends SubsystemBase {
 
         if(getCurrentAngle() <= 25 && this.targetAngle <= 9 && commandedPosition == WristPosition.INTAKE) {
             wristController.set(0);
-            wristController.setIdleMode(IdleMode.kCoast);
+            //wristController.setIdleMode(IdleMode.kCoast);
         } else {
             wristController.setIdleMode(IdleMode.kBrake);
         }

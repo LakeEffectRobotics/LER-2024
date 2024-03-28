@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.simulation.XboxControllerSim;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class OI {
@@ -46,6 +47,12 @@ public class OI {
         private static final int CLIMB_BUTTTON = XboxController.Button.kRightBumper.value;
 
         private static final int ARM_EXTEND_BUTTON = XboxController.Button.kStart.value;
+
+        // XBoxController DPAD Buttons
+        private static final int ARM_UP_BUTTON = 0;
+        private static final int ARM_DOWN_BUTTON = 180;
+        private static final int DOWN_SELECTION_BUTTON = 90;
+        private static final int LEFT_SELECTION_BUTTON = 270;
     }
 
 
@@ -61,6 +68,9 @@ public class OI {
     public static final Trigger spinOutClawButton = new Trigger(() -> xboxController.getRawAxis(OPERATOR_MAP.SPIN_OUT_INTAKE_TRIGGER) >= XBOX_TRIGGER_THRESHOLD);
     public static final Trigger spinInClawButton = new Trigger(() -> xboxController.getRawAxis(OPERATOR_MAP.SPIN_IN_INTAKE_TRIGGER) >= XBOX_TRIGGER_THRESHOLD);
 
+    public static final Trigger armUpButton = new POVButton(xboxController, OPERATOR_MAP.ARM_UP_BUTTON);
+    public static final Trigger armDownButton = new POVButton(xboxController, OPERATOR_MAP.ARM_DOWN_BUTTON);
+
     public static final JoystickButton intakePositionButton = new JoystickButton(xboxController, OPERATOR_MAP.INTAKE_POSITION_BUTTON);
     public static final JoystickButton transportPositionButton = new JoystickButton(xboxController, OPERATOR_MAP.TRANSPORT_POSITION_BUTTON);
     public static final JoystickButton ampPositionButton = new JoystickButton(xboxController, OPERATOR_MAP.AMP_POSITION_BUTTON);
@@ -69,6 +79,7 @@ public class OI {
     public static final JoystickButton climbButton = new JoystickButton(xboxController,OPERATOR_MAP.CLIMB_BUTTTON);
 
     public static final JoystickButton extendButton = new JoystickButton(xboxController, OPERATOR_MAP.ARM_EXTEND_BUTTON);
+
 
     public static DoubleSupplier leftDriveSupplier = () -> {
         double raw = leftJoystick.getY();

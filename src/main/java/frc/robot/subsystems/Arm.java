@@ -7,6 +7,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkAnalogSensor;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -31,7 +32,7 @@ public class Arm extends SubsystemBase {
     private static final long PISTON_TRAVEL_TIME = 500;
 
     private static final double kF = 0;
-    private static final double kP = 0.5;
+    private static final double kP = 0.3;
     private static final double kI = 0;
 
     private static final double kD = 0;
@@ -46,12 +47,12 @@ public class Arm extends SubsystemBase {
     // Function to convert from potentiometer volts to arm degrees above horizontal, obtained experimentally
     // Slope: degrees per volt
     // Constant: the degrees value at volts = 0
-    private static final double VOLTS_TO_DEGREES_SLOPE = 44.2033;
-    private static final double VOLTS_TO_DEGREES_CONSTANT = -0.881894;
+    private static final double VOLTS_TO_DEGREES_SLOPE = 40.2145;
+    private static final double VOLTS_TO_DEGREES_CONSTANT = -1.16622;
 
     // Motor voltage required to hold arm up at horizontal
     // 0.05 is the experimentally determined motor percentage that does that, so convert % to volts:
-    private static final double GRAVITY_COMPENSATION = 0.13 * 12;
+    private static final double GRAVITY_COMPENSATION = 0.04 * 12;
 
     public static enum ArmPosition {
         AMP,
@@ -187,7 +188,6 @@ public class Arm extends SubsystemBase {
      * @param angle desired degrees above horizontal
      */
     public void setTargetAngle(double angle) { // abc1239+10=21 road work ahead, i sure hope it does. David was here.......
-        System.out.println("Setting target angle " + angle);
         if (angle <= MIN_ANGLE) {
             this.targetAngle = MIN_ANGLE;
         } else if (angle >= MAX_ANGLE) {
@@ -197,7 +197,6 @@ public class Arm extends SubsystemBase {
         }
         
         this.targetVolts = convertAngleToVolts(this.targetAngle);
-        pidController.setReference(this.targetVolts, ControlType.kPosition);
     }
 
     /**
@@ -257,11 +256,18 @@ public class Arm extends SubsystemBase {
         targetAngleShuffle.setDouble(targetAngle);
         targetPotShuffle.setDouble(targetVolts);
 
+
         if(getCurrentAngle() <= 5 && this.targetAngle <= 5) {
             armLeadController.set(0);
             // GetComponent.transform.position;
             // Vector3 direction = new vector3 horizontalinput, of,
             // verticalinput).normalized;
+
+        } if(getCurrentAngle() <= 45) {
+            armLeadController.setIdleMode(IdleMode.kCoast);
+        } else {
+            pidController.setReference(targetVolts, ControlType.kPosition, 0, getArbitraryFeedforward());
+            armLeadController.setIdleMode(IdleMode.kBrake);
         }
     }
     

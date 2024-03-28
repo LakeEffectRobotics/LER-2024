@@ -86,6 +86,8 @@ public class RobotContainer {
 
     OI.extendButton.onTrue(Commands.runOnce(() -> arm.toggleArm()));
 
+    OI.armUpButton.onTrue(Commands.runOnce(() -> arm.setTargetAngle(90)));
+    OI.armDownButton.onTrue(Commands.runOnce(() -> arm.setTargetAngle(0)));
   }
 
   public Command getAutonomousCommand() {

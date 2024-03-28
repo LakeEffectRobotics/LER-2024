@@ -99,8 +99,8 @@ public class RobotMap {
         armController1.setInverted(false);
         armController2.setInverted(false);
 
-        armController1.setIdleMode(IdleMode.kBrake);
-        armController2.setIdleMode(IdleMode.kBrake);
+        armController1.setIdleMode(IdleMode.kCoast);
+        armController2.setIdleMode(IdleMode.kCoast);
 
 
         wristController.setIdleMode(IdleMode.kBrake);
