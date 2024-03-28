@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.commands.AmpCommandGroup;
@@ -16,7 +17,9 @@ import frc.robot.commands.DriveCommand;
 import frc.robot.commands.IntakeCommandGroup;
 import frc.robot.commands.TransportCommandGroup;
 import frc.robot.commands.TrapCommandGroup;
+import frc.robot.commands.autonomous.AutoPickup;
 import frc.robot.commands.autonomous.DriveForDuration;
+import frc.robot.commands.autonomous.Intake;
 import frc.robot.commands.instant.ClimbPrepareCommand;
 import frc.robot.commands.instant.IntakeClawCommand;
 import frc.robot.commands.instant.RetractArmCommand;
@@ -40,6 +43,13 @@ public class RobotContainer {
   public Claw claw = new Claw(RobotMap.clawController);
   public Climber climber = new Climber(RobotMap.climbController1,RobotMap.climbShiftSolenoid);
   public Gyro gyro = new Gyro();
+  public Intake intake = new Intake();
+
+  /* auto selection */
+  public final String kDefaultAuto = "none";
+  public final String[] kAutos = {"DriveForward", "test1", "test2", "test34343234643"}; //list of autos
+  public static String m_autoSelected;
+  public SendableChooser<String> m_chooser = new SendableChooser<>();
 
   public RobotContainer() {
     compressor.enableAnalog(90, 120);
@@ -91,7 +101,8 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
+    System.out.println(m_chooser.getSelected());
     //return Commands.print("No autonomous command configured");
-    return new DriveForDuration(drivetrain);//.raceWith(new IntakeCommandGroup(wrist, arm).andThen(new IntakeClawCommand(claw, arm, 0.25)));
+    return new AutoPickup(drivetrain, intake, arm, wrist, claw);//.raceWith(new IntakeCommandGroup(wrist, arm).andThen(new IntakeClawCommand(claw, arm, 0.25)));
   }
 }
