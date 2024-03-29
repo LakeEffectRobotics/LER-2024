@@ -27,7 +27,7 @@ public class Wrist extends SubsystemBase {
     private static final double kI = 0;
 
     private static final double kD = 0;
-    private static final double MAX_OUTPUT = 0.15;
+    private static final double MAX_OUTPUT = 0.40;
     private static final double MIN_OUTPUT = -0.85;
 
     private static final double MIN_ANGLE = 3;

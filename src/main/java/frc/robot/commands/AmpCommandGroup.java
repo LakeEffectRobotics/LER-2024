@@ -29,7 +29,7 @@ public class AmpCommandGroup extends SequentialCommandGroup {
 
     addCommands(
       new WristCommand(wrist, WristPosition.UP),
-      extendRotate
+      extendRotate.alongWith(positionClaw)
     );
   }
 }

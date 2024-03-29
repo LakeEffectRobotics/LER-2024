@@ -14,6 +14,7 @@ import frc.robot.commands.AmpCommandGroup;
 import frc.robot.commands.ArmPrepareClimbGroup;
 import frc.robot.commands.ClawCommand;
 import frc.robot.commands.DriveCommand;
+import frc.robot.commands.FastShoot;
 import frc.robot.commands.IntakeCommandGroup;
 import frc.robot.commands.TransportCommandGroup;
 import frc.robot.commands.TrapCommandGroup;
@@ -94,7 +95,7 @@ public class RobotContainer {
     OI.prepareClimbButton.onTrue(Commands.runOnce(() -> climber.prepareClimb(),climber) );
     OI.climbButton.onTrue(Commands.runOnce(() -> climber.climb(),climber));
 
-    OI.extendButton.onTrue(Commands.runOnce(() -> arm.toggleArm()));
+    OI.shootFastButton.whileTrue(new FastShoot(claw));
 
     OI.armUpButton.onTrue(Commands.runOnce(() -> arm.setTargetAngle(90)));
     OI.armDownButton.onTrue(Commands.runOnce(() -> arm.setTargetAngle(0)));

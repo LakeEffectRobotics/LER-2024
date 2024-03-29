@@ -45,8 +45,8 @@ public class OI {
         private static final int TRAP_POSITION_BUTTON = XboxController.Button.kY.value;
         private static final int PREPARE_CLIMB_BUTTON = XboxController.Button.kLeftBumper.value;
         private static final int CLIMB_BUTTTON = XboxController.Button.kRightBumper.value;
+        private static final int SHOOTFASTBUTTON = XboxController.Button.kStart.value;
 
-        private static final int ARM_EXTEND_BUTTON = XboxController.Button.kStart.value;
 
         // XBoxController DPAD Buttons
         private static final int ARM_UP_BUTTON = 0;
@@ -78,7 +78,7 @@ public class OI {
     public static final JoystickButton prepareClimbButton = new JoystickButton(xboxController, OPERATOR_MAP.PREPARE_CLIMB_BUTTON);
     public static final JoystickButton climbButton = new JoystickButton(xboxController,OPERATOR_MAP.CLIMB_BUTTTON);
 
-    public static final JoystickButton extendButton = new JoystickButton(xboxController, OPERATOR_MAP.ARM_EXTEND_BUTTON);
+    public static final JoystickButton shootFastButton = new JoystickButton(xboxController, OPERATOR_MAP.SHOOTFASTBUTTON);
 
 
     public static DoubleSupplier leftDriveSupplier = () -> {

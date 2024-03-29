@@ -29,7 +29,7 @@ public class Arm extends SubsystemBase {
     SparkPIDController pidController; 
     
     //TODO change these
-    private static final long PISTON_TRAVEL_TIME = 500;
+    private static final long PISTON_TRAVEL_TIME = 50;
 
     private static final double kF = 0;
     private static final double kP = 0.3;
@@ -264,7 +264,8 @@ public class Arm extends SubsystemBase {
     }
 
     public boolean aboveMiddle() {
-        return getCurrentAngle()>45;
+        return getCurrentAngle()>15
+        ;
     }
 
     @Override
@@ -284,10 +285,13 @@ public class Arm extends SubsystemBase {
             // Vector3 direction = new vector3 horizontalinput, of,
             // verticalinput).normalized;
 
-        } if(getCurrentAngle() <= 45) {
-            armLeadController.setIdleMode(IdleMode.kCoast);
         } else {
             pidController.setReference(targetVolts, ControlType.kPosition, 0, getArbitraryFeedforward());
+        } 
+        
+        if(getCurrentAngle() <= 45) {
+            armLeadController.setIdleMode(IdleMode.kCoast);
+        } else {
             armLeadController.setIdleMode(IdleMode.kBrake);
         }
     }
