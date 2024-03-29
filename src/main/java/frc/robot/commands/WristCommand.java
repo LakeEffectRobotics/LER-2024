@@ -26,7 +26,7 @@ public class WristCommand extends Command {
   @Override
   public void initialize() {
     System.out.println("WRIST: command initialized");
-
+    
     if(pos == Wrist.WristPosition.UP){ 
       wrist.moveWristUp();
     } else if (pos == WristPosition.INTAKE) {

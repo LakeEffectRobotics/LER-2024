@@ -75,6 +75,8 @@ public class Wrist extends SubsystemBase {
     private GenericEntry currentAngleShuffle;
     private GenericEntry currentPotShuffle;
 
+    private GenericEntry wristMotorModeShuffle;
+
     public Wrist(CANSparkMax wristController) {
         this.wristController = wristController;
 
@@ -115,6 +117,11 @@ public class Wrist extends SubsystemBase {
         currentPotShuffle = tab
             .add("wrist pot volts", pot.getPosition())
             .withPosition(4, 1)
+            .getEntry();
+
+        wristMotorModeShuffle = tab
+            .add("wrist mode", getWristMotorMode())
+            .withPosition(4, 2)
             .getEntry();
     }
 
@@ -206,6 +213,14 @@ public class Wrist extends SubsystemBase {
         wristController.set(speed);
     }
 
+    public String getWristMotorMode() {
+        if(wristController.getIdleMode() == IdleMode.kBrake) {
+            return "brake";
+        } else {
+            return "not break";
+        }
+    }
+
     @Override
     public void periodic() {
         // if wrist is dead kill motor just in case
@@ -220,6 +235,8 @@ public class Wrist extends SubsystemBase {
 
         targetAngleShuffle.setDouble(targetAngle);
         targetPotShuffle.setDouble(targetVolts);
+
+        wristMotorModeShuffle.setString(getWristMotorMode());
 
         if(getCurrentAngle() <= 25 && this.targetAngle <= 9 && commandedPosition == WristPosition.INTAKE) {
             wristController.set(0);

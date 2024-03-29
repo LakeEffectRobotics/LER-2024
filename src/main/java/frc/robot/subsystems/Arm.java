@@ -76,6 +76,8 @@ public class Arm extends SubsystemBase {
     private GenericEntry currentAngleShuffle;
     private GenericEntry currentPotShuffle;
 
+    private GenericEntry armMotorModeShuffle;
+
     private ShuffleboardTab tab = Shuffleboard.getTab("thats my favourite tab too");
 
     private GenericEntry armOutShuffle = tab
@@ -128,6 +130,11 @@ public class Arm extends SubsystemBase {
         currentPotShuffle = tab
             .add("arm pot volts", pot.getPosition())
             .withPosition(4, 3)
+            .getEntry();
+
+        armMotorModeShuffle = tab
+            .add("arm mode", getArmMotorMode())
+            .withPosition(4, 4)
             .getEntry();
     }
 
@@ -241,11 +248,23 @@ public class Arm extends SubsystemBase {
         armLeadController.set(speed);
     }
 
+    public String getArmMotorMode() {
+        if(armLeadController.getIdleMode() == IdleMode.kBrake) {
+            return "brake mode (good)";
+        } else {
+            return "coast mode (fall)";
+        }
+    }
+
     /**
      * A helper function to let the command know when the Arm has finished its movement
      */
     public boolean inPosition(){
         return Math.abs(getTargetAngle()-getCurrentAngle())<ARM_DEADZONE && System.currentTimeMillis()>armTimeout;
+    }
+
+    public boolean aboveMiddle() {
+        return getCurrentAngle()>45;
     }
 
     @Override
@@ -255,6 +274,8 @@ public class Arm extends SubsystemBase {
 
         targetAngleShuffle.setDouble(targetAngle);
         targetPotShuffle.setDouble(targetVolts);
+
+        armMotorModeShuffle.setString(getArmMotorMode());
 
 
         if(getCurrentAngle() <= 5 && this.targetAngle <= 5) {

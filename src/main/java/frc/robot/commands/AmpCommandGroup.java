@@ -4,8 +4,11 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Wrist;
 import frc.robot.subsystems.Arm.ArmExtension;
@@ -19,14 +22,14 @@ public class AmpCommandGroup extends SequentialCommandGroup {
   /** Creates a new IntakeCommandGroup. */
   public AmpCommandGroup(Wrist wrist, Arm arm) {
     ParallelCommandGroup extendRotate = new ParallelCommandGroup( new ExtendArmCommand(arm, ArmExtension.RETRACT),
-                                                                  new RotateArmCommand(arm,ArmPosition.MIDDLE));
+                                                                  new RotateArmCommand(arm,ArmPosition.AMP));
 
-    ParallelCommandGroup positionClaw =  new ParallelCommandGroup( new WristCommand(wrist, WristPosition.AMP),
-    new RotateArmCommand(arm, ArmPosition.AMP));
+    Command positionClaw = new WaitUntilCommand(arm :: aboveMiddle).andThen(new WristCommand(wrist, WristPosition.AMP));
 
-    addCommands(new WristCommand(wrist, WristPosition.UP),
-     extendRotate,
-     positionClaw
+
+    addCommands(
+      new WristCommand(wrist, WristPosition.UP),
+      extendRotate
     );
   }
 }
