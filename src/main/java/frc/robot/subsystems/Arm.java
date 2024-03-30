@@ -47,8 +47,8 @@ public class Arm extends SubsystemBase {
     // Function to convert from potentiometer volts to arm degrees above horizontal, obtained experimentally
     // Slope: degrees per volt
     // Constant: the degrees value at volts = 0
-    private static final double VOLTS_TO_DEGREES_SLOPE = 40.2145;
-    private static final double VOLTS_TO_DEGREES_CONSTANT = -1.16622;
+    private static final double VOLTS_TO_DEGREES_SLOPE = 31.9036;
+    private static final double VOLTS_TO_DEGREES_CONSTANT = 0.925204;
 
     // Motor voltage required to hold arm up at horizontal
     // 0.05 is the experimentally determined motor percentage that does that, so convert % to volts:
@@ -289,11 +289,11 @@ public class Arm extends SubsystemBase {
             pidController.setReference(targetVolts, ControlType.kPosition, 0, getArbitraryFeedforward());
         } 
         
-        if(getCurrentAngle() <= 45) {
-            armLeadController.setIdleMode(IdleMode.kCoast);
-        } else {
-            armLeadController.setIdleMode(IdleMode.kBrake);
-        }
+        // if(getCurrentAngle() <= 45) {
+        //     armLeadController.setIdleMode(IdleMode.kBrake);
+        // } else {
+        //     armLeadController.setIdleMode(IdleMode.kBrake);
+        // }
     }
     
 }

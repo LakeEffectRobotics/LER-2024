@@ -23,17 +23,17 @@ public class Wrist extends SubsystemBase {
     //TODO change these
     
     private static final double kF = 0;
-    private static final double kP = 0.6;
+    private static final double kP = 0.4;
     private static final double kI = 0;
 
-    private static final double kD = 0;
+    private static final double kD = 0.6;
     private static final double MAX_OUTPUT = 0.40;
     private static final double MIN_OUTPUT = -0.85;
 
     private static final double MIN_ANGLE = 3;
     private static final double MAX_ANGLE = 130;
 
-    private static final double WRIST_DEADZONE = 5;
+    private static final double WRIST_DEADZONE = 7;
     // Function to convert from potentiometer volts to arm degrees above horizontal, obtained experimentally
     // Slope: degrees per volt
     // Constant: the degrees value at volts = 0
@@ -161,12 +161,14 @@ public class Wrist extends SubsystemBase {
         
     }
     
-    public void moveWristUp(){
+    public void moveWristUp(){ //transport
         commandedPosition = WristPosition.UP;
+        wristController.setIdleMode(IdleMode.kBrake);
         setTargetAngle(90);
     }
     public void moveWristIntake(){
         commandedPosition = WristPosition.INTAKE;
+        wristController.setIdleMode(IdleMode.kCoast);
         setTargetAngle(0.4);
     }
     
@@ -204,7 +206,7 @@ public class Wrist extends SubsystemBase {
             wristController.setIdleMode(IdleMode.kCoast);
             wristDeadShuffle.setString("perhaps D:");
         } else {
-            //wristController.setIdleMode(IdleMode.kBrake);
+            wristController.setIdleMode(IdleMode.kBrake);
             wristDeadShuffle.setString("not quite!");
         }
     }

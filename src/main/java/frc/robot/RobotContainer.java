@@ -104,6 +104,6 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     System.out.println(m_chooser.getSelected());
     //return Commands.print("No autonomous command configured");
-    return new AutoPickup(drivetrain, intake, arm, wrist, claw);//.raceWith(new IntakeCommandGroup(wrist, arm).andThen(new IntakeClawCommand(claw, arm, 0.25)));
+    return new DriveForDuration(drivetrain);
   }
 }
