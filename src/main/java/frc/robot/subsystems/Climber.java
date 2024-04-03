@@ -11,8 +11,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Climber extends SubsystemBase {
-    private static double PREPARECLIMBROTATION = 3.23; //TODO: set this
-    private static double CLIMBROTATION = 3.1; //TODO: also set this
+    private static double PREPARECLIMBROTATION = 3.34; //TODO: set this
+    private static double CLIMBROTATION = 3.14; //TODO: also set this
   
 
     // SPEEDS ARE POSITIVE, DIRECTION SET LATER
