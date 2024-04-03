@@ -16,19 +16,19 @@ public class Wrist extends SubsystemBase {
 
     CANSparkMax wristController;
 
-    SparkAnalogSensor pot;
+    //SparkAnalogSensor pot;
 
     SparkPIDController pidController; 
     
     //TODO change these
     
     private static final double kF = 0;
-    private static final double kP = 0.4;
+    private static final double kP = 0.06;
     private static final double kI = 0;
 
-    private static final double kD = 0.6;
-    private static final double MAX_OUTPUT = 0.40;
-    private static final double MIN_OUTPUT = -0.85;
+    private static final double kD = 0;
+    private static final double MAX_OUTPUT = 0.85;
+    private static final double MIN_OUTPUT = -0.4;
 
     private static final double MIN_ANGLE = 3;
     private static final double MAX_ANGLE = 130;
@@ -37,8 +37,8 @@ public class Wrist extends SubsystemBase {
     // Function to convert from potentiometer volts to arm degrees above horizontal, obtained experimentally
     // Slope: degrees per volt
     // Constant: the degrees value at volts = 0
-    private static final double VOLTS_TO_DEGREES_SLOPE = -74.8417;
-    private static final double VOLTS_TO_DEGREES_CONSTANT = 132.47;
+    private static final double VOLTS_TO_DEGREES_SLOPE = 5.9999;
+    private static final double VOLTS_TO_DEGREES_CONSTANT = 119.999;
     // Motor voltage required to hold arm up at horizontal
     // 0.05 is the experimentally determined motor percentage that does that, so convert % to volts:
     private static final double GRAVITY_COMPENSATION = 0.04 * 12;
@@ -80,10 +80,11 @@ public class Wrist extends SubsystemBase {
     public Wrist(CANSparkMax wristController) {
         this.wristController = wristController;
 
-        pot = wristController.getAnalog(SparkAnalogSensor.Mode.kAbsolute);
+        // pot = wristController.getAnalog(SparkAnalogSensor.Mode.kAbsolute);
+        // wristController.setInverted(true);
 
         pidController = wristController.getPIDController();
-        pidController.setFeedbackDevice(pot);
+        pidController.setFeedbackDevice(wristController.getEncoder());
 
         // set PID coefficients
         pidController.setP(kP);
@@ -115,7 +116,7 @@ public class Wrist extends SubsystemBase {
             .getEntry();
 
         currentPotShuffle = tab
-            .add("wrist pot volts", pot.getPosition())
+            .add("wrist pot volts", wristController.getEncoder().getPosition())
             .withPosition(4, 1)
             .getEntry();
 
@@ -126,8 +127,10 @@ public class Wrist extends SubsystemBase {
     }
 
     public double getCurrentAngle() {
-        double potVoltage = pot.getPosition();
-        return potVoltage * VOLTS_TO_DEGREES_SLOPE + VOLTS_TO_DEGREES_CONSTANT;
+        // double potVoltage = pot.getPosition();
+        double motorEncoderPosition = wristController.getEncoder().getPosition();
+        return motorEncoderPosition * VOLTS_TO_DEGREES_SLOPE + VOLTS_TO_DEGREES_CONSTANT;
+        // return potVoltage * VOLTS_TO_DEGREES_SLOPE + VOLTS_TO_DEGREES_CONSTANT;
     }
 
     public double getTargetAngle() {
@@ -233,7 +236,7 @@ public class Wrist extends SubsystemBase {
         SmartDashboard.putString("Commanded Position", commandedPosition.name());
 
         currentAngleShuffle.setDouble(getCurrentAngle());
-        currentPotShuffle.setDouble(pot.getPosition());
+        currentPotShuffle.setDouble(wristController.getEncoder().getPosition());
 
         targetAngleShuffle.setDouble(targetAngle);
         targetPotShuffle.setDouble(targetVolts);
