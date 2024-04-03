@@ -14,7 +14,7 @@ import frc.robot.OI;
 public class Claw extends SubsystemBase {
 
     public static double CLAWINTAKESPEED = 0.5;
-    public static double CLAWSHOOTSPEED = -25.0;
+    public static double CLAWSHOOTSPEED = 25.0;
     private SparkLimitSwitch limit;
 
     private static Long rumbleEndTime = null;
