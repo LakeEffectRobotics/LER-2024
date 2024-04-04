@@ -31,6 +31,9 @@ public class RotateArmCommand extends Command {
             case MIDDLE:
                     arm.rotateToMidPos(); 
                 break;
+            case CLIMB:
+                    arm.rotateToClimbPos();
+                break;
         
             default:
                 break;

@@ -12,35 +12,45 @@ public class DriveDuration extends Command {
   Drivetrain drivetrain;
   private double duration;
   private double endTime;
+  private double wait;
+
   /** Creates a new DriveDuration. */
-  public DriveDuration(Drivetrain drivetrain, double duration) {
+  public DriveDuration(Drivetrain drivetrain, double duration, double waitTime) {
       addRequirements(drivetrain);
       this.drivetrain = drivetrain;
       this.duration = duration;
+      this.wait = System.currentTimeMillis()+waitTime;
+
+
       
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    double endTime = System.currentTimeMillis()+duration;
+     this.endTime = System.currentTimeMillis()+duration;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drivetrain.setOutput(0.25, 0.25);
+    if(System.currentTimeMillis()>wait) {
+    drivetrain.setOutput(drivetrain.AUTO_SPEED_LEFT, drivetrain.AUTO_SPEED_RIGHT); 
+    if(isFinished()) {
+      end(true);
+    }
+  }
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
+  public void end(boolean isInterupted) {
     drivetrain.setOutput(0, 0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return System.currentTimeMillis()<=endTime;
+    return System.currentTimeMillis()>endTime;
   }
 }

@@ -26,6 +26,10 @@ public class OI {
         private static final int SHIFT_UP_BUTTON = 3;
         private static final int SHIFT_DOWN_BUTTON = 2;
         private static final int LOW_SHIFT_BUTTON = 1;
+        private static final int ARM_PREPARE_CLIMB_BUTTON = 4;
+        
+        private static final int CLIMB_UP_MANUAL_BUTTON = 3;
+        private static final int CLIMB_DOWN_MANUAL_BUTTON = 2;
     }
 
     private static final XboxController xboxController = new XboxController(PORT.OPERATOR_CONTROLLER);
@@ -63,6 +67,10 @@ public class OI {
     public static final JoystickButton shiftUpButton = new JoystickButton(rightJoystick, DRIVER_MAP.SHIFT_UP_BUTTON);
     public static final JoystickButton shiftDownButton = new JoystickButton(rightJoystick, DRIVER_MAP.SHIFT_DOWN_BUTTON);
     public static final JoystickButton lowShiftButton = new JoystickButton(leftJoystick, DRIVER_MAP.LOW_SHIFT_BUTTON);
+    
+    public static final JoystickButton armPrepareClimbButton = new JoystickButton(leftJoystick, DRIVER_MAP.ARM_PREPARE_CLIMB_BUTTON); 
+    public static final JoystickButton ClimbUpManualButton = new JoystickButton(leftJoystick, DRIVER_MAP.CLIMB_UP_MANUAL_BUTTON);
+    public static final JoystickButton ClimbDownManualButton = new JoystickButton(leftJoystick, DRIVER_MAP.CLIMB_DOWN_MANUAL_BUTTON);
 
     /** Operator (Xbox Controller) */
     public static final Trigger spinOutClawButton = new Trigger(() -> xboxController.getRawAxis(OPERATOR_MAP.SPIN_OUT_INTAKE_TRIGGER) >= XBOX_TRIGGER_THRESHOLD);
@@ -121,4 +129,15 @@ public class OI {
     public static void xboxRumble(double value) {
         xboxController.setRumble(RumbleType.kBothRumble, value);
     }
+
+    // public static void toggleGuitar() { //in case guitar stops working for some reason
+    //     if(PORT.OPERATOR_CONTROLLER == 2) {
+
+    //         System.out.println("USING XBOX CONTROLLE1!!!!!11!1!!!!11!!1!!11!!1!");
+    //         PORT.OPERATOR_CONTROLLER = 3;
+    //     } else {
+    //         System.out.println("USING ");
+    //         PORT.OPERATOR_CONTROLLER = 2;
+    //     }
+    // }
 }

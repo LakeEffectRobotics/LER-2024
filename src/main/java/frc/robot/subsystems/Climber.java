@@ -11,14 +11,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Climber extends SubsystemBase {
-    private static double PREPARECLIMBROTATION = 3.34; //TODO: set this
-    private static double CLIMBROTATION = 3.14; //TODO: also set this
+    private static double PREPARECLIMBROTATION = 3.27; //TODO: set this
+    private static double CLIMBROTATION = 3.05; //TODO: also set this
   
 
     // SPEEDS ARE POSITIVE, DIRECTION SET LATER
-    private double DOWN_SPEED = 0.5;
-    private double UP_SPEED = 0.25;
-    private double DEADZONE = 0.02;
+    public double DOWN_SPEED = -0.5;
+    public double UP_SPEED = 0.35;
+
+    private double DEADZONE= 0.02;
 
     private Double setpoint = null;
 
@@ -27,7 +28,7 @@ public class Climber extends SubsystemBase {
 
     DoubleSolenoid shiftSolenoid;
 
-    Gear currentGear;
+    Gear currentGear;   
 
     public Climber(CANSparkMax leadClimbController, DoubleSolenoid shiftSolenoid) {
         this.leadClimbController = leadClimbController;
@@ -113,21 +114,21 @@ public class Climber extends SubsystemBase {
         double output = 0; //what 
 
         
-        if(setpoint == null) {
-            leadClimbController.set(0);
-        } 
-        else {
-            double error = pot.getPosition() - setpoint;
-            if(error > 0 && Math.abs(error) > DEADZONE){
-                leadClimbController.set(-DOWN_SPEED);
-            } else if (error < 0 && Math.abs(error) > DEADZONE) {
-                leadClimbController.set(UP_SPEED);
-            } else {
-                leadClimbController.set(0);
-                DOWN_SPEED = 0.25;
-                UP_SPEED = 0.125;
-            }
-        } 
+        // if(setpoint == null) {
+        //     leadClimbController.set(0);
+        // } 
+        // else {
+        //     double error = pot.getPosition() - setpoint;
+        //     if(error > 0 && Math.abs(error) > DEADZONE){
+        //         leadClimbController.set(-DOWN_SPEED);
+        //     } else if (error < 0 && Math.abs(error) > DEADZONE) {
+        //         leadClimbController.set(UP_SPEED);
+        //     } else {
+        //         leadClimbController.set(0);
+        //         DOWN_SPEED = 0.25;
+        //         UP_SPEED = 0.125;
+        //     }
+        // } 
 
         // Periodic things
         SmartDashboard.putNumber("Climber Pot", pot.getPosition());

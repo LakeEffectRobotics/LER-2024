@@ -58,7 +58,8 @@ public class Arm extends SubsystemBase {
         AMP,
         TRAP,
         INTAKE,
-        MIDDLE
+        MIDDLE,
+        CLIMB
     }
 
     private long armTimeout = 0;
@@ -224,6 +225,10 @@ public class Arm extends SubsystemBase {
 
     public void rotateToMidPos() {
         setTargetAngle(45);
+    }
+
+    public void rotateToClimbPos() {
+        setTargetAngle(80);
     }
 
     /**

@@ -14,7 +14,9 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.commands.AmpCommandGroup;
 import frc.robot.commands.ArmPrepareClimbGroup;
 import frc.robot.commands.ClawCommand;
+import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.DriveCommand;
+import frc.robot.commands.DriveDuration;
 import frc.robot.commands.FastShoot;
 import frc.robot.commands.IntakeCommandGroup;
 import frc.robot.commands.TransportCommandGroup;
@@ -22,7 +24,6 @@ import frc.robot.commands.TrapCommandGroup;
 import frc.robot.commands.autonomous.AutoPickup;
 import frc.robot.commands.autonomous.DriveForDuration;
 import frc.robot.commands.autonomous.Intake;
-import frc.robot.commands.instant.ClimbPrepareCommand;
 import frc.robot.commands.instant.IntakeClawCommand;
 import frc.robot.commands.instant.RetractArmCommand;
 import frc.robot.commands.instant.ShiftDownCommand;
@@ -48,8 +49,8 @@ public class RobotContainer {
   public Intake intake = new Intake();
 
   /* auto selection */
-  public final String kDefaultAuto = "none";
-  public final String[] kAutos = {"DriveForward", "test1", "test2", "test34343234643"}; //list of autos
+  public final String[] kAutos = {"0: none", "1: drive", "1: pickup"}; //list of autos
+  public final String kDefaultAuto = kAutos[0];
   public static String m_autoSelected;
   public SendableChooser<String> m_chooser = new SendableChooser<>();
 
@@ -69,6 +70,9 @@ public class RobotContainer {
     SmartDashboard.putData("AutoChoices", m_chooser);
   }
 
+  /* operator controller toggle */
+  
+
   private void configureBindings() {
 
     /**
@@ -84,6 +88,9 @@ public class RobotContainer {
     })).onFalse(Commands.runOnce(() -> { 
       drivetrain.enableAutoShifting();
     }));
+
+    OI.ClimbUpManualButton.whileTrue(new ClimbCommand(climber, climber.UP_SPEED));
+    OI.ClimbDownManualButton.whileTrue(new ClimbCommand(climber, climber.DOWN_SPEED));
 
     //OI.spinArmButton.whileTrue(new ArmCommand(arm, OI.spinArmSpeedSupplier.getAsDouble()));
 
@@ -101,18 +108,27 @@ public class RobotContainer {
     OI.transportPositionButton.onTrue(new TransportCommandGroup(wrist, arm));
     OI.ampPositionButton.onTrue(new AmpCommandGroup(wrist, arm));
     OI.trapPositionButton.onTrue(new ArmPrepareClimbGroup(wrist, arm));
-    OI.prepareClimbButton.onTrue(Commands.runOnce(() -> climber.prepareClimb(),climber) );
-    OI.climbButton.onTrue(Commands.runOnce(() -> climber.climb(),climber));
+    OI.prepareClimbButton.whileTrue(new ClimbCommand(climber, climber.UP_SPEED));
+    OI.climbButton.whileTrue(new ClimbCommand(climber, climber.DOWN_SPEED));
 
     OI.shootFastButton.whileTrue(new FastShoot(claw));
+    OI.armPrepareClimbButton.onTrue(new ArmPrepareClimbGroup(wrist, arm)); //switch between guitar and xbox
 
     OI.armUpButton.onTrue(Commands.runOnce(() -> arm.setTargetAngle(90)));
     OI.armDownButton.onTrue(Commands.runOnce(() -> arm.setTargetAngle(0)));
   }
 
   public Command getAutonomousCommand() {
-    System.out.println(m_chooser.getSelected());
-    //return Commands.print("No autonomous command configured");
-    return new DriveForDuration(drivetrain);
+    String auto = m_chooser.getSelected();
+    System.out.println("USING AUTO "+auto);
+    if(auto == kAutos[0]) { //none
+      return null;
+    } else if (auto == kAutos[1]) { //drive
+      return new DriveDuration(drivetrain, 2500, 0);
+    } else if (auto == kAutos[2]) {
+      return new AutoPickup(drivetrain, intake, arm, wrist, claw);
+    } else {
+      return null;
+    }
   }
 }

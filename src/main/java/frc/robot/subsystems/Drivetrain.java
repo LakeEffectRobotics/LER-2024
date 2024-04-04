@@ -12,6 +12,9 @@ public class Drivetrain extends SubsystemBase {
     CANSparkMax leftLeadController;
     CANSparkMax rightLeadController;
 
+    public final double AUTO_SPEED_LEFT = 0.6;
+    public final double AUTO_SPEED_RIGHT = 0.6;
+
     DoubleSolenoid shiftSolenoid;
 
     Gear currentGear;
