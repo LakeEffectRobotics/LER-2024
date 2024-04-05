@@ -1,14 +1,11 @@
 package frc.robot;
 
 import com.kauailabs.navx.frc.AHRS;
-import com.revrobotics.AlternateEncoderType;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.SPI;
 
@@ -84,6 +81,12 @@ public class RobotMap {
         leftController1.setInverted(false);
         rightController1.setInverted(false);   
 
+        leftController1.setIdleMode(IdleMode.kBrake);
+        leftController2.setIdleMode(IdleMode.kBrake);
+
+        rightController1.setIdleMode(IdleMode.kBrake);
+        rightController2.setIdleMode(IdleMode.kBrake);
+
         /** Intake */
         
         // Climber 
@@ -99,8 +102,8 @@ public class RobotMap {
         armController1.setInverted(false);
         armController2.setInverted(false);
 
-        armController1.setIdleMode(IdleMode.kBrake);
-        armController2.setIdleMode(IdleMode.kBrake);
+        armController1.setIdleMode(IdleMode.kCoast);
+        armController2.setIdleMode(IdleMode.kCoast);
 
 
         wristController.setIdleMode(IdleMode.kCoast);

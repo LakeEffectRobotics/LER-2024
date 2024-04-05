@@ -15,6 +15,10 @@ public class Drivetrain extends SubsystemBase {
     public final double AUTO_SPEED_LEFT = 0.6;
     public final double AUTO_SPEED_RIGHT = 0.6;
 
+    public final double AUTO_SPEED_ROTATE_LEFT = 0.25;
+    public final double AUTO_SPEED_ROTATE_RIGHT = 0.25;
+
+
     DoubleSolenoid shiftSolenoid;
 
     Gear currentGear;

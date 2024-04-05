@@ -1,8 +1,6 @@
 package frc.robot.subsystems;
 //using UnityEngine;
 
-import javax.swing.plaf.basic.BasicLookAndFeel;
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkAnalogSensor;
 import com.revrobotics.SparkPIDController;
@@ -13,7 +11,6 @@ import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 // public class PlayerController:MonoBehaviour{
@@ -47,8 +44,10 @@ public class Arm extends SubsystemBase {
     // Function to convert from potentiometer volts to arm degrees above horizontal, obtained experimentally
     // Slope: degrees per volt
     // Constant: the degrees value at volts = 0
-    private static final double VOLTS_TO_DEGREES_SLOPE = 31.9036;
-    private static final double VOLTS_TO_DEGREES_CONSTANT = 0.925204;
+
+    ///////////// y_{1}\sim mx_{1}+b /////////////
+    private static final double VOLTS_TO_DEGREES_SLOPE = 34.078;
+    private static final double VOLTS_TO_DEGREES_CONSTANT = -0.988;
 
     // Motor voltage required to hold arm up at horizontal
     // 0.05 is the experimentally determined motor percentage that does that, so convert % to volts:

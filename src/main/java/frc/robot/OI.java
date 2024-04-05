@@ -5,7 +5,6 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
-import edu.wpi.first.wpilibj.simulation.XboxControllerSim;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -30,6 +29,8 @@ public class OI {
         
         private static final int CLIMB_UP_MANUAL_BUTTON = 3;
         private static final int CLIMB_DOWN_MANUAL_BUTTON = 2;
+
+        private static final int ARM_EXTENSION_BUTTONS = 5;
     }
 
     private static final XboxController xboxController = new XboxController(PORT.OPERATOR_CONTROLLER);
@@ -69,8 +70,12 @@ public class OI {
     public static final JoystickButton lowShiftButton = new JoystickButton(leftJoystick, DRIVER_MAP.LOW_SHIFT_BUTTON);
     
     public static final JoystickButton armPrepareClimbButton = new JoystickButton(leftJoystick, DRIVER_MAP.ARM_PREPARE_CLIMB_BUTTON); 
+    public static final JoystickButton trapPositionButton = new JoystickButton(rightJoystick, DRIVER_MAP.ARM_PREPARE_CLIMB_BUTTON);
     public static final JoystickButton ClimbUpManualButton = new JoystickButton(leftJoystick, DRIVER_MAP.CLIMB_UP_MANUAL_BUTTON);
     public static final JoystickButton ClimbDownManualButton = new JoystickButton(leftJoystick, DRIVER_MAP.CLIMB_DOWN_MANUAL_BUTTON);
+
+    public static final JoystickButton ExtendArmButton = new JoystickButton(leftJoystick, DRIVER_MAP.ARM_EXTENSION_BUTTONS);
+    public static final JoystickButton RetractArmButton = new JoystickButton(rightJoystick, DRIVER_MAP.ARM_EXTENSION_BUTTONS);
 
     /** Operator (Xbox Controller) */
     public static final Trigger spinOutClawButton = new Trigger(() -> xboxController.getRawAxis(OPERATOR_MAP.SPIN_OUT_INTAKE_TRIGGER) >= XBOX_TRIGGER_THRESHOLD);
@@ -82,7 +87,6 @@ public class OI {
     public static final JoystickButton intakePositionButton = new JoystickButton(xboxController, OPERATOR_MAP.INTAKE_POSITION_BUTTON);
     public static final JoystickButton transportPositionButton = new JoystickButton(xboxController, OPERATOR_MAP.TRANSPORT_POSITION_BUTTON);
     public static final JoystickButton ampPositionButton = new JoystickButton(xboxController, OPERATOR_MAP.AMP_POSITION_BUTTON);
-    public static final JoystickButton trapPositionButton = new JoystickButton(xboxController, OPERATOR_MAP.TRAP_POSITION_BUTTON);
     public static final JoystickButton prepareClimbButton = new JoystickButton(xboxController, OPERATOR_MAP.PREPARE_CLIMB_BUTTON);
     public static final JoystickButton climbButton = new JoystickButton(xboxController,OPERATOR_MAP.CLIMB_BUTTTON);
 

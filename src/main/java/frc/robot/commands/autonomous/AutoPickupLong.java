@@ -8,13 +8,13 @@ import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Wrist;
 
-public class AutoPickup extends SequentialCommandGroup {
+public class AutoPickupLong extends SequentialCommandGroup {
 
 
-    public AutoPickup(Drivetrain drivetrain, Intake intake, Arm arm, Wrist wrist, Claw claw, double delay) {
+    public AutoPickupLong(Drivetrain drivetrain, Intake intake, Arm arm, Wrist wrist, Claw claw, double delay) {
         addCommands(
             new ParallelCommandGroup(
-                new DriveDuration(drivetrain, 2500.0, delay),
+                new DriveDuration(drivetrain, 3200.0, delay),
                 new IntakeCommandGroup(wrist, arm),
                 new IntakeForAutoCommand(claw)
 

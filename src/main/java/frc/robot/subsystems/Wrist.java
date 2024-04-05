@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.SparkAnalogSensor;
 import com.revrobotics.SparkPIDController;
 
 import edu.wpi.first.networktables.GenericEntry;
@@ -181,7 +180,7 @@ public class Wrist extends SubsystemBase {
     } 
     public void moveWristTrap(){
         commandedPosition = WristPosition.TRAP;
-        setTargetAngle(0.4);
+        setTargetAngle(120);
     }
     public void moveWristClimb(){
         commandedPosition = WristPosition.CLIMB;
