@@ -15,7 +15,7 @@ public class Climber extends SubsystemBase {
   
 
     // SPEEDS ARE POSITIVE, DIRECTION SET LATER
-    public double DOWN_SPEED = -0.5;
+    public double DOWN_SPEED = -0.75;
     public double UP_SPEED = 0.35;
 
     private double DEADZONE= 0.02;

@@ -14,14 +14,32 @@ public class DriveDuration extends Command {
   private double endTime;
   private double wait;
   private double waitTime;
+  private int direction; //POSITIVE NUMBER = FORWARD :: NEGATIVE NUMBER = BACKWARDS :: 0 = FORWARD
+  private Double leftSpeed;
+  private Double rightSpeed;
 
   /** Creates a new DriveDuration. */
-  public DriveDuration(Drivetrain drivetrain, double duration, double waitTime) {
+  public DriveDuration(Drivetrain drivetrain, double duration, double waitTime, Double leftSpeed, Double rightSpeed) {
       addRequirements(drivetrain);
       this.drivetrain = drivetrain;
       this.duration = duration;
       this.waitTime = waitTime;
       this.wait = System.currentTimeMillis()+waitTime;
+
+      this.rightSpeed = rightSpeed;
+
+      if(leftSpeed == null) {
+       this.leftSpeed = drivetrain.AUTO_SPEED_LEFT;
+      } else {
+        this.leftSpeed = leftSpeed;
+      }
+
+      if(rightSpeed == null) {
+        this.rightSpeed = drivetrain.AUTO_SPEED_RIGHT;
+      } else {
+        this.rightSpeed = rightSpeed;
+      }
+
 
 
       
@@ -37,8 +55,11 @@ public class DriveDuration extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    drivetrain.setOutput(leftSpeed, rightSpeed);
+
     if(System.currentTimeMillis()>wait) {
-    drivetrain.setOutput(drivetrain.AUTO_SPEED_LEFT, drivetrain.AUTO_SPEED_RIGHT); 
+
+   
     if(isFinished()) {
       end(true);
     }

@@ -19,6 +19,7 @@ import frc.robot.commands.FastShoot;
 import frc.robot.commands.IntakeCommandGroup;
 import frc.robot.commands.TransportCommandGroup;
 import frc.robot.commands.TrapCommandGroup;
+import frc.robot.commands.autonomous.AutoAmp;
 import frc.robot.commands.autonomous.AutoPickup;
 import frc.robot.commands.autonomous.AutoPickupLong;
 import frc.robot.commands.autonomous.AutoRotateCommand;
@@ -126,7 +127,7 @@ public class RobotContainer {
       return null;
     } else if (auto == kAutos[1]) { //drive
       System.out.println("DOING DRIVE AUTO");
-      return new DriveDuration(drivetrain, 2500, 0);
+      return new DriveDuration(drivetrain, 2500, 0, null, null);
     } else if (auto == kAutos[2]) {
       System.out.println("DOING PICKUP AUTO");
       return new AutoPickup(drivetrain, intake, arm, wrist, claw, 0);
@@ -135,7 +136,7 @@ public class RobotContainer {
       return new AutoRotateCommand(drivetrain, gyro, 0, 1800);
     } else if(auto == kAutos[4]) {
       System.out.println("DOING AMP AUTO");
-      return null;
+      return new AutoAmp(drivetrain, gyro, wrist, arm, claw);
     } else if(auto == kAutos[5]) {
       System.out.println("DOING WHITE LINE PICKUP AUTO");
       return new AutoPickupLong(drivetrain, intake, arm, wrist, claw, 0);

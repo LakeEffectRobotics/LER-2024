@@ -87,6 +87,11 @@ public class RobotMap {
         rightController1.setIdleMode(IdleMode.kBrake);
         rightController2.setIdleMode(IdleMode.kBrake);
 
+        leftController1.setSmartCurrentLimit(80);
+        leftController2.setSmartCurrentLimit(80);
+        rightController1.setSmartCurrentLimit(80);
+        rightController2.setSmartCurrentLimit(80);
+
         /** Intake */
         
         // Climber 
@@ -102,8 +107,8 @@ public class RobotMap {
         armController1.setInverted(false);
         armController2.setInverted(false);
 
-        armController1.setIdleMode(IdleMode.kCoast);
-        armController2.setIdleMode(IdleMode.kCoast);
+        armController1.setIdleMode(IdleMode.kBrake);
+        armController2.setIdleMode(IdleMode.kBrake);
 
 
         wristController.setIdleMode(IdleMode.kCoast);

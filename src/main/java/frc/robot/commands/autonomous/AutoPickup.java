@@ -14,7 +14,7 @@ public class AutoPickup extends SequentialCommandGroup {
     public AutoPickup(Drivetrain drivetrain, Intake intake, Arm arm, Wrist wrist, Claw claw, double delay) {
         addCommands(
             new ParallelCommandGroup(
-                new DriveDuration(drivetrain, 2500.0, delay),
+                new DriveDuration(drivetrain, 2500.0, delay, null, null),
                 new IntakeCommandGroup(wrist, arm),
                 new IntakeForAutoCommand(claw)
 
