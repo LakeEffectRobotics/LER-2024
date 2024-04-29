@@ -31,10 +31,10 @@ import frc.robot.subsystems.Arm.Arm;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Wrist;
 import frc.robot.subsystems.Arm.Arm.ArmExtension;
 import frc.robot.subsystems.Gyro;
 import frc.robot.subsystems.Drivetrain.Gear;
+import frc.robot.subsystems.Wrist.Wrist;
 
 public class RobotContainer {
   public final Compressor compressor = new Compressor(PneumaticsModuleType.REVPH); 

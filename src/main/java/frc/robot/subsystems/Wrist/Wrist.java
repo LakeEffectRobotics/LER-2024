@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package frc.robot.subsystems.Wrist;
 
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
@@ -10,27 +10,24 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Robot;
 
 public class Wrist extends SubsystemBase {
 
-    CANSparkMax wristController;
+    private WristIO io;
 
-    //SparkAnalogSensor pot;
-
-    SparkPIDController pidController; 
-    
     //TODO change these
     
-    private static final double kF = 0;
-    private static final double kP = 0.06;
-    private static final double kI = 0;
+    static final double kF = 0;
+    static final double kP = 0.06;
+    static final double kI = 0;
 
-    private static final double kD = 0;
-    private static final double MAX_OUTPUT = 0.85;
-    private static final double MIN_OUTPUT = -0.4;
+    static final double kD = 0;
+    static final double MAX_OUTPUT = 0.85;
+    static final double MIN_OUTPUT = -0.4;
 
-    private static final double MIN_ANGLE = 3;
-    private static final double MAX_ANGLE = 130;
+    static final double MIN_ANGLE = 3;
+    static final double MAX_ANGLE = 130;
 
     private static final double WRIST_DEADZONE = 7;
     // Function to convert from potentiometer volts to arm degrees above horizontal, obtained experimentally
@@ -77,21 +74,8 @@ public class Wrist extends SubsystemBase {
     private GenericEntry wristMotorModeShuffle;
 
     public Wrist(CANSparkMax wristController) {
-        this.wristController = wristController;
-
-        // pot = wristController.getAnalog(SparkAnalogSensor.Mode.kAbsolute);
-        // wristController.setInverted(true);
-
-        pidController = wristController.getPIDController();
-        pidController.setFeedbackDevice(wristController.getEncoder());
-
-        // set PID coefficients
-        pidController.setP(kP);
-        pidController.setI(kI);
-        pidController.setD(kD);
-        pidController.setIAccum(0.05);
-        pidController.setFF(kF);
-        pidController.setOutputRange(MIN_OUTPUT, MAX_OUTPUT);
+        
+        io = Robot.isReal() ? new WristReal(wristController, this) : new WristSim(wristController, this);
 
         // Initialize angle to where wrist is so it doesn't try to move on enable
         targetAngle = getCurrentAngle();
@@ -127,7 +111,7 @@ public class Wrist extends SubsystemBase {
 
     public double getCurrentAngle() {
         // double potVoltage = pot.getPosition();
-        double motorEncoderPosition = wristController.getEncoder().getPosition();
+        double motorEncoderPosition = io.getEncoderPosition();
         return motorEncoderPosition * VOLTS_TO_DEGREES_SLOPE + VOLTS_TO_DEGREES_CONSTANT;
         // return potVoltage * VOLTS_TO_DEGREES_SLOPE + VOLTS_TO_DEGREES_CONSTANT;
     }
@@ -159,18 +143,17 @@ public class Wrist extends SubsystemBase {
         }
 
         this.targetVolts = convertAngleToVolts(this.targetAngle);
-        pidController.setReference(this.targetVolts, ControlType.kPosition);
-        
+        io.setTargetVolts(this.targetVolts);
     }
     
     public void moveWristUp(){ //transport
         commandedPosition = WristPosition.UP;
-        wristController.setIdleMode(IdleMode.kBrake);
+        io.setIdleMode(IdleMode.kBrake);
         setTargetAngle(90);
     }
     public void moveWristIntake(){
         commandedPosition = WristPosition.INTAKE;
-        wristController.setIdleMode(IdleMode.kCoast);
+        io.setIdleMode(IdleMode.kCoast);
         setTargetAngle(0.4);
     }
     
@@ -193,7 +176,7 @@ public class Wrist extends SubsystemBase {
      * @param angle desired angle above horizontal (degrees)
      * @return pot position at this angle. this accounts for current arm angle
      */
-    private double convertAngleToVolts(double angle) {
+    double convertAngleToVolts(double angle) {
         // I hate algebra
         return angle * (1 / VOLTS_TO_DEGREES_SLOPE) - VOLTS_TO_DEGREES_CONSTANT * (1 / VOLTS_TO_DEGREES_SLOPE);
     }
@@ -205,20 +188,20 @@ public class Wrist extends SubsystemBase {
     public void wristDead() {
         isWristDeadAgain = !isWristDeadAgain;
         if (isWristDeadAgain) {
-            wristController.setIdleMode(IdleMode.kCoast);
+            io.setIdleMode(IdleMode.kCoast);
             wristDeadShuffle.setString("perhaps D:");
         } else {
-            wristController.setIdleMode(IdleMode.kBrake);
+            io.setIdleMode(IdleMode.kBrake);
             wristDeadShuffle.setString("not quite!");
         }
     }
 
     public void setMotors(double speed) {
-        wristController.set(speed);
+        io.setPercentOut(speed);
     }
 
     public String getWristMotorMode() {
-        if(wristController.getIdleMode() == IdleMode.kBrake) {
+        if(io.getIdleMode() == IdleMode.kBrake) {
             return "brake";
         } else {
             return "not break";
@@ -227,15 +210,18 @@ public class Wrist extends SubsystemBase {
 
     @Override
     public void periodic() {
+
+        io.periodic();
+
         // if wrist is dead kill motor just in case
         if (isWristDeadAgain){
-            wristController.set(0);
+            io.setPercentOut(0);
         }
 
         SmartDashboard.putString("Commanded Position", commandedPosition.name());
 
         currentAngleShuffle.setDouble(getCurrentAngle());
-        currentPotShuffle.setDouble(wristController.getEncoder().getPosition());
+        currentPotShuffle.setDouble(io.getEncoderPosition());
 
         targetAngleShuffle.setDouble(targetAngle);
         targetPotShuffle.setDouble(targetVolts);
@@ -243,8 +229,8 @@ public class Wrist extends SubsystemBase {
         wristMotorModeShuffle.setString(getWristMotorMode());
 
         if(getCurrentAngle() <= 25 && this.targetAngle <= 9 && commandedPosition == WristPosition.INTAKE) {
-            wristController.set(0);
-            wristController.setIdleMode(IdleMode.kCoast);
+            io.setPercentOut(0);
+            io.setIdleMode(IdleMode.kCoast);
         } else {
             //wristController.setIdleMode(IdleMode.kBrake);
         }

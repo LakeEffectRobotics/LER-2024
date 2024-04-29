@@ -16,11 +16,11 @@ import frc.robot.commands.WristCommand;
 import frc.robot.commands.instant.IntakeClawCommand;
 import frc.robot.commands.instant.ShootClawCommand;
 import frc.robot.subsystems.Arm.Arm;
+import frc.robot.subsystems.Wrist.Wrist;
+import frc.robot.subsystems.Wrist.Wrist.WristPosition;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Gyro;
-import frc.robot.subsystems.Wrist;
-import frc.robot.subsystems.Wrist.WristPosition;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
