@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package frc.robot.subsystems.Arm;
 //using UnityEngine;
 
 import com.revrobotics.CANSparkMax;
@@ -12,34 +12,32 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Robot;
 
 // public class PlayerController:MonoBehaviour{
 
 // }
 public class Arm extends SubsystemBase {
 
-    DoubleSolenoid armSolenoid;
+    ArmIO io;
 
     ArmExtension armCurrentPosition;
-    CANSparkMax armLeadController;
-    SparkAnalogSensor pot;
-    SparkPIDController pidController; 
-    
+
     //TODO change these
-    private static final long PISTON_TRAVEL_TIME = 50;
+    static final long PISTON_TRAVEL_TIME = 50;
 
-    private static final double kF = 0;
-    private static final double kP = 0.3;
-    private static final double kI = 0;
+    static final double kF = 0;
+    static final double kP = 0.3;
+    static final double kI = 0;
 
-    private static final double kD = 0;
-    private static final double MAX_OUTPUT = 0.75;
-    private static final double MIN_OUTPUT = -0.25;
+    static final double kD = 0;
+    static final double MAX_OUTPUT = 0.75;
+    static final double MIN_OUTPUT = -0.25;
 
-    private static final double MIN_ANGLE = 0.5;
-    private static final double MAX_ANGLE = 110;
+    static final double MIN_ANGLE = 0.5;
+    static final double MAX_ANGLE = 110;
 
-    private static final int ARM_DEADZONE = 10;
+    static final int ARM_DEADZONE = 10;
 
     // Function to convert from potentiometer volts to arm degrees above horizontal, obtained experimentally
     // Slope: degrees per volt
@@ -86,23 +84,10 @@ public class Arm extends SubsystemBase {
         .getEntry();
 
     public Arm(DoubleSolenoid armSolenoid, CANSparkMax armLeadController) {
-        this.armSolenoid = armSolenoid;
-        this.armLeadController = armLeadController;
+        
+        io = Robot.isReal() ? new ArmReal(armSolenoid, armLeadController, this) : new ArmSim(this);
 
         armCurrentPosition = ArmExtension.RETRACT;
-
-        pot = armLeadController.getAnalog(SparkAnalogSensor.Mode.kAbsolute);
-
-        pidController = armLeadController.getPIDController();
-        pidController.setFeedbackDevice(pot);
-
-        // set PId coefficients
-        pidController.setP(kP);
-        pidController.setI(kI);
-        pidController.setD(kD);
-        pidController.setIAccum(0.05);
-        pidController.setFF(kF);
-        pidController.setOutputRange(MIN_OUTPUT, MAX_OUTPUT);
 
         // Initialize angle to where wrist is so it doesn't try to move on enable
         targetAngle = getCurrentAngle();
@@ -110,7 +95,6 @@ public class Arm extends SubsystemBase {
 
         // add ramp rate because christine did it
         armLeadController.setClosedLoopRampRate(1);
-
 
         targetAngleShuffle = tab
             .add("arm target angle", targetAngle)
@@ -128,7 +112,7 @@ public class Arm extends SubsystemBase {
             .getEntry();
 
         currentPotShuffle = tab
-            .add("arm pot volts", pot.getPosition())
+            .add("arm pot volts", io.getPotVolts())
             .withPosition(4, 3)
             .getEntry();
 
@@ -157,7 +141,7 @@ public class Arm extends SubsystemBase {
     public void extendArm() {
         armCurrentPosition = ArmExtension.EXTEND;
 
-        armSolenoid.set(ArmExtension.EXTEND.value);
+        io.setPiston(ArmExtension.EXTEND);
         armTimeout = System.currentTimeMillis()+PISTON_TRAVEL_TIME;
         armExtended = true;
         armOutShuffle.setString("OF COURSE!");
@@ -166,7 +150,7 @@ public class Arm extends SubsystemBase {
     public void retractArm() {
         armCurrentPosition = ArmExtension.RETRACT;
 
-        armSolenoid.set(ArmExtension.RETRACT.value);
+        io.setPiston(ArmExtension.EXTEND);
         armTimeout = System.currentTimeMillis()+PISTON_TRAVEL_TIME;
 
         armExtended = false;
@@ -182,7 +166,7 @@ public class Arm extends SubsystemBase {
     }
 
     public double getCurrentAngle() {
-        double potVoltage = pot.getPosition();
+        double potVoltage = io.getPotVolts();
         return potVoltage * VOLTS_TO_DEGREES_SLOPE + VOLTS_TO_DEGREES_CONSTANT;
     }
 
@@ -203,6 +187,7 @@ public class Arm extends SubsystemBase {
             this.targetAngle = angle;
         }
         
+        System.out.println("TARGET TO " + angle);
         this.targetVolts = convertAngleToVolts(this.targetAngle);
     }
 
@@ -235,7 +220,7 @@ public class Arm extends SubsystemBase {
      * @param angle desired angle above horizontal (degrees)
      * @return pot position at this angle. this accounts for current arm angle
      */
-    private double convertAngleToVolts(double angle) {
+    double convertAngleToVolts(double angle) {
         // I hate algebra
         return angle * (1 / VOLTS_TO_DEGREES_SLOPE) - VOLTS_TO_DEGREES_CONSTANT * (1 / VOLTS_TO_DEGREES_SLOPE);
     }
@@ -244,16 +229,16 @@ public class Arm extends SubsystemBase {
      * 
      * @return  motor volts needed to "cancel out" gravity: (Gravity compensation constant) * cos(current angle)
      */
-    private double getArbitraryFeedforward() {
+    double getArbitraryFeedforward() {
         return GRAVITY_COMPENSATION * Math.cos(Math.toRadians(getCurrentAngle()));
     }
 
     public void setMotors(double speed) {
-        armLeadController.set(speed);
+        io.setPercent(speed);
     }
 
     public String getArmMotorMode() {
-        if(armLeadController.getIdleMode() == IdleMode.kBrake) {
+        if(io.getIdleMode() == IdleMode.kBrake) {
             return "brake mode (good)";
         } else {
             return "coast mode (fall)";
@@ -274,8 +259,11 @@ public class Arm extends SubsystemBase {
 
     @Override
     public void periodic() {
+
+        io.periodic();
+
         currentAngleShuffle.setDouble(getCurrentAngle());
-        currentPotShuffle.setDouble(pot.getPosition());
+        currentPotShuffle.setDouble(io.getPotVolts());
 
         targetAngleShuffle.setDouble(targetAngle);
         targetPotShuffle.setDouble(targetVolts);
@@ -284,13 +272,13 @@ public class Arm extends SubsystemBase {
 
 
         if(getCurrentAngle() <= 5 && this.targetAngle <= 5) {
-            armLeadController.set(0);
+            io.setPercent(0);
             // GetComponent.transform.position;
             // Vector3 direction = new vector3 horizontalinput, of,
             // verticalinput).normalized;
 
         } else {
-            pidController.setReference(targetVolts, ControlType.kPosition, 0, getArbitraryFeedforward());
+            io.setPosition(targetVolts);
         } 
         
         // if(getCurrentAngle() <= 45) {

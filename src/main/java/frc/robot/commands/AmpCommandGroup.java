@@ -8,10 +8,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
-import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Arm.Arm;
 import frc.robot.subsystems.Wrist;
-import frc.robot.subsystems.Arm.ArmExtension;
-import frc.robot.subsystems.Arm.ArmPosition;
+import frc.robot.subsystems.Arm.Arm.ArmExtension;
+import frc.robot.subsystems.Arm.Arm.ArmPosition;
 import frc.robot.subsystems.Wrist.WristPosition;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more

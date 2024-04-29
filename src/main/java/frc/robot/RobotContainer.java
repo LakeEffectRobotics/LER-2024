@@ -27,12 +27,12 @@ import frc.robot.commands.autonomous.DriveDuration;
 import frc.robot.commands.autonomous.Intake;
 import frc.robot.commands.instant.IntakeClawCommand;
 import frc.robot.commands.instant.ShootClawCommand;
-import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Arm.Arm;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Wrist;
-import frc.robot.subsystems.Arm.ArmExtension;
+import frc.robot.subsystems.Arm.Arm.ArmExtension;
 import frc.robot.subsystems.Gyro;
 import frc.robot.subsystems.Drivetrain.Gear;
 

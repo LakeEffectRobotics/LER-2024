@@ -15,7 +15,7 @@ import frc.robot.commands.TransportCommandGroup;
 import frc.robot.commands.WristCommand;
 import frc.robot.commands.instant.IntakeClawCommand;
 import frc.robot.commands.instant.ShootClawCommand;
-import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Arm.Arm;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Gyro;
