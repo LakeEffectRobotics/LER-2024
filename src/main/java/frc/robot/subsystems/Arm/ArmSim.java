@@ -5,11 +5,12 @@ import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.Arm.Arm.ArmExtension;
 
 class ArmSim implements ArmIO {
 
-    SingleJointedArmSim physics = new SingleJointedArmSim(DCMotor.getNEO(2), 200, 7.585, 1.5, 0, Math.PI/2, true, 0);
+    SingleJointedArmSim physics = new SingleJointedArmSim(DCMotor.getNEO(2), 200, SingleJointedArmSim.estimateMOI(1.5, 7), 1.5, 0, Math.PI/2, true, 0);
 
     Arm instance;
 
@@ -55,7 +56,7 @@ class ArmSim implements ArmIO {
 
         if(targetPosition != null){
             // Simulating just P
-            volts = ((targetPosition - getPotVolts()) * kP + instance.getArbitraryFeedforward())* 12;
+            volts = ((targetPosition - getPotVolts()) * kP)* 12;
         } else if (percentOut != null){
             volts = 12 * percentOut;
         }
@@ -64,5 +65,7 @@ class ArmSim implements ArmIO {
 
         physics.update((System.currentTimeMillis() - lastTime)/1000.0);
         lastTime = System.currentTimeMillis();
+
+        SmartDashboard.putNumber("Current", physics.getCurrentDrawAmps());
     }
 }

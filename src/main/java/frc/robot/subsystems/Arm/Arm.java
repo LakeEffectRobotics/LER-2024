@@ -11,6 +11,10 @@ import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
+import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
+import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Robot;
 
@@ -76,6 +80,8 @@ public class Arm extends SubsystemBase {
 
     private GenericEntry armMotorModeShuffle;
 
+    private MechanismLigament2d drawing;
+
     private ShuffleboardTab tab = Shuffleboard.getTab("thats my favourite tab too");
 
     private GenericEntry armOutShuffle = tab
@@ -120,6 +126,13 @@ public class Arm extends SubsystemBase {
             .add("arm mode", getArmMotorMode())
             .withPosition(4, 4)
             .getEntry();
+
+        Mechanism2d mech = new Mechanism2d(2, 2);
+        MechanismRoot2d root = mech.getRoot("Base", 0.25, 0.25);
+        drawing = new MechanismLigament2d("Arm", 1.5, 0);
+        root.append(drawing);
+
+        SmartDashboard.putData("Diagram", mech);
     }
 
     // Arm piston positions: up, down
@@ -270,6 +283,9 @@ public class Arm extends SubsystemBase {
 
         armMotorModeShuffle.setString(getArmMotorMode());
 
+
+        drawing.setAngle(getCurrentAngle());
+        drawing.setLength(armExtended ? 1.5 : 1.25);
 
         if(getCurrentAngle() <= 5 && this.targetAngle <= 5) {
             io.setPercent(0);
