@@ -80,7 +80,7 @@ public class Arm extends SubsystemBase {
 
     private GenericEntry armMotorModeShuffle;
 
-    private MechanismLigament2d drawing;
+    public MechanismLigament2d drawing;
 
     private ShuffleboardTab tab = Shuffleboard.getTab("thats my favourite tab too");
 
@@ -127,12 +127,7 @@ public class Arm extends SubsystemBase {
             .withPosition(4, 4)
             .getEntry();
 
-        Mechanism2d mech = new Mechanism2d(2, 2);
-        MechanismRoot2d root = mech.getRoot("Base", 0.25, 0.25);
         drawing = new MechanismLigament2d("Arm", 1.5, 0);
-        root.append(drawing);
-
-        SmartDashboard.putData("Diagram", mech);
     }
 
     // Arm piston positions: up, down

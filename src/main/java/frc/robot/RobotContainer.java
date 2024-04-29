@@ -6,6 +6,9 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
+import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
+import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -37,6 +40,8 @@ import frc.robot.subsystems.Drivetrain.Gear;
 import frc.robot.subsystems.Wrist.Wrist;
 
 public class RobotContainer {
+  public final Mechanism2d drawing = new Mechanism2d(3, 2);
+
   public final Compressor compressor = new Compressor(PneumaticsModuleType.REVPH); 
 
   public Drivetrain drivetrain = new Drivetrain(RobotMap.leftController1, RobotMap.rightController1, RobotMap.driveShitSolenoid);
@@ -53,6 +58,7 @@ public class RobotContainer {
   public static String m_autoSelected;
   public SendableChooser<String> m_chooser = new SendableChooser<>();
 
+
   public RobotContainer() {
     compressor.enableAnalog(90, 120);
 
@@ -67,6 +73,14 @@ public class RobotContainer {
       m_chooser.addOption(auto, auto);
     }
     SmartDashboard.putData("AutoChoices", m_chooser);
+
+    
+    Mechanism2d mech = new Mechanism2d(3, 2);
+    MechanismRoot2d root = mech.getRoot("Base", 0.25, 0.25);
+    root.append(arm.drawing);
+    arm.drawing.append(wrist.drawing);
+
+    SmartDashboard.putData("Diagram", mech);
   }
 
   /* operator controller toggle */

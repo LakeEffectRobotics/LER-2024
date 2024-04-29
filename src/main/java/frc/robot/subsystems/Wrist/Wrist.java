@@ -8,6 +8,7 @@ import com.revrobotics.SparkPIDController;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Robot;
@@ -73,6 +74,8 @@ public class Wrist extends SubsystemBase {
 
     private GenericEntry wristMotorModeShuffle;
 
+    public MechanismLigament2d drawing;
+
     public Wrist(CANSparkMax wristController) {
         
         io = Robot.isReal() ? new WristReal(wristController, this) : new WristSim(wristController, this);
@@ -107,6 +110,8 @@ public class Wrist extends SubsystemBase {
             .add("wrist mode", getWristMotorMode())
             .withPosition(4, 2)
             .getEntry();
+
+        drawing = new MechanismLigament2d("Wrist", 0.27, getCurrentAngle());
     }
 
     public double getCurrentAngle() {
@@ -234,6 +239,8 @@ public class Wrist extends SubsystemBase {
         } else {
             //wristController.setIdleMode(IdleMode.kBrake);
         }
+
+        drawing.setAngle(getCurrentAngle());
     }
     
 }
