@@ -1,0 +1,39 @@
+{
+  "NTProvider": {
+    "types": {
+      "/FMSInfo": "FMSInfo",
+      "/SmartDashboard/AutoChoices": "String Chooser",
+      "/SmartDashboard/Diagram": "Mechanism2d"
+    },
+    "windows": {
+      "/SmartDashboard/AutoChoices": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/Diagram": {
+        "window": {
+          "visible": true
+        }
+      }
+    }
+  },
+  "NetworkTables": {
+    "transitory": {
+      "Shuffleboard": {
+        "open": true,
+        "thats my favourite tab too": {
+          "open": true
+        }
+      },
+      "SmartDashboard": {
+        "Diagram": {
+          "open": true
+        }
+      }
+    }
+  },
+  "NetworkTables Info": {
+    "visible": true
+  }
+}
