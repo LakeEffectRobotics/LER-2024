@@ -47,7 +47,7 @@ public class RobotContainer {
   public Drivetrain drivetrain = new Drivetrain(RobotMap.leftController1, RobotMap.rightController1, RobotMap.driveShitSolenoid);
   public Arm arm = new Arm(RobotMap.armPistonSolenoid, RobotMap.armController1);
   public Wrist wrist = new Wrist(RobotMap.wristController);
-  public Claw claw = new Claw(RobotMap.clawController);
+  public Claw claw = new Claw(RobotMap.clawController, wrist.drawing);
   public Climber climber = new Climber(RobotMap.climbController1,RobotMap.climbShiftSolenoid);
   public Gyro gyro = new Gyro();
   public Intake intake = new Intake();
@@ -130,7 +130,8 @@ public class RobotContainer {
     OI.shootFastButton.whileTrue(new FastShoot(claw));
     OI.armPrepareClimbButton.onTrue(new ArmPrepareClimbGroup(wrist, arm)); //switch between guitar and xbox
 
-    OI.armUpButton.onTrue(Commands.runOnce(() -> arm.setTargetAngle(90)));
+    System.out.println("Set up binding");
+    OI.armUpButton.onTrue(Commands.runOnce(() -> {System.out.println("Pressed"); arm.setTargetAngle(90);}));
     OI.armDownButton.onTrue(Commands.runOnce(() -> arm.setTargetAngle(0)));
   }
 

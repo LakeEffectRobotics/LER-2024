@@ -6,7 +6,10 @@ import com.revrobotics.SparkLimitSwitch;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Color;
+import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.OI;
 
@@ -22,6 +25,11 @@ public class Claw extends SubsystemBase {
 
     SparkLimitSwitch clawLimitSwitch;
 
+    MechanismLigament2d spinA;
+    MechanismLigament2d spinB;
+
+    double spinAngle = 0;
+
     // very large shuffleboard entry for limit switch pressed
     private ShuffleboardTab tab = Shuffleboard.getTab("my favourite tab");
     public GenericEntry limitSwitchShuffle = tab
@@ -30,10 +38,16 @@ public class Claw extends SubsystemBase {
         .withPosition(7, 0)
         .getEntry();
 
-    public Claw(CANSparkMax clawController) {
+    public Claw(CANSparkMax clawController, MechanismLigament2d parent) {
         this.clawController = clawController;
         limit = clawController.getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
         limit.enableLimitSwitch(false);
+
+        spinA = new MechanismLigament2d("Intake A", 0.1, 0, 5, new Color8Bit(Color.kGreen));
+        spinB = new MechanismLigament2d("Intake B", 0.1, 180, 5, new Color8Bit(Color.kGreen));
+
+        parent.append(spinA);
+        parent.append(spinB);
     }
 
     public void setOutput(double speed) {
@@ -82,6 +96,12 @@ public class Claw extends SubsystemBase {
 
         SmartDashboard.putNumber("Intake Speed", getSpeed());
         SmartDashboard.putBoolean("has note", hasNote());
+
+        if(clawController.getAppliedOutput() != 0){
+            spinAngle -= 15;
+            spinA.setAngle(spinAngle);
+            spinB.setAngle(spinAngle + 180);
+        }
     }
     
 

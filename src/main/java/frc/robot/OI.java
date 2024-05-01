@@ -81,8 +81,8 @@ public class OI {
     public static final Trigger spinOutClawButton = new Trigger(() -> xboxController.getRawAxis(OPERATOR_MAP.SPIN_OUT_INTAKE_TRIGGER) >= XBOX_TRIGGER_THRESHOLD);
     public static final Trigger spinInClawButton = new Trigger(() -> xboxController.getRawAxis(OPERATOR_MAP.SPIN_IN_INTAKE_TRIGGER) >= XBOX_TRIGGER_THRESHOLD);
 
-    public static final Trigger armUpButton = new POVButton(xboxController, OPERATOR_MAP.ARM_UP_BUTTON);
-    public static final Trigger armDownButton = new POVButton(xboxController, OPERATOR_MAP.ARM_DOWN_BUTTON);
+    public static final Trigger armUpButton = new JoystickButton(rightJoystick, 1);
+    public static final Trigger armDownButton = new JoystickButton(rightJoystick, 2);
 
     public static final JoystickButton intakePositionButton = new JoystickButton(xboxController, OPERATOR_MAP.INTAKE_POSITION_BUTTON);
     public static final JoystickButton transportPositionButton = new JoystickButton(xboxController, OPERATOR_MAP.TRANSPORT_POSITION_BUTTON);
