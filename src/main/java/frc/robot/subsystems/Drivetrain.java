@@ -55,7 +55,8 @@ public class Drivetrain extends SubsystemBase {
         rightDriveEncoder.setPosition(0);
         rightDriveEncoder.setInverted(false);   
 
-        autoShifting = true;
+        autoShifting = false;
+        SmartDashboard.putNumber("drivetrain limiter", 0.0);
     }
 
     public enum Gear {
@@ -75,6 +76,7 @@ public class Drivetrain extends SubsystemBase {
     }
 
     public void setOutput(double left, double right) {
+        maxSpeed = SmartDashboard.getNumber("drivetrain limiter", 0.0);
         leftLeadController.set(-(left * maxSpeed));
         rightLeadController.set(right * maxSpeed); 
     }

@@ -19,7 +19,9 @@ import frc.robot.commands.FastShoot;
 import frc.robot.commands.IntakeCommandGroup;
 import frc.robot.commands.TransportCommandGroup;
 import frc.robot.commands.TrapCommandGroup;
-import frc.robot.commands.autonomous.AutoAmp;
+import frc.robot.commands.autonomous.AutoAmpBlue;
+import frc.robot.commands.autonomous.AutoAmpPickup;
+import frc.robot.commands.autonomous.AutoAmpRed;
 import frc.robot.commands.autonomous.AutoPickup;
 import frc.robot.commands.autonomous.AutoPickupLong;
 import frc.robot.commands.autonomous.AutoRotateCommand;
@@ -48,7 +50,7 @@ public class RobotContainer {
   public Intake intake = new Intake();
 
   /* auto selection */
-  public final String[] kAutos = {"0: none", "1: drive", "2: pickup", "3: spin", "4: amp!", "5: pickup (white line)"}; //list of autos
+  public final String[] kAutos = {"0: none", "1: drive", "2: pickup", "3: spin", "4: amp! (blue)", "5: amp! (red)", "6: pickup (white line)", "7: amp + pickup (white line)"}; //list of autos
   public final String kDefaultAuto = kAutos[0];
   public static String m_autoSelected;
   public SendableChooser<String> m_chooser = new SendableChooser<>();
@@ -91,8 +93,8 @@ public class RobotContainer {
     OI.ClimbUpManualButton.whileTrue(new ClimbCommand(climber, climber.UP_SPEED));
     OI.ClimbDownManualButton.whileTrue(new ClimbCommand(climber, climber.DOWN_SPEED));
 
-    OI.ExtendArmButton.onTrue(new ExtendArmCommand(arm, ArmExtension.EXTEND));
-    OI.RetractArmButton.onTrue(new ExtendArmCommand(arm, ArmExtension.RETRACT));
+    // OI.ExtendArmButton.onTrue(new ExtendArmCommand(arm, ArmExtension.EXTEND));
+    // OI.RetractArmButton.onTrue(new ExtendArmCommand(arm, ArmExtension.RETRACT));
 
     //OI.spinArmButton.whileTrue(new ArmCommand(arm, OI.spinArmSpeedSupplier.getAsDouble()));
 
@@ -109,12 +111,12 @@ public class RobotContainer {
     OI.intakePositionButton.onTrue(new IntakeCommandGroup(wrist, arm));
     OI.transportPositionButton.onTrue(new TransportCommandGroup(wrist, arm));
     OI.ampPositionButton.onTrue(new AmpCommandGroup(wrist, arm));
-    OI.trapPositionButton.onTrue(new TrapCommandGroup(wrist, arm));
-    OI.prepareClimbButton.whileTrue(new ClimbCommand(climber, climber.UP_SPEED));
+    // OI.trapPositionButton.onTrue(new TrapCommandGroup(wrist, arm));
+    // OI.prepareClimbButton.whileTrue(new ClimbCommand(climber, climber.UP_SPEED));
     OI.climbButton.whileTrue(new ClimbCommand(climber, climber.DOWN_SPEED));
 
     OI.shootFastButton.whileTrue(new FastShoot(claw));
-    OI.armPrepareClimbButton.onTrue(new ArmPrepareClimbGroup(wrist, arm)); //switch between guitar and xbox
+    // OI.armPrepareClimbButton.onTrue(new ArmPrepareClimbGroup(wrist, arm)); //switch between guitar and xbox
 
     OI.armUpButton.onTrue(Commands.runOnce(() -> arm.setTargetAngle(90)));
     OI.armDownButton.onTrue(Commands.runOnce(() -> arm.setTargetAngle(0)));
@@ -135,12 +137,18 @@ public class RobotContainer {
       System.out.println("DOING SPIN AUTO");
       return new AutoRotateCommand(drivetrain, gyro, 0, 1800);
     } else if(auto == kAutos[4]) {
-      System.out.println("DOING AMP AUTO");
-      return new AutoAmp(drivetrain, gyro, wrist, arm, claw);
+      System.out.println("DOING AMP BLUE AUTO");
+      return new AutoAmpBlue(drivetrain, gyro, wrist, arm, claw);
     } else if(auto == kAutos[5]) {
+      System.out.println("DOING AMP RED AUTO");
+      return new AutoAmpRed(drivetrain, gyro, wrist, arm, claw);
+    } else if(auto == kAutos[6]) {
       System.out.println("DOING WHITE LINE PICKUP AUTO");
       return new AutoPickupLong(drivetrain, intake, arm, wrist, claw, 0);
-    } else {
+    } else if (auto== kAutos[7]) {
+      System.out.println(" DOING AMP AND PICKUP FROM WHITE LINE AUTO");
+      return new AutoAmpPickup(drivetrain, gyro, wrist, arm, claw);
+    }else {
       System.out.println("DOING NOTHING :(");
       return null;
     }
