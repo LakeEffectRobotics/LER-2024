@@ -7,6 +7,7 @@ import frc.robot.subsystems.Arm;
 public class RotateArmCommand extends Command { 
     Arm arm;
     Arm.ArmPosition pos;
+    private static boolean rumble = false;
     
     public RotateArmCommand(Arm arm,Arm.ArmPosition pos) {
         this.arm = arm;
@@ -26,6 +27,7 @@ public class RotateArmCommand extends Command {
                 break;
             case AMP:
                     arm.rotateToAmpPos();
+                    rumble = true;
                 break;
             case MIDDLE:
                     arm.rotateToMidPos(); 
@@ -48,6 +50,9 @@ public class RotateArmCommand extends Command {
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
+        if(rumble == true) {
+            
+        }
         System.out.println("ARM - ROTATION: command ended");
     }
 

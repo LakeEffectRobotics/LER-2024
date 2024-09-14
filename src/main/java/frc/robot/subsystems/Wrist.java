@@ -176,7 +176,7 @@ public class Wrist extends SubsystemBase {
     
     public void moveWristAmp(){
         commandedPosition = WristPosition.AMP;
-        setTargetAngle(-2.0);
+        setTargetAngle(-4.0);
     } 
     public void moveWristTrap(){
         commandedPosition = WristPosition.TRAP;

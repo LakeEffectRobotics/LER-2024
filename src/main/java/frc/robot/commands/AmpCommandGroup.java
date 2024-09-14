@@ -20,7 +20,7 @@ import frc.robot.subsystems.Wrist.WristPosition;
 public class AmpCommandGroup extends SequentialCommandGroup {
   /** Creates a new IntakeCommandGroup. */
   public AmpCommandGroup(Wrist wrist, Arm arm) {
-    ParallelCommandGroup extendRotate = new ParallelCommandGroup( new ExtendArmCommand(arm, ArmExtension.RETRACT),
+    ParallelCommandGroup extendRotate = new ParallelCommandGroup( new ExtendArmCommand(arm, ArmExtension.EXTEND),
                                                                   new RotateArmCommand(arm,ArmPosition.AMP));
 
     Command positionClaw = new WaitUntilCommand(arm :: aboveMiddle).andThen(new WristCommand(wrist, WristPosition.AMP));

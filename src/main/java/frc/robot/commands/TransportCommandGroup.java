@@ -24,7 +24,7 @@ public class TransportCommandGroup extends SequentialCommandGroup {
       new RotateArmCommand(arm,ArmPosition.INTAKE).alongWith(
         new WaitUntilCommand(() -> (arm.getCurrentAngle() < 60)).andThen(
         new WristCommand(wrist, WristPosition.UP))),
-      new ExtendArmCommand(arm, ArmExtension.RETRACT)
+      new ExtendArmCommand(arm, ArmExtension.EXTEND)
     );
   }
 }
