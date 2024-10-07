@@ -3,20 +3,19 @@ package frc.robot.commands;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.ExampleSubsystem;
 
 public class DriveCommand extends Command {
 
-    Drivetrain drivetrain;
+    ExampleSubsystem drivetrain;
 
     DoubleSupplier leftSupplier;
     DoubleSupplier rightSupplier;
 
-    public DriveCommand(Drivetrain drivetrain, DoubleSupplier leftSupplier, DoubleSupplier rightSupplier) {
+    public DriveCommand(ExampleSubsystem drivetrain, DoubleSupplier leftSupplier) {
         addRequirements(drivetrain);
         this.drivetrain = drivetrain;
         this.leftSupplier = leftSupplier;
-        this.rightSupplier = rightSupplier;
     }
 
     @Override
@@ -26,12 +25,7 @@ public class DriveCommand extends Command {
 
     @Override
     public void execute() {
-        drivetrain.setOutput(leftSupplier.getAsDouble(), rightSupplier.getAsDouble());
-
-        /**
-         * Comment to disable auto shifting, and to break my heart
-         */
-        drivetrain.shiftGears();
+        drivetrain.setOutput(leftSupplier.getAsDouble());
     }
 
     @Override

@@ -63,36 +63,7 @@ public class OI {
 
     /** Driver (Joystick) */
     private static final Joystick leftJoystick = new Joystick(PORT.LEFT_STICK);
-    private static final Joystick rightJoystick = new Joystick(PORT.RIGHT_STICK);
-
-    public static final JoystickButton shiftUpButton = new JoystickButton(rightJoystick, DRIVER_MAP.SHIFT_UP_BUTTON);
-    public static final JoystickButton shiftDownButton = new JoystickButton(rightJoystick, DRIVER_MAP.SHIFT_DOWN_BUTTON);
-    public static final JoystickButton lowShiftButton = new JoystickButton(leftJoystick, DRIVER_MAP.LOW_SHIFT_BUTTON);
-    
-    public static final JoystickButton armPrepareClimbButton = new JoystickButton(leftJoystick, DRIVER_MAP.ARM_PREPARE_CLIMB_BUTTON); 
-    public static final JoystickButton trapPositionButton = new JoystickButton(rightJoystick, DRIVER_MAP.ARM_PREPARE_CLIMB_BUTTON);
-    public static final JoystickButton ClimbUpManualButton = new JoystickButton(leftJoystick, DRIVER_MAP.CLIMB_UP_MANUAL_BUTTON);
-    public static final JoystickButton ClimbDownManualButton = new JoystickButton(leftJoystick, DRIVER_MAP.CLIMB_DOWN_MANUAL_BUTTON);
-
-    public static final JoystickButton ExtendArmButton = new JoystickButton(leftJoystick, DRIVER_MAP.ARM_EXTENSION_BUTTONS);
-    public static final JoystickButton RetractArmButton = new JoystickButton(rightJoystick, DRIVER_MAP.ARM_EXTENSION_BUTTONS);
-
-    /** Operator (Xbox Controller) */
-    public static final Trigger spinOutClawButton = new Trigger(() -> xboxController.getRawAxis(OPERATOR_MAP.SPIN_OUT_INTAKE_TRIGGER) >= XBOX_TRIGGER_THRESHOLD);
-    public static final Trigger spinInClawButton = new Trigger(() -> xboxController.getRawAxis(OPERATOR_MAP.SPIN_IN_INTAKE_TRIGGER) >= XBOX_TRIGGER_THRESHOLD);
-
-    public static final Trigger armUpButton = new POVButton(xboxController, OPERATOR_MAP.ARM_UP_BUTTON);
-    public static final Trigger armDownButton = new POVButton(xboxController, OPERATOR_MAP.ARM_DOWN_BUTTON);
-
-    public static final JoystickButton intakePositionButton = new JoystickButton(xboxController, OPERATOR_MAP.INTAKE_POSITION_BUTTON);
-    public static final JoystickButton transportPositionButton = new JoystickButton(xboxController, OPERATOR_MAP.TRANSPORT_POSITION_BUTTON);
-    public static final JoystickButton ampPositionButton = new JoystickButton(xboxController, OPERATOR_MAP.AMP_POSITION_BUTTON);
-    public static final JoystickButton prepareClimbButton = new JoystickButton(xboxController, OPERATOR_MAP.PREPARE_CLIMB_BUTTON);
-    public static final JoystickButton climbButton = new JoystickButton(xboxController,OPERATOR_MAP.CLIMB_BUTTTON);
-
-    public static final JoystickButton shootFastButton = new JoystickButton(xboxController, OPERATOR_MAP.SHOOTFASTBUTTON);
-
-
+   
     public static DoubleSupplier leftDriveSupplier = () -> {
         double raw = leftJoystick.getY();
 
@@ -100,23 +71,7 @@ public class OI {
         return processDriveInput(raw);
     };
 
-    public static DoubleSupplier rightDriveSupplier = () -> {
-        double raw = rightJoystick.getY();
-        
-        //return raw;
-        return processDriveInput(raw);
-    };
-
-    /**
-     * Operator-supplied intake spin speed
-     */
-    public static DoubleSupplier spinOutClawSpeedSupplier = () -> {
-        return Math.pow(xboxController.getRawAxis(OPERATOR_MAP.SPIN_OUT_INTAKE_TRIGGER), 2);
-    };
-
-    public static DoubleSupplier spinInClawSpeedSupplier = () -> {
-        return Math.pow(xboxController.getRawAxis(OPERATOR_MAP.SPIN_IN_INTAKE_TRIGGER), 2);
-    };
+  
   
     private static double processDriveInput(double raw) {
         // TODO: Configure input processing to suit your liking
@@ -130,18 +85,5 @@ public class OI {
         return -raw;
     }
     
-    public static void xboxRumble(double value) {
-        xboxController.setRumble(RumbleType.kBothRumble, value);
-    }
-
-    // public static void toggleGuitar() { //in case guitar stops working for some reason
-    //     if(PORT.OPERATOR_CONTROLLER == 2) {
-
-    //         System.out.println("USING XBOX CONTROLLE1!!!!!11!1!!!!11!!1!!11!!1!");
-    //         PORT.OPERATOR_CONTROLLER = 3;
-    //     } else {
-    //         System.out.println("USING ");
-    //         PORT.OPERATOR_CONTROLLER = 2;
-    //     }
-    // }
+   
 }
